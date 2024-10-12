@@ -24,12 +24,12 @@ export default function Page() {
             <FormInput
               title="email"
               type="email"
-              hint="Enter your email."
+              hint="Email"
             />
             <FormInput
-              title="email"
-              type="email"
-              hint="Enter your email."
+              title="password"
+              type="password"
+              hint="Password"
             />
           </form>
         </div>
