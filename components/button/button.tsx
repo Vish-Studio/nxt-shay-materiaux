@@ -3,6 +3,7 @@
 import { FunctionComponent } from 'react';
 import ButtonProps from './type/button-props';
 
+import Icon from '../icon/icon';
 import './style.scss';
 
 const Button: FunctionComponent<ButtonProps> = ({ title, type, iconName, clickHandler }) => {
@@ -12,7 +13,7 @@ const Button: FunctionComponent<ButtonProps> = ({ title, type, iconName, clickHa
         className={`button ${type}`}
         onClick={clickHandler}
       >
-        {iconName && <span className="material-symbols-outlined">{iconName}</span>}
+        {iconName && <Icon iconName={iconName} />}
         {title}
       </button>
     </>
