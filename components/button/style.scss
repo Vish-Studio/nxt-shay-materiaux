@@ -1,7 +1,13 @@
 .button {
-    border-radius: 6px;
+  height: 55px;
+  font-weight: 700;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .button.rounded {
-    border-radius: 100px;
+  border-radius: 100px;
 }

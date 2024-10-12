@@ -1,0 +1,14 @@
+.input-field {
+  &__control {
+    width: 100%;
+    padding: 15px 18px;
+    border-radius: 75px;
+    outline: none;
+    border: 1.5px solid rgba(0, 0, 0, 0.23);
+
+    &::placeholder {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
