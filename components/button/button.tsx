@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import ButtonProps from './type/button-props';
 
 import Icon from '../icon/icon';
-import './style.scss';
+import './styles.scss';
 
 const Button: FunctionComponent<ButtonProps> = ({ title, type, iconName, clickHandler }) => {
   return (

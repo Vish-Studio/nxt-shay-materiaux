@@ -10,8 +10,13 @@ import ButtonFab from "../button-fab/button-fab";
 const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   className,
   title,
-  iconName
+  iconName,
+  numNew,
+  numNewTxt,
+  numTotal,
+  numTotalTxt
 }) => {
+
   return (
     <div className={`button-card ${className}`}>
       <div className="button-card-top">
@@ -25,7 +30,8 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
       </div>
 
       <div className="button-card-bottom">
-        <p>2 New client</p>
+        <p><span>{numNew}</span>{numNewTxt}</p>
+        <p><span>{numTotal}</span>total registered</p>
       </div>
     </div>
   )

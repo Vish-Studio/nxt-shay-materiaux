@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0px 4px 29px 3px rgba(0, 0, 0, 0.15);
-
+  transition: 0.2s all ease;
   &.mini {
     width: 35px;
     height: 35px;
@@ -20,5 +20,9 @@
     span {
       font-size: 20px;
     }
+  }
+
+  &:hover {
+    background-color: #373232;
   }
 }

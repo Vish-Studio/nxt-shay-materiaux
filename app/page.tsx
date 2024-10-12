@@ -1,16 +1,44 @@
 import ButtonCard from "@/components/button-card/button-card";
+import SearchBar from "@/components/search-bar/search-bar";
+import './styles.scss';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="test" style={{
+    <main className="main-content">
+      <div className="top-bar">
+        <div className="menu-bar">
+          <h3>Dashboard</h3>
+
+          <div className="profile">
+
+          </div>
+        </div>
+        <SearchBar hintText="Search" />
+      </div>
+
+      <h4>Daily Records</h4>
+      <div className="content" style={{
         display: 'flex',
         justifyContent: 'space-between',
       }}>
-        <ButtonCard title="Users" iconName="account_circle" />
+        <ButtonCard
+          title="Clients"
+          iconName="account_circle"
+          numNew="3"
+          numNewTxt="newly recorded"
+          numTotal="200"
+          numTotalTxt="total registered" />
 
-        <ButtonCard title="Products" className="yellow" iconName="inventory_2" />
+        <ButtonCard
+          className="yellow"
+          title="Products"
+          iconName="inventory_2"
+          numNew="6"
+          numNewTxt="newly recorded"
+          numTotal="550"
+          numTotalTxt="total products" />
       </div>
     </main >
   );
 }
+

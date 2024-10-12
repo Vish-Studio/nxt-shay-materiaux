@@ -4,7 +4,8 @@
   background-color: #ff2d55;
   color: #fff;
   border-radius: 25px;
-  padding: 10px;
+  padding: 10px 12px;
+  padding-bottom: 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,6 +32,20 @@
     p {
       font-size: 15px;
       font-weight: 600;
+    }
+  }
+}
+
+.button-card .button-card-bottom {
+  p {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+    font-size: 14px;
+
+    span {
+      font-weight: 700;
+      font-size: 18px;
     }
   }
 }
