@@ -25,7 +25,9 @@ button {
   font-weight: 400;
   width: 100%;
   padding: 12px 10px;
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
+
+a {
+  color: $accent-color;
 }

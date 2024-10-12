@@ -1,5 +1,6 @@
 import FormInput from '@/components/authentication/form-input/form-input';
 import Button from '@/components/button/button';
+import Link from 'next/link';
 
 import './style.scss';
 
@@ -34,7 +35,10 @@ export default function Page() {
         </div>
         <div className="sign-in__reset-password">
           <p>
-            Forgot your password? <span>Reset</span>
+            Forgot your password?{' '}
+            <span>
+              <Link href="/">Reset</Link>
+            </span>
           </p>
         </div>
       </div>
@@ -44,7 +48,10 @@ export default function Page() {
           type="rounded"
         />
         <p>
-          Dont have an account? <span>Help</span>
+          Dont have an account?{' '}
+          <span>
+            <Link href="/">Help</Link>
+          </span>
         </p>
       </div>
     </div>

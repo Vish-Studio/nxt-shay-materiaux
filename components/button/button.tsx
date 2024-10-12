@@ -5,14 +5,17 @@ import ButtonProps from './type/button-props';
 
 import './style.scss';
 
-const Button: FunctionComponent<ButtonProps> = ({ title, type, clickHandler }) => {
+const Button: FunctionComponent<ButtonProps> = ({ title, type, iconName, clickHandler }) => {
   return (
-    <button
-      className={`button ${type}`}
-      onClick={clickHandler}
-    >
-      {title}
-    </button>
+    <>
+      <button
+        className={`button ${type}`}
+        onClick={clickHandler}
+      >
+        {iconName && <span className="material-symbols-outlined">{iconName}</span>}
+        {title}
+      </button>
+    </>
   );
 };
 
