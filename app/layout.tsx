@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Urbanist } from 'next/font/google';
 
+import '../styles/global-icons.scss';
 import '../styles/global.scss';
 
 const urbanist = Urbanist({
