@@ -1,0 +1,36 @@
+.button-card {
+  height: 175px;
+  width: 170px;
+  background-color: #ff2d55;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.yellow {
+    background-color: #ffcc00;
+  }
+}
+
+.button-card .button-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .icon {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+}
