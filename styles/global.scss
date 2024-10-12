@@ -1,8 +1,24 @@
-@import './variables.scss';
+@import "./variables.scss";
 
+* {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-urbanist);
+}
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
 
 body {
-    background-color: $primary-color;
+    margin: 20px;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
 }
 
 button {
@@ -14,7 +30,9 @@ button {
     font-weight: 400;
     width: 100%;
     padding: 12px 10px;
-    :hover {
-        cursor: pointer;
-    }
+    cursor: pointer;
+}
+
+a {
+    color: $accent-color;
 }

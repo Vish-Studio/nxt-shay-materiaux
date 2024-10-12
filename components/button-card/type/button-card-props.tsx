@@ -1,5 +1,5 @@
 export default interface ButtonCardProps {
+  className?: string;
   title: string;
-  icon: string;
-
+  iconName: string;
 }
