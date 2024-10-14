@@ -13,8 +13,8 @@ const Profile: FunctionComponent<ProfileProps> = ({
       <Image
         src={imgUrl}
         alt={name}
-        width={50}
-        height={50} />
+        width={40}
+        height={40} />
     </div>
   )
 }
