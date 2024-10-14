@@ -1,12 +1,15 @@
 .top-bar {
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 
 .menu-bar {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
   h3 {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 

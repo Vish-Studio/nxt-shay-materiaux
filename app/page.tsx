@@ -2,6 +2,11 @@ import ButtonCard from "@/components/button-card/button-card";
 import SearchBar from "@/components/search-bar/search-bar";
 import './styles.scss';
 import Button from "@/components/button/button";
+import ButtonCalendar from "@/components/calendar/button-calendar";
+import Profile from "@/components/profile/profile";
+
+import vish from '@/public/vish.jpg'
+
 
 export default function Home() {
   return (
@@ -10,12 +15,14 @@ export default function Home() {
         <div className="menu-bar">
           <h3>Dashboard</h3>
 
-          <div className="profile">
-
-          </div>
+          <Profile
+            name="Vishroy"
+            imgUrl={vish} />
         </div>
         <SearchBar hintText="Search" />
       </div>
+
+      <ButtonCalendar />
 
 
       <div className="overview">
