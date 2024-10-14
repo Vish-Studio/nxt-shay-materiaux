@@ -31,7 +31,7 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
 
       <div className="button-card-bottom">
         <p><span>{numNew}</span>{numNewTxt}</p>
-        <p><span>{numTotal}</span>total registered</p>
+        <p><span>{numTotal}</span>{numTotalTxt}</p>
       </div>
     </div>
   )

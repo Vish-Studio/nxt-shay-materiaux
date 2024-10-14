@@ -6,11 +6,16 @@ import ButtonProps from './type/button-props';
 import Icon from '../icon/icon';
 import './styles.scss';
 
-const Button: FunctionComponent<ButtonProps> = ({ title, type, iconName, clickHandler }) => {
+const Button: FunctionComponent<ButtonProps> = ({
+  title,
+  titleBold,
+  type,
+  iconName,
+  clickHandler }) => {
   return (
     <>
       <button
-        className={`button ${type}`}
+        className={`button ${type} ${titleBold ? 'bold' : ''}`}
         onClick={clickHandler}
       >
         {iconName && <Icon iconName={iconName} />}

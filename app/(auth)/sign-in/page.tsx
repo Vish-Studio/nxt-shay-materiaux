@@ -45,6 +45,7 @@ export default function Page() {
       <div className="sign-in__button-container">
         <Button
           title="Login"
+          titleBold={true}
           type="rounded"
         />
         <p>
