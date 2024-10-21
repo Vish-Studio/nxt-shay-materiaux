@@ -1,3 +1,5 @@
+'use client'
+
 import ButtonCard from "@/components/button-card/button-card";
 import SearchBar from "@/components/search-bar/search-bar";
 import './styles.scss';
@@ -6,9 +8,19 @@ import ButtonCalendar from "@/components/calendar/button-calendar";
 import Profile from "@/components/profile/profile";
 
 import vish from '@/public/vish.jpg'
+import { useEffect, useRef, useState } from "react";
 
 
 export default function Home() {
+
+  const getDate = () => {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+
+    return { day, month };
+  }
+
   return (
     <main className="main-content">
       <div className="top-bar">
@@ -22,7 +34,8 @@ export default function Home() {
         <SearchBar hintText="Search" />
       </div>
 
-      <ButtonCalendar />
+      <ButtonCalendar
+        date={getDate()} />
 
 
       <div className="overview">

@@ -1,0 +1,56 @@
+.schedule {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+
+  &.client .spacer {
+    background-color: #ff2d55;
+  }
+  &.product .spacer {
+    background-color: #ffcc00;
+  }
+  &.payment .spacer {
+    background-color: #1679ab;
+  }
+  .spacer {
+    width: 2px;
+    height: 35px;
+    border-radius: 10px;
+  }
+}
+
+.schedule .content {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  p {
+    max-width: 25ch;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  .time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #8e8e8e;
+    span {
+      font-size: 15px;
+    }
+    .time__text {
+      font-size: 13px;
+    }
+  }
+}
+
+.schedule.empty {
+  p {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}

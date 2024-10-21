@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "title": "Martin John - Collect payment",
+      "time": "09:00 AM",
+      "color": "payment",
+      "restrictLength": true
+    },
+    {
+      "title": "Paul Hudson - Delivery @Plouis",
+      "time": "11:15 AM",
+      "color": "client",
+      "restrictLength": true
+    },
+    {
+      "title": "Ms Trisha - Showcase products",
+      "time": "16:46 AM",
+      "color": "product",
+      "restrictLength": true
+    }
+  ]
+}
