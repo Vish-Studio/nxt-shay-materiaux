@@ -8,7 +8,6 @@ import ButtonCalendar from "@/components/calendar/button-calendar";
 import Profile from "@/components/profile/profile";
 
 import vish from '@/public/vish.jpg'
-import { useEffect, useRef, useState } from "react";
 
 
 export default function Home() {
@@ -83,8 +82,6 @@ export default function Home() {
             titleBold={false}
           />
         </div>
-
-
       </div>
     </main >
   );
