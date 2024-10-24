@@ -6,12 +6,14 @@ import './styles.scss'
 const ButtonFab: FunctionComponent<ButtonFabProps> = ({
   className,
   icon,
-  type
+  type,
+  clickHandler
 }) => {
   return (
-    <div className={`button-fab ${type} ${className}`}>
+    <div className={`button-fab ${type} ${className}`}
+      onClick={clickHandler}>
       <Icon iconName={icon} />
-    </div>
+    </div >
   )
 }
 

@@ -6,4 +6,5 @@ export default interface ButtonCardProps {
   numNewTxt: string;
   numTotal: string;
   numTotalTxt: string;
+  redirect: string;
 }

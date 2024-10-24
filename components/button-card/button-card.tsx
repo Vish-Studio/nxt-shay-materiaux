@@ -5,6 +5,7 @@ import './styles.scss'
 import { FunctionComponent } from "react";
 import Icon from "../icon/icon";
 import ButtonFab from "../button-fab/button-fab";
+import Link from "next/link";
 
 
 const ButtonCard: FunctionComponent<ButtonCardProps> = ({
@@ -14,26 +15,32 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   numNew,
   numNewTxt,
   numTotal,
-  numTotalTxt
+  numTotalTxt,
+  redirect
 }) => {
 
   return (
-    <div className={`button-card ${className}`}>
-      <div className="button-card-top">
-        <div className="title">
-          <Icon iconName={iconName} />
-          <p>
-            {title}
-          </p>
+    <Link href={redirect}>
+      <div className={`button-card ${className}`}>
+        <div className="button-card-top">
+          <div className="title">
+            <Icon iconName={iconName} />
+            <p>
+              {title}
+            </p>
+          </div>
+          <ButtonFab
+            clickHandler={() => alert('fab click')}
+            icon="add"
+            type="mini" />
         </div>
-        <ButtonFab icon="add" type="mini" />
-      </div>
 
-      <div className="button-card-bottom">
-        <p><span>{numNew}</span>{numNewTxt}</p>
-        <p><span>{numTotal}</span>{numTotalTxt}</p>
+        <div className="button-card-bottom">
+          <p><span>{numNew}</span>{numNewTxt}</p>
+          <p><span>{numTotal}</span>{numTotalTxt}</p>
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

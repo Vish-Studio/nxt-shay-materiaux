@@ -46,9 +46,9 @@ export default function Home() {
         setSearchResults
       }}>
       <main className="main-content">
-        <div className="top-bar">
+        <div className="app-bar">
           <div className="menu-bar">
-            <h3>Dashboard</h3>
+            <h1>Dashboard</h1>
 
             <Profile
               name="Vishroy"
@@ -83,7 +83,8 @@ export default function Home() {
                       numNew="3"
                       numNewTxt="newly recorded"
                       numTotal="200"
-                      numTotalTxt="total registered" />
+                      numTotalTxt="total registered"
+                      redirect="/clients" />
 
                     <Button
                       title="Catalogs"
@@ -107,7 +108,8 @@ export default function Home() {
                       numNew="6"
                       numNewTxt="newly recorded"
                       numTotal="550"
-                      numTotalTxt="product type" />
+                      numTotalTxt="product type"
+                      redirect="/products" />
                     <Button
                       title="Invoices"
                       iconName="description"
