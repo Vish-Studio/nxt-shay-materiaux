@@ -2,7 +2,6 @@
 export default interface SearchResultsProps {
   className?: string;
   items?: SearchItem[];
-  test: string;
 }
 
 export type SearchItem = {

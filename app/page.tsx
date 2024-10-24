@@ -11,6 +11,7 @@ import vish from '@/public/vish.jpg'
 import SearchResults from "@/components/search-results/search-results";
 import { useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
+import { SearchItem } from "@/components/search-results/type/search-results-props";
 
 export default function Home() {
   // 1: on start get current date to display on calendar card.
@@ -18,6 +19,7 @@ export default function Home() {
   // 3: add data to different card elements.
   // 4: search - on edit text, hide card buttons and show search results.
   const [searchResults, setSearchResults] = useState('')
+
   const getDate = () => {
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -26,24 +28,17 @@ export default function Home() {
     return { day, month };
   }
 
-  // const getFakeData = (searchText: string) => {
-  //   let items = [
-  //     { title: 'John Bennette', subTitle: '+230 5123 4567', type: 'clients' },
-  //     { title: 'Test', subTitle: '+230 5123 4567', type: 'products' }
-  //   ];
-  //   let data = items.filter(item => item?.title.includes(searchText));
+  let items: SearchItem[] = [
+    { title: 'John Bennette', subTitle: '+230 5123 4567', type: "clients", icon: 'account_circle' },
+    { title: 'Cat featured plates', subTitle: '2 pieces', type: "products", icon: 'inventory_2' },
+    { title: 'Tim Cooked', subTitle: '+230 5123 4567', type: "clients", icon: 'account_circle' },
+    { title: 'Steve Rock', subTitle: '+230 5123 4567', type: "clients", icon: 'account_circle' },
+    { title: 'Ceramic coating', subTitle: '43 pieces', type: "products", icon: 'inventory_2' }
+  ];
 
-  //   console.log('Item: ', data);
+  let data = items.filter(item => item?.title.toLowerCase().includes(searchResults) || item?.subTitle.toLowerCase().includes(searchResults));
 
 
-  //   return data;
-  //   // return items.filter(item => item?.title.includes(searchText));
-  // }
-
-  let test = [
-    { title: 'John Bennette', subTitle: '+230 5123 4567', type: 'clients' },
-    { title: 'Test', subTitle: '+230 5123 4567', type: 'products' }
-  ]
   return (
     <SearchContext.Provider
       value={{
@@ -68,9 +63,8 @@ export default function Home() {
 
         <div className="container">
           {
-            (searchResults.length >= -1) ? (
-              <SearchResults test={searchResults}
-              />
+            (searchResults.length > 0) ? (
+              <SearchResults items={data} />
             ) : (
               <>
                 <ButtonCalendar

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FunctionComponent, useContext, useRef, useState } from "react";
+import React, { FunctionComponent, InputHTMLAttributes, useContext, useRef, useState } from "react";
 import "./styles.scss";
 import Icon from "../icon/icon";
 import SearchBarProps from "./type/seach-bar-props";
@@ -13,10 +13,10 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({
     const [btnCloseVisible, setBtnCloseVisible] = useState<boolean>(false);
     const { searchResults, setSearchResults } = useContext(SearchContext)
 
-    const inputRef = useRef(null)
+    const inputRef = useRef<string>(null)
 
     const inputChange = () => {
-        if (searchResults.length > (-1)) {
+        if (searchResults.length > 1) {
             setBtnCloseVisible(true);
         } else {
             setBtnCloseVisible(false);

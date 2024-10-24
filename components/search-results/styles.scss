@@ -1,0 +1,37 @@
+.search-results .title {
+  color: #757575;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.search-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 0;
+
+  .icon {
+    color: #444444;
+    font-size: 22px;
+  }
+
+  .text-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      font-size: 17px;
+      font-weight: 500;
+      color: #1b1b1b;
+    }
+
+    span {
+      font-size: 14px;
+      color: #7e7e7e;
+    }
+  }
+}
