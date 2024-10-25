@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #fff;
   box-shadow: 0px 4px 15px 3px rgb(0, 0, 0, 0.25);
   transition: 0.5s all ease;
   &.mini {
@@ -15,10 +16,10 @@
   }
 
   &.normal {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     span {
-      font-size: 20px;
+      font-size: 28px;
     }
   }
 

@@ -4,7 +4,7 @@ import Icon from '../icon/icon';
 import './styles.scss'
 
 const ButtonFab: FunctionComponent<ButtonFabProps> = ({
-  className,
+  className = '',
   icon,
   type,
   clickHandler

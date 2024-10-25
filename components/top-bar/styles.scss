@@ -3,11 +3,13 @@
   left: 0;
   right: 0;
   top: 0;
-  padding: 16px;
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 16px;
+  height: 75px;
   background-color: #fff;
+
   a {
     display: flex;
     align-items: center;

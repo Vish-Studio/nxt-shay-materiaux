@@ -1,0 +1,14 @@
+.info-card {
+  height: 190px;
+  padding: 24px 16px;
+  border-radius: 20px;
+  color: #fff;
+
+  &.clients {
+    background-color: #ff2d55;
+  }
+
+  &.products {
+    background-color: #ffcc00;
+  }
+}

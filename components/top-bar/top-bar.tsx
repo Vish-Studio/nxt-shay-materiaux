@@ -1,10 +1,11 @@
 'use client'
 
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import Icon from "../icon/icon";
 import TopBarProps from "./type/top-bar-props";
 import './styles.scss';
 import Link from "next/link";
+import SearchBar from "../search-bar/search-bar";
 
 
 const TopBar: FunctionComponent<TopBarProps> = ({
@@ -13,8 +14,9 @@ const TopBar: FunctionComponent<TopBarProps> = ({
   title,
   hasSearch = false
 }) => {
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
   const btnSearch = () => {
-    alert('good')
+    setShowSearchBar(!showSearchBar);
   }
 
   return (
@@ -24,17 +26,24 @@ const TopBar: FunctionComponent<TopBarProps> = ({
       </Link>
 
       <div className="title">
-        <h1>{title}</h1>
-
         {
-          hasSearch && (
-            <div className="btn-search" onClick={btnSearch}>
-              <Icon iconName="search" />
+          !showSearchBar && <h1>{title}</h1>
+        }
+        {
+          showSearchBar && (
+            <div className="search-component">
+              <SearchBar hintText="Search clients" />
             </div>
           )
         }
+        {
+          hasSearch && (
+            <button className="btn-search" onClick={btnSearch}>
+              <Icon iconName={`${showSearchBar ? 'close' : 'search'}`} />
+            </button>
+          )
+        }
       </div>
-
     </div>
   )
 }
