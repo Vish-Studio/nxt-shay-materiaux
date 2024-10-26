@@ -1,6 +1,7 @@
 export default interface InfoCardProps {
   className?: string;
   route: string;
-  contents?: [];
+  isInfo: boolean;
+  infoContents?: [];
   type: 'products' | 'clients';
 }

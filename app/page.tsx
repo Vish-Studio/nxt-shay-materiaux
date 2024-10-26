@@ -13,11 +13,6 @@ import { useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 import { SearchItem } from "@/components/search-results/type/search-results-props";
 
-// TODO:
-// - to sanitize icons button by wrapping in button elements
-// - to convert all hardcode color code to variables
-// - have consistent text colors across the app
-
 export default function Home() {
   // 1: on start get current date to display on calendar card.
   // 2: fetch data from that date.
