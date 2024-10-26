@@ -1,10 +1,18 @@
 .profile {
-  width: 40px;
-  height: 40px;
   border: 2px solid #1b1b1b;
   border-radius: 100px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.normal {
+    width: 40px;
+    height: 40px;
+  }
+
+  &.large {
+    width: 135px;
+    height: 135px;
+  }
 }

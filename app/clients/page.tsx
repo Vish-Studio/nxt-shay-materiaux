@@ -14,8 +14,6 @@ export default function Clients() {
   const [slug, setSlug] = useState<string>('vishroy');
   const [isInfo, setIsInfo] = useState<boolean>(false)
 
-  const route = useRouter();
-
   const data = [
     {
       title: 'John Snow',
@@ -32,6 +30,7 @@ export default function Clients() {
     }}>
       <main className="page-clients">
         <TopBar
+          leftIcon="arrow_back"
           redirectBackLink="/"
           title="Clients"
           hasSearch={true} />

@@ -97,7 +97,7 @@ export default function Home() {
                       <Button
                         title="Catalogs"
                         iconName="import_contacts"
-                        // type="rounded"
+                        variant='rounded'
                         titleBold={false}
                       />
                     </div>
@@ -123,7 +123,7 @@ export default function Home() {
                       <Button
                         title="Invoices"
                         iconName="description"
-                        // type="rounded"
+                        variant='rounded'
                         titleBold={false}
                       />
                     </div>

@@ -6,14 +6,17 @@ import TopBarProps from "./type/top-bar-props";
 import './styles.scss';
 import Link from "next/link";
 import SearchBar from "../search-bar/search-bar";
+import { useRouter } from "next/navigation";
 
 
 const TopBar: FunctionComponent<TopBarProps> = ({
   className = '',
+  leftIcon,
   redirectBackLink = '/',
   title,
   hasSearch = false
 }) => {
+  const route = useRouter();
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
   const btnSearch = () => {
     setShowSearchBar(!showSearchBar);
@@ -21,9 +24,16 @@ const TopBar: FunctionComponent<TopBarProps> = ({
 
   return (
     <div className={`top-bar ${className}`}>
-      <Link href={redirectBackLink}>
-        <Icon iconName="arrow_back" />
-      </Link>
+      <div>
+        {
+          leftIcon ? (
+            <Icon iconName={leftIcon} clickHandler={() => route.push(redirectBackLink)} />
+          ) : (
+            <Icon iconName="arrow_back" />
+
+          )
+        }
+      </div>
 
       <div className="title">
         {
