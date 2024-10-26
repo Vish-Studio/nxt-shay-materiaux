@@ -3,7 +3,11 @@
 import FormInput from '@/components/authentication/form-input/form-input';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
+import { authApi } from '@/services/api/auth';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import { useForm } from 'react-hook-form';
 
 import './style.scss';
@@ -14,8 +18,14 @@ export default function Page() {
     handleSubmit,
     formState: { errors }
   } = useForm();
+  const router = useRouter();
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = async (data: any) => {
+    const response = await authApi.authenticate(data);
+    if (response.status == 200) {
+      router.push('/');
+    }
+  };
 
   return (
     <div className="sign-in">
