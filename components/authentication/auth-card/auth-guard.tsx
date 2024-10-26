@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth(); // Get the user object from the context
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      // We redirect to sign in page if user is not authenticated
+    if (!user) {
+      // We redirect to the sign-in page if the user is not authenticated
       router.push('/sign-in');
     }
-  }, [isAuthenticated, router]);
+  }, [user, router]);
 
   // If not authenticated, render nothing or a loading indicator
-  if (!isAuthenticated) return null;
+  if (!user) return null;
 
   return <>{children}</>;
 };
