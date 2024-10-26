@@ -4,9 +4,9 @@ export const useLocalStorage = (key: string) => {
   const [state, setState] = useState(() => {
     if (typeof window !== 'undefined') {
       const storedValue = localStorage.getItem(key);
-      return storedValue !== null ? JSON.parse(storedValue) : undefined;
+      return storedValue !== 'undefined' && storedValue !== null ? JSON.parse(storedValue) : '';
     }
-    return undefined;
+    return '';
   });
 
   useEffect(() => {
