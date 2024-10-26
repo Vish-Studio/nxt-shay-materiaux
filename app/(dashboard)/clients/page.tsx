@@ -45,7 +45,6 @@ export default function Clients() {
           icon={"add"}
           type={"normal"}
           clickHandler={() => setIsInfo(!isInfo)} />
-
       </main>
     </SearchContext.Provider>
   )

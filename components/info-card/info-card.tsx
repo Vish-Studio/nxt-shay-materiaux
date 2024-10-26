@@ -42,7 +42,7 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
 
           <div className={`action-buttons`}>
             {
-              className === 'clients' ? (
+              type === 'clients' ? (
                 <>
                   <ButtonFab
                     className="button-fab-phone"
