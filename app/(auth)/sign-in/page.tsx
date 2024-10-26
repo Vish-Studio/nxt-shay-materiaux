@@ -1,12 +1,40 @@
-import FormInput from '@/components/authentication/form-input/form-input';
+'use client';
+
 import Button from '@/components/button/button';
+import FormInput from '@/components/form-input/form-input';
+import { useAuth } from '@/context/AuthContext';
+import { ButtonTypes } from '@/enums/button-types';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 import './style.scss';
 
 export default function Page() {
-  const click = () => {
-    console.log('Test');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+  const router = useRouter();
+  const { login, isAuthenticated } = useAuth();
+
+  // We check if user is already authenticated and we redirect to home if yes
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
+
+  const onSubmit = async (data: any) => {
+    const response = await login(data);
+
+    if (response.status == 200) {
+      router.push('/');
+    }
   };
 
   return (
@@ -20,17 +48,21 @@ export default function Page() {
           <p className="sign-in__text">Sign in back to your account.</p>
         </div>
         <div className="sign-in__form">
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FormInput
+              {...register('email', { required: true })}
               title="email"
               type="email"
               hint="Email"
             />
+            {errors.email && <span>This field is required</span>}
             <FormInput
+              {...register('password', { required: true })}
               title="password"
               type="password"
               hint="Password"
             />
+            {errors.password && <span>This field is required</span>}
           </form>
         </div>
         <div className="sign-in__reset-password">
@@ -46,7 +78,9 @@ export default function Page() {
         <Button
           title="Login"
           titleBold={true}
-          type="rounded"
+          type={ButtonTypes.Submit}
+          variant="rounded"
+          onClick={handleSubmit(onSubmit)}
         />
         <p>
           Dont have an account?{' '}

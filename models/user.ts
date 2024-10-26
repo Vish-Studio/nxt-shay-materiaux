@@ -10,4 +10,4 @@ export const userSchema = new Schema<IUser>({
   phone: { type: String }
 });
 
-export const User = mongoose.models.User || model<IUser>('users', userSchema);
+export const User = mongoose.models.User || model<IUser>('User', userSchema, 'users');

@@ -9,14 +9,17 @@ import './styles.scss';
 const Button: FunctionComponent<ButtonProps> = ({
   title,
   titleBold,
-  type,
+  variant = 'normal',
   iconName,
-  clickHandler }) => {
+  clickHandler,
+  ...rest
+}) => {
   return (
     <>
       <button
-        className={`button ${type} ${titleBold ? 'bold' : ''}`}
+        className={`button ${variant} ${titleBold ? 'bold' : ''}`}
         onClick={clickHandler}
+        {...rest}
       >
         {iconName && <Icon iconName={iconName} />}
         {title}
