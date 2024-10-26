@@ -1,22 +1,26 @@
-'use client'
+'use client';
 
-import TopBar from '@/components/top-bar/top-bar';
-import './styles.scss';
 import Button from '@/components/button/button';
 import Profile from '@/components/profile/profile';
+import TopBar from '@/components/top-bar/top-bar';
+import './styles.scss';
 
 import vish from '@/public/vish.jpg';
 
+import { useAuth } from '@/context/AuthContext';
+
 export default function UserProfile() {
+  const { logout } = useAuth();
+
   return (
     <>
       <TopBar
         leftIcon="close"
-        redirectBackLink='/'
+        redirectBackLink="/"
       />
       <main className="page-user-profile">
         <Profile
-          variant='large'
+          variant="large"
           name={'test'}
           imgUrl={vish}
         />
@@ -27,12 +31,12 @@ export default function UserProfile() {
         </div>
 
         <Button
-          title='Sign out'
+          title="Sign out"
           titleBold
-          variant='rounded'
-          clickHandler={() => alert('Signing out..')}
+          variant="rounded"
+          clickHandler={() => logout()}
         />
       </main>
     </>
-  )
+  );
 }
