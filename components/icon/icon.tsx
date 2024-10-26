@@ -12,7 +12,7 @@ const Icon: FunctionComponent<IconProps> = ({
     <>
       {
         clickHandler ? (
-          <button onClick={clickHandler} >
+          <button className='btn-icon' onClick={clickHandler} >
             <span className={classNames}>{iconName}</span>
           </button >
         ) : (

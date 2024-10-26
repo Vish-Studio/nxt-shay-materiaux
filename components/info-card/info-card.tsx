@@ -18,63 +18,87 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
   }
 
   return (
-    <Link href={isInfo ? `/clients/${route}` : '/clients'}>
-      <div className={`info-card ${type} ${className}`}>
-        {isInfo ? (
-          <div className="info-details">
-            <>
-              {
-                infoContents?.map((item, key) => {
-                  <div key={key}>
-                    <InfoItem
-                      number={item?.numOfItems}
-                      title={item?.title}
-                      hasMoreBtn={true}
-                    />
-                  </div>
-                })
-              }
-            </>
-            <div className="action-buttons">
-              <ButtonFab
-                className="button-fab-phone"
-                type="mini"
-                icon="call"
-                clickHandler={() => window.open('tel:12345')} />
 
-              <ButtonFab
-                className="button-fab-map"
-                type="mini"
-                icon="pin_drop"
-                clickHandler={() => window.open('tel:12345')} />
+    <div className={`info-card ${type} ${className}`}>
+      {isInfo ? (
+        <>
+          <Link href={isInfo ? `/clients/${route}` : '/clients'}>
+            <div className="info-details">
+              <>
+                {
+                  infoContents?.map((item, key) => {
+                    <div key={key}>
+                      <InfoItem
+                        icon="person"
+                        title={item?.title}
+                        hasMoreBtn={true}
+                      />
+                    </div>
+                  })
+                }
+              </>
             </div>
+          </Link >
+
+          <div className={`action-buttons`}>
+            {
+              className === 'clients' ? (
+                <>
+                  <ButtonFab
+                    className="button-fab-phone"
+                    type="mini"
+                    icon="call"
+                    clickHandler={() => window.open('tel:12345')} />
+
+                  <ButtonFab
+                    className="button-fab-map"
+                    type="mini"
+                    icon="pin_drop"
+                    clickHandler={() => window.open('tel:12345')} />
+                </>
+              ) : (
+                <>
+                  <ButtonFab
+                    className="button-fab-add"
+                    type="mini"
+                    icon="add"
+                    clickHandler={() => alert('increasing quantity')} />
+
+                  <ButtonFab
+                    className="button-fab-remove"
+                    type="mini"
+                    icon="remove"
+                    clickHandler={() => alert('decreasing quantity')} />
+                </>
+              )
+            }
           </div>
-        ) : (
-          <>
-            <InfoItem
-              number={2}
-              title="new clients today"
-            />
+        </>
+      ) : (
+        <>
+          <InfoItem
+            number={2}
+            title="new clients today"
+          />
 
-            <InfoItem
-              number={345}
-              title="total registered"
-            />
+          <InfoItem
+            number={345}
+            title="total registered"
+          />
 
-            <InfoItem
-              number={1}
-              title="remaining payments"
-            />
+          <InfoItem
+            number={1}
+            title="remaining payments"
+          />
 
-            <InfoItem
-              number={7}
-              title="new product bought today"
-            />
-          </>
-        )
-        }
-      </div>
-    </Link >
+          <InfoItem
+            number={7}
+            title="new product bought today"
+          />
+        </>
+      )
+      }
+    </div >
   )
 }
 
