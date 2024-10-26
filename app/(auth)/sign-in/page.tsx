@@ -1,13 +1,14 @@
 'use client';
 
-import FormInput from '@/components/authentication/form-input/form-input';
 import Button from '@/components/button/button';
+import FormInput from '@/components/form-input/form-input';
+import { useAuth } from '@/context/AuthContext';
 import { ButtonTypes } from '@/enums/button-types';
-import { authApi } from '@/services/api/auth';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './style.scss';
@@ -19,9 +20,18 @@ export default function Page() {
     formState: { errors }
   } = useForm();
   const router = useRouter();
+  const { login, isAuthenticated } = useAuth();
+
+  // We check if user is already authenticated and we redirect to home if yes
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
 
   const onSubmit = async (data: any) => {
-    const response = await authApi.authenticate(data);
+    const response = await login(data);
+
     if (response.status == 200) {
       router.push('/');
     }
