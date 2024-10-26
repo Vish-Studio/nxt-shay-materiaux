@@ -1,4 +1,5 @@
 export interface IUser {
+  _id: string;
   email: string;
   password: string;
   firstName: string;
@@ -10,4 +11,8 @@ export interface IUser {
 export type UserAuthenticateBodyParams = {
   email: string;
   password: string;
+};
+
+export type UserMeBodyParams = {
+  id: string;
 };

@@ -19,15 +19,16 @@ export default function Page() {
     handleSubmit,
     formState: { errors }
   } = useForm();
+
   const router = useRouter();
-  const { login, isAuthenticated } = useAuth();
+  const { login, user } = useAuth();
 
   // We check if user is already authenticated and we redirect to home if yes
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       router.push('/');
     }
-  }, [isAuthenticated, router]);
+  }, [user, router]);
 
   const onSubmit = async (data: any) => {
     const response = await login(data);
@@ -83,7 +84,7 @@ export default function Page() {
           onClick={handleSubmit(onSubmit)}
         />
         <p>
-          Dont have an account?{' '}
+          Don’t have an account?{' '}
           <span>
             <Link href="/">Help</Link>
           </span>

@@ -3,14 +3,15 @@
 import Button from '@/components/button/button';
 import Profile from '@/components/profile/profile';
 import TopBar from '@/components/top-bar/top-bar';
-import './styles.scss';
-
+import { useAuth } from '@/context/AuthContext';
+import { useUser } from '@/context/UserContext';
 import vish from '@/public/vish.jpg';
 
-import { useAuth } from '@/context/AuthContext';
+import './styles.scss';
 
 export default function UserProfile() {
   const { logout } = useAuth();
+  const { user } = useUser();
 
   return (
     <>
@@ -26,8 +27,8 @@ export default function UserProfile() {
         />
 
         <div className="user-info">
-          <h1>Vishroy Seenarain</h1>
-          <p>vishseenarain@gmail.com</p>
+          <h1>{`${user?.firstName} ${user?.lastName}`}</h1>
+          <p>{user?.email}</p>
         </div>
 
         <Button
