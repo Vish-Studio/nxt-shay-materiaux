@@ -17,7 +17,6 @@ const Icon: FunctionComponent<IconProps> = ({
           </button >
         ) : (
           <span className={classNames}>{iconName}</span>
-
         )
       }
     </>

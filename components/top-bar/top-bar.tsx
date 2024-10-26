@@ -29,7 +29,9 @@ const TopBar: FunctionComponent<TopBarProps> = ({
           leftIcon ? (
             <Icon iconName={leftIcon} clickHandler={() => route.push(redirectBackLink)} />
           ) : (
-            <Icon iconName="arrow_back" />
+            <Link href={redirectBackLink}>
+              <Icon iconName="arrow_back" />
+            </Link>
 
           )
         }
