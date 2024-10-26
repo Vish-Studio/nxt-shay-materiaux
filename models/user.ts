@@ -1,15 +1,13 @@
+import type { IUser } from '@/types/api/user';
 import mongoose, { Schema, model } from 'mongoose';
 
-export interface IUser {
-  name: string;
-  age: number;
-  phone?: string;
-}
-
 export const userSchema = new Schema<IUser>({
-  name: { type: String, required: true },
-  age: { type: Number, required: true },
-  phone: String
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  age: { type: Number },
+  phone: { type: String }
 });
 
 export const User = mongoose.models.User || model<IUser>('users', userSchema);
