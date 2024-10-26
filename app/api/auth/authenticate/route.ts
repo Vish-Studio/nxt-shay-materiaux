@@ -20,7 +20,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ ...user.toJSON() }, { status: 200 });
+    // Convert user to a plain object, then delete the password property
+    const userData = user.toJSON();
+    delete userData.password;
+
+    return NextResponse.json(userData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
