@@ -5,15 +5,15 @@ import Button from '@/components/button/button';
 import ButtonCalendar from '@/components/calendar/button-calendar';
 import Profile from '@/components/profile/profile';
 import SearchBar from '@/components/search-bar/search-bar';
-import './styles.scss';
-
-import AuthGuard from '@/components/authentication/auth-card/auth-guard';
 import SearchResults from '@/components/search-results/search-results';
 import { SearchItem } from '@/components/search-results/type/search-results-props';
-import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { appRoutes } from '@/constants/routes/app-routes';
 import { SearchContext } from '@/context/SearchContext';
 import vish from '@/public/vish.jpg';
+
 import { useState } from 'react';
+
+import './styles.scss';
 
 export default function Home() {
   // 1: on start get current date to display on calendar card.
@@ -45,8 +45,6 @@ export default function Home() {
   );
 
   return (
-    // <AuthProvider>
-    // <AuthGuard>
     <SearchContext.Provider
       value={{
         searchResults,
@@ -91,7 +89,7 @@ export default function Home() {
                     numNewTxt="newly recorded"
                     numTotal="200"
                     numTotalTxt="total registered"
-                    redirect="/clients"
+                    redirect={appRoutes.clients.index}
                   />
 
                   <Button
@@ -118,7 +116,7 @@ export default function Home() {
                     numNewTxt="newly recorded"
                     numTotal="550"
                     numTotalTxt="product type"
-                    redirect="/products"
+                    redirect={appRoutes.products.index}
                   />
                   <Button
                     title="Invoices"
@@ -133,7 +131,5 @@ export default function Home() {
         </div>
       </main>
     </SearchContext.Provider>
-    // </AuthGuard>
-    // </AuthProvider>
   );
 }
