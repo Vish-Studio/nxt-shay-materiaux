@@ -1,6 +1,8 @@
 'use client';
 
+import { appRoutes } from '@/constants/routes/app-routes';
 import { useAuth } from '@/context/AuthContext';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -11,7 +13,7 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (!user) {
       // We redirect to the sign-in page if the user is not authenticated
-      router.push('/sign-in');
+      router.push(appRoutes.signIn.index);
     }
   }, [user, router]);
 
