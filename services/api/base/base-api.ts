@@ -1,7 +1,14 @@
+import { GENERIC_SERVER_ERROR } from '@/constants/global';
+import type { TBody, TResponse } from '@/types/api/base';
+
+import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 
-type TBody = {
-  [key: string]: string;
+const formatResponse = (response: AxiosResponse) => {
+  return {
+    data: response.data,
+    status: response.status
+  };
 };
 
 interface IApiService {
@@ -14,6 +21,10 @@ interface IApiService {
 class ApiService implements IApiService {
   public baseUrl: string;
   private envBaseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
+  private readonly error: TResponse = {
+    message: GENERIC_SERVER_ERROR,
+    status: 500
+  };
 
   constructor() {
     this.baseUrl = this.envBaseUrl;
@@ -24,12 +35,9 @@ class ApiService implements IApiService {
 
     try {
       const response = await axios.post(url, body);
-      return {
-        data: response.data,
-        status: response.status
-      };
+      return formatResponse(response);
     } catch (error) {
-      throw error;
+      return this.error;
     }
   }
 
@@ -38,12 +46,9 @@ class ApiService implements IApiService {
 
     try {
       const response = await axios.get(url);
-      return {
-        data: response.data,
-        status: response.status
-      };
+      return formatResponse(response);
     } catch (error) {
-      throw error;
+      return this.error;
     }
   }
 
@@ -52,12 +57,9 @@ class ApiService implements IApiService {
 
     try {
       const response = await axios.put(url, body);
-      return {
-        data: response.data,
-        status: response.status
-      };
+      return formatResponse(response);
     } catch (error) {
-      throw error;
+      return this.error;
     }
   }
 
@@ -66,12 +68,9 @@ class ApiService implements IApiService {
 
     try {
       const response = await axios.delete(url, { data: body });
-      return {
-        data: response.data,
-        status: response.status
-      };
+      return formatResponse(response);
     } catch (error) {
-      throw error;
+      return this.error;
     }
   }
 }
