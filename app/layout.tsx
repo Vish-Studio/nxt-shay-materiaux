@@ -24,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.className} ${urbanist.variable}`}>{children}</body>
+      <body className={`${urbanist.className} ${urbanist.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
