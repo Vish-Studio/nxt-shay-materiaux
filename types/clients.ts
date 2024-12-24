@@ -1,4 +1,4 @@
-export type Clients = {
+export type TClients = {
   id: number;
   firstName: string;
   lastName: string;

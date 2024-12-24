@@ -7,6 +7,8 @@ import InfoCard from "@/components/info-card/info-card";
 import { useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
+import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
+
 
 
 export default function Clients() {
@@ -23,6 +25,18 @@ export default function Clients() {
       shop: 'Good Shop'
     },
   ]
+
+  const tabGroup: TabItem[] = [
+    {
+      title: 'All',
+      clickHandle: () => alert('test')
+    },
+    {
+      title: 'Paid',
+      clickHandle: () => alert('Paid')
+    }
+  ]
+
   return (
     <SearchContext.Provider value={{
       searchResults,
@@ -40,6 +54,8 @@ export default function Clients() {
           type="clients"
           infoContents={data}
           isInfo={isInfo} />
+
+        <TableFilter tabItems={tabGroup} />
 
         <ButtonFab
           icon={"add"}
