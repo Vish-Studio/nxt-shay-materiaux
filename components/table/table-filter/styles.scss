@@ -1,10 +1,9 @@
 .table-filter {
-  position: fixed;
-  top: 300px;
-  right: 16px;
-  left: 16px;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  left: 16px;
+  right: 16px;
 
   .tab-group {
     background-color: #f2f2f2;

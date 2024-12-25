@@ -6,3 +6,5 @@ export type TClients = {
   phone: number;
   address: string;
 };
+
+export interface IClientsData {}

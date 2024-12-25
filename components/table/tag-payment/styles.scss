@@ -1,0 +1,13 @@
+.tag-payment {
+  width: 11px;
+  height: 11px;
+  border-radius: 50px;
+
+  &.paid {
+    background-color: #36cd2b;
+  }
+
+  &.pending {
+    background-color: #f69300;
+  }
+}

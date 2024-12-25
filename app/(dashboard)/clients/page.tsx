@@ -8,6 +8,7 @@ import { useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
 import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
+import TableList from "@/components/table/table-list/table-list";
 
 
 
@@ -37,31 +38,40 @@ export default function Clients() {
     }
   ]
 
+  const handleTableClick = () => {
+    setIsInfo(!isInfo);
+  }
+
   return (
     <SearchContext.Provider value={{
       searchResults,
       setSearchResults
     }}>
-      <main className="page-clients">
+      <div className="page-clients">
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink="/"
           title="Clients"
           hasSearch={true} />
 
-        <InfoCard
-          route={slug}
-          type="clients"
-          infoContents={data}
-          isInfo={isInfo} />
+        <section>
+          <InfoCard
+            route={slug}
+            type="clients"
+            infoContents={data}
+            isInfo={isInfo} />
+        </section>
 
-        <TableFilter tabItems={tabGroup} />
+        <section className="main-content">
+          <TableFilter tabItems={tabGroup} />
+          <TableList click={handleTableClick} />
+        </section>
 
         <ButtonFab
           icon={"add"}
           type={"normal"}
           clickHandler={() => setIsInfo(!isInfo)} />
-      </main>
+      </div>
     </SearchContext.Provider>
   )
 }
