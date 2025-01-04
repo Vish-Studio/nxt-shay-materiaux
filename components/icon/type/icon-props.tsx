@@ -1,5 +1,5 @@
 export default interface IconProps {
   className?: string;
-  iconName: string;
+  iconName: string | undefined;
   clickHandler?: () => void;
 }

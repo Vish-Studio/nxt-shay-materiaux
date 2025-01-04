@@ -13,15 +13,14 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({
     const [btnCloseVisible, setBtnCloseVisible] = useState<boolean>(false);
     const { searchResults, setSearchResults } = useContext(SearchContext)
 
-    const inputRef = useRef<string>(null)
 
-    const inputChange = () => {
+    const inputChange = (e: any) => {
         if (searchResults.length > 1) {
             setBtnCloseVisible(true);
         } else {
             setBtnCloseVisible(false);
         }
-        setSearchResults(inputRef?.current?.value);
+        setSearchResults(e?.target?.value);
     }
 
     const btnClearClick = () => {
@@ -37,7 +36,6 @@ const SearchBar: FunctionComponent<SearchBarProps> = ({
 
             <div className="input-search">
                 <input
-                    ref={inputRef}
                     placeholder={hintText}
                     type="text"
                     name="search"
