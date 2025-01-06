@@ -9,6 +9,8 @@ import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
 import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
 import TableList from "@/components/table/table-list/table-list";
+import ModalCreate from "@/components/modal-create/modal-create";
+import { appRoutes } from "@/constants/routes/app-routes";
 
 
 
@@ -16,6 +18,8 @@ export default function Clients() {
   const [searchResults, setSearchResults] = useState('')
   const [slug, setSlug] = useState<string>('vishroy');
   const [isInfo, setIsInfo] = useState<boolean>(false)
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const router = useRouter()
 
   const data = [
     {
@@ -70,7 +74,7 @@ export default function Clients() {
         <ButtonFab
           icon={"add"}
           type={"normal"}
-          clickHandler={() => setIsInfo(!isInfo)} />
+          clickHandler={() => router.push(appRoutes.clients.new)} />
       </div>
     </SearchContext.Provider>
   )

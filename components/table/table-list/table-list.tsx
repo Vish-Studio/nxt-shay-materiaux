@@ -24,11 +24,11 @@ const TableList: FunctionComponent<TableProps> = ({
               <td className="status">
                 <TagPayment status="pending" />
               </td>
-              <td className="name">
+              <td className="title">
                 <p>John Dwayne Jr</p>
                 <span>Pamplemousses</span>
               </td>
-              <td className="phone">
+              <td className="description">
                 <p>Phone</p>
                 <span>+230 5123 4567</span>
               </td>
@@ -42,12 +42,12 @@ const TableList: FunctionComponent<TableProps> = ({
               <td className="status">
                 <TagPayment status="paid" />
               </td>
-              <td className="name">
+              <td className="title">
                 <p>John Dwayne Jr</p>
                 <span>Pamplemousses</span>
               </td>
-              <td className="phone">
-                <p>Phone</p>
+              <td className="description">
+                <p>Qty</p>
                 <span>+230 5123 4567</span>
               </td>
               <td className="date">
