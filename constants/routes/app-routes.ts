@@ -1,7 +1,8 @@
 export const appRoutes = {
   index: '/',
   clients: {
-    index: '/clients'
+    index: '/clients',
+    new: '/clients/new'
   },
   products: {
     index: '/products'

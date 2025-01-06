@@ -1,0 +1,22 @@
+.table-filter {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  left: 16px;
+  right: 16px;
+
+  .tab-group {
+    background-color: #f2f2f2;
+    border-radius: 6px;
+    padding: 5px;
+    width: 100%;
+    display: flex;
+    gap: 8px;
+
+    .tab-item {
+      background-color: #fff;
+      border-radius: 5px;
+      font-size: 11px;
+    }
+  }
+}

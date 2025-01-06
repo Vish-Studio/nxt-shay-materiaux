@@ -7,12 +7,19 @@ import InfoCard from "@/components/info-card/info-card";
 import { useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
+import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
+import TableList from "@/components/table/table-list/table-list";
+import ModalCreate from "@/components/modal-create/modal-create";
+import { appRoutes } from "@/constants/routes/app-routes";
+
 
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('')
   const [slug, setSlug] = useState<string>('vishroy');
   const [isInfo, setIsInfo] = useState<boolean>(false)
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const router = useRouter()
 
   const data = [
     {
@@ -23,29 +30,52 @@ export default function Clients() {
       shop: 'Good Shop'
     },
   ]
+
+  const tabGroup: TabItem[] = [
+    {
+      title: 'All',
+      clickHandle: () => alert('test')
+    },
+    {
+      title: 'Paid',
+      clickHandle: () => alert('Paid')
+    }
+  ]
+
+  const handleTableClick = () => {
+    setIsInfo(!isInfo);
+  }
+
   return (
     <SearchContext.Provider value={{
       searchResults,
       setSearchResults
     }}>
-      <main className="page-clients">
+      <div className="page-clients">
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink="/"
           title="Clients"
           hasSearch={true} />
 
-        <InfoCard
-          route={slug}
-          type="clients"
-          infoContents={data}
-          isInfo={isInfo} />
+        <section>
+          <InfoCard
+            route={slug}
+            type="clients"
+            infoContents={data}
+            isInfo={isInfo} />
+        </section>
+
+        <section className="main-content">
+          <TableFilter tabItems={tabGroup} />
+          <TableList click={handleTableClick} />
+        </section>
 
         <ButtonFab
           icon={"add"}
           type={"normal"}
-          clickHandler={() => setIsInfo(!isInfo)} />
-      </main>
+          clickHandler={() => router.push(appRoutes.clients.new)} />
+      </div>
     </SearchContext.Provider>
   )
 }
