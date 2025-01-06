@@ -6,7 +6,7 @@ import TopBar from "@/components/top-bar/top-bar";
 import { useState } from "react";
 
 import './styles.scss';
-import TableFilter from "@/components/table/table-filter/table-filter";
+import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
 import TableList from "@/components/table/table-list/table-list";
 
 

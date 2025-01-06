@@ -6,7 +6,7 @@ import TagPayment from "../tag-payment/tag-payment";
 interface TableProps {
   tableData?: TClients;
   isClient?: boolean;
-  click: () => void;
+  click?: () => void;
 }
 
 const TableList: FunctionComponent<TableProps> = ({

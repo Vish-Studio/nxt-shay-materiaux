@@ -9,7 +9,6 @@ import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
 import TableFilter, { TabItem } from "@/components/table/table-filter/table-filter";
 import TableList from "@/components/table/table-list/table-list";
-import ModalCreate from "@/components/modal-create/modal-create";
 import { appRoutes } from "@/constants/routes/app-routes";
 
 
