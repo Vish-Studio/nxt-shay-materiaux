@@ -22,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => Promise.resolve()
 });
 
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [storedUser] = useLocalStorage('user');
   const [user, setUser] = useState<IUser | null>(storedUser);
