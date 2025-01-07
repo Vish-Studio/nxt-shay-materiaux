@@ -21,6 +21,20 @@ class ApiService {
       throw error;
     }
   }
+
+  public async get(endpoint: string) {
+    const url = `${this.baseUrl}${endpoint}`;
+
+    try {
+      const response = await axios.get(url);
+      return {
+        data: response.data,
+        status: response.status
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export const api = new ApiService();

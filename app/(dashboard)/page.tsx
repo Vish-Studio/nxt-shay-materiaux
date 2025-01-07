@@ -51,7 +51,7 @@ export default function Home() {
         setSearchResults
       }}
     >
-      <main className="page-dashboard">
+      <section className="dashboard-content">
         <div className="app-bar">
           <div className="menu-bar">
             <h1>Dashboard</h1>
@@ -129,7 +129,7 @@ export default function Home() {
             </>
           )}
         </div>
-      </main>
+      </section>
     </SearchContext.Provider>
   );
 }

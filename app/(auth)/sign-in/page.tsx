@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './style.scss';
+import { appRoutes } from '@/constants/routes/app-routes';
 
 export default function Page() {
   const {
@@ -26,7 +27,7 @@ export default function Page() {
   // We check if user is already authenticated and we redirect to home if yes
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push(appRoutes.index);
     }
   }, [user, router]);
 
@@ -34,7 +35,7 @@ export default function Page() {
     const response = await login(data);
 
     if (response.status == 200) {
-      router.push('/');
+      router.push(appRoutes.index);
     }
   };
 
