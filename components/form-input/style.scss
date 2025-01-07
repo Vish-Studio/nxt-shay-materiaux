@@ -1,4 +1,5 @@
 .input-field {
+  position: relative;
   &__control {
     font-size: 16px;
     width: 100%;
@@ -10,6 +11,21 @@
     &::placeholder {
       font-size: 16px;
       font-weight: 500;
+    }
+
+    &.error {
+      border-color: #ffa1a1;
+    }
+  }
+
+  .btn-icon {
+    position: absolute;
+    right: 16px;
+    top: 0;
+    bottom: 0;
+    color: #969696;
+    span {
+      font-size: 16px;
     }
   }
 }

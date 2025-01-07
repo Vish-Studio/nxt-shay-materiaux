@@ -12,6 +12,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   titleBold,
   variant = 'normal',
   iconName,
+  isDisabled,
   clickHandler,
   ...rest
 }) => {
@@ -20,6 +21,7 @@ const Button: FunctionComponent<ButtonProps> = ({
       <button
         className={`button ${variant} ${titleBold ? 'bold' : ''} ${className}`}
         onClick={clickHandler}
+        disabled={isDisabled}
         {...rest}
       >
         {iconName && <Icon iconName={iconName} />}

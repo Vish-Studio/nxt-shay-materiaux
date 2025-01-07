@@ -8,7 +8,7 @@ import { ButtonTypes } from '@/enums/button-types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './style.scss';
@@ -23,6 +23,8 @@ export default function Page() {
 
   const router = useRouter();
   const { login, user } = useAuth();
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   // We check if user is already authenticated and we redirect to home if yes
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function Page() {
 
   const onSubmit = async (data: any) => {
     const response = await login(data);
-
+    
     if (response.status == 200) {
       router.push(appRoutes.index);
     }
@@ -56,15 +58,17 @@ export default function Page() {
               title="email"
               type="email"
               hint="Email"
+              hasError={errors?.email ? true : false}
             />
-            {errors.email && <span>This field is required</span>}
             <FormInput
               {...register('password', { required: true })}
               title="password"
               type="password"
               hint="Password"
+              hasError={errors?.password ? true : false}
+              hasViewIcon={true}
             />
-            {errors.password && <span>This field is required</span>}
+            {errorMessage && <span>{errorMessage}</span>}
           </form>
         </div>
         <div className="sign-in__reset-password">
@@ -83,6 +87,7 @@ export default function Page() {
           type={ButtonTypes.Submit}
           variant="rounded"
           onClick={handleSubmit(onSubmit)}
+          isDisabled={isDisabled}
         />
         <p>
           Don’t have an account?{' '}
