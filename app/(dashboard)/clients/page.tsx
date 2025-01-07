@@ -51,7 +51,7 @@ export default function Clients() {
     }
   ]
 
-  const handleTableClick = (data) => {
+  const handleTableClick = () => {
     console.log(data);
 
     setIsInfo(!isInfo);
