@@ -22,7 +22,7 @@
       }
 
       &.error {
-        border-color: #ff0055;
+        border-color: #af2540;
       }
     }
 
@@ -35,5 +35,10 @@
         font-size: 16px;
       }
     }
+  }
+
+  .txt-error {
+    font-size: 13px;
+    color: #af2540;
   }
 }
