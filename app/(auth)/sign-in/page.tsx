@@ -36,12 +36,11 @@ export default function Page() {
   const onSubmit = async (data: any) => {
     setIsDisabled(!isDisabled);
     const response = await login(data);
-    console.log(response);
 
     if (response && response.status == 200) {
       router.push(appRoutes.index);
     } else {
-      setErrorMessage(response.message);
+      setErrorMessage(response.error as string);
     }
     setIsDisabled(false);
   };

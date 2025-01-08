@@ -1,4 +1,4 @@
-import { InfoContent } from "@/types/info-content";
+import { InfoContent } from '@/types/info-content';
 
 export default interface InfoCardProps {
   className?: string;

@@ -8,10 +8,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <AuthProvider>
-        <main className="auth-page">{children}</main>
-      </AuthProvider>
-    </>
+    <AuthProvider>
+      <main className="auth-page">{children}</main>
+    </AuthProvider>
   );
 }

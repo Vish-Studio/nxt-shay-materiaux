@@ -1,5 +1,6 @@
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { authApi } from '@/services/api/auth';
+import type { TResponse } from '@/types/api/base';
 import type { IUser } from '@/types/api/user';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -12,13 +13,18 @@ export const initialState: AuthContextState = {
 };
 
 export interface AuthContextType extends AuthContextState {
-  login: (credentials: any) => Promise<any>;
+  login: (credentials: any) => Promise<TResponse<IUser>>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   ...initialState,
-  login: () => Promise.resolve(null),
+  login: () =>
+    Promise.resolve({
+      data: null,
+      status: 500,
+      error: 'Not implemented'
+    }),
   logout: () => Promise.resolve()
 });
 
@@ -38,23 +44,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user]);
 
   const login = async (credentials: any) => {
-    let res = null;
+    const response = await authApi.authenticate(credentials);
 
-    try {
-      const response = await authApi.authenticate(credentials);
-      if (response.status == 200) {
-        setUser(response.data);
-      }
-
-      res = response.data;
-    } catch (error: any) {
-      res = {
-        status: error.response.status,
-        message: error.response.data.message
-      };
+    if (response.status == 200) {
+      setUser(response.data);
     }
 
-    return res;
+    return response;
   };
 
   const logout = async () => {
