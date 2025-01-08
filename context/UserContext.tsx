@@ -1,4 +1,12 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback
+} from 'react';
 
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { authApi } from '@/services/api/auth';
@@ -32,7 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, initialUse
   const [loading, setLoading] = useState<boolean>(!initialUser);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     if (user) return;
 
     if (currentUser) {
@@ -46,22 +54,29 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, initialUse
         setLoading(false);
       }
     }
-  };
+  }, [user, currentUser]);
 
   useEffect(() => {
     if (!loadingCurrentUser) {
       fetchUser();
     }
-  }, [currentUser, loadingCurrentUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, loadingCurrentUser, fetchUser]);
+
+  const contextValue = useMemo(
+    () => ({
+      user,
+      loading,
+      error,
+      fetchUser
+    }),
+    [user, loading, error, fetchUser]
+  );
 
   // Show a loading indicator while waiting for user data
   if (loadingCurrentUser || loading) {
     return <div>Loading...</div>;
   }
 
-  return (
-    <UserContext.Provider value={{ user, loading, error, fetchUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
