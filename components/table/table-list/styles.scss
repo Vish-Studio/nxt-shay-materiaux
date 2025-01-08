@@ -11,6 +11,10 @@
       border-bottom: 1px solid #dfdfdf;
       height: 40px;
       padding: 25px 0;
+      transition: all 0.7s ease-in-out;
+      &.selected {
+        border-color: #1d1d1d;
+      }
 
       td {
         &:last-child {

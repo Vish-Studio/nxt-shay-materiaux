@@ -83,7 +83,6 @@ export default function Clients() {
           <TableFilter tabItems={tabGroup} />
           <TableList
             tableData={clientsData}
-            click={handleTableClick}
           />
         </section>
 

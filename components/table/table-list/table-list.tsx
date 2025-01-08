@@ -7,30 +7,26 @@ import { IClient } from "@/types/api/client";
 interface TableProps {
   tableData?: IClient[];
   isClient?: boolean;
-  click?: () => void;
 }
 
 const TableList: FunctionComponent<TableProps> = ({
   tableData,
   isClient = true,
-  click,
   ...rest
 }) => {
-  const [currentItem, setCurrentItem] = useState<any>();
-  const [selected, setSelected] = useState('')
+  const [currentItem, setCurrentItem] = useState<IClient>();
 
+  // const handleClick = (item) => {
+  //   setSelectedItem(item)
+  // }
 
-  const handleClick = () => {
-    console.log(currentItem);
-
-  }
   return (
     <table className="table-list" {...rest}>
       <tbody>
         {
           tableData?.map(item => {
             return (
-              <tr key={item.nid} onClick={() => setCurrentItem(item)}>
+              <tr className={currentItem?.nid === item?.nid ? 'selected' : ''} key={item.nid} onClick={() => setCurrentItem(item)}>
                 <td className="status">
                   <TagPayment status="pending" />
                 </td>
@@ -56,20 +52,3 @@ const TableList: FunctionComponent<TableProps> = ({
 }
 
 export default TableList;
-// <tr>
-//   <td className="status">
-//     <TagPayment status="paid" />
-//   </td>
-//   <td className="title">
-//     <p>John Dwayne Jr</p>
-//     <span>Pamplemousses</span>
-//   </td>
-//   <td className="description">
-//     <p>Qty</p>
-//     <span>+230 5123 4567</span>
-//   </td>
-//   <td className="date">
-//     <p>Date</p>
-//     <span>Monday</span>
-//   </td>
-// </tr>
