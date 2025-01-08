@@ -10,7 +10,7 @@ export default function AuthLayout({
   return (
     <>
       <AuthProvider>
-        <main className="auth-page">{children}</main>;
+        <main className="auth-page">{children}</main>
       </AuthProvider>
     </>
   );

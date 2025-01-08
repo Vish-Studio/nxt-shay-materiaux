@@ -1,5 +1,6 @@
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { authApi } from '@/services/api/auth';
+import type { TResponse } from '@/types/api/base';
 import type { IUser } from '@/types/api/user';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -12,13 +13,18 @@ export const initialState: AuthContextState = {
 };
 
 export interface AuthContextType extends AuthContextState {
-  login: (credentials: any) => Promise<any>;
+  login: (credentials: any) => Promise<TResponse<IUser>>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   ...initialState,
-  login: () => Promise.resolve(null),
+  login: () =>
+    Promise.resolve({
+      data: null,
+      status: 500,
+      error: 'Not implemented'
+    }),
   logout: () => Promise.resolve()
 });
 
@@ -39,10 +45,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (credentials: any) => {
     const response = await authApi.authenticate(credentials);
+
     if (response.status == 200) {
       setUser(response.data);
     }
-    return response.data;
+
+    return response;
   };
 
   const logout = async () => {
@@ -51,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Show loading state until we determine authentication status
-  if (loading) return <div>Loading...</div>;
+  // if (loading) return <div>Loading...</div>;
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 };

@@ -1,77 +1,81 @@
 import { GENERIC_SERVER_ERROR } from '@/constants/global';
-import type { TBody, TResponse } from '@/types/api/base';
+import type { TBody, TError, TResponse } from '@/types/api/base';
 
-import type { AxiosResponse } from 'axios';
+import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
-const formatResponse = (response: AxiosResponse) => {
+const formatResponse = <T>(response: AxiosResponse<T> | AxiosError<TError>): TResponse<T> => {
+  if (axios.isAxiosError(response)) {
+    return {
+      data: (response.response?.data as T) || null,
+      status: response.response?.status ?? 500,
+      error: response.response?.data.message ?? response.message
+    };
+  }
+
   return {
     data: response.data,
-    status: response.status
+    status: response.status,
+    error: null
+  };
+};
+
+const handleError = <T>(error: unknown): TResponse<T> => {
+  if (axios.isAxiosError(error)) {
+    return formatResponse<T>(error);
+  }
+
+  return {
+    data: null,
+    status: 500,
+    error: GENERIC_SERVER_ERROR
   };
 };
 
 interface IApiService {
-  post(endpoint: string, body: TBody): Promise<any>;
-  get(endpoint: string): Promise<any>;
-  put(endpoint: string, body: TBody): Promise<any>;
-  delete(endpoint: string, body?: TBody): Promise<any>;
+  post<T>(endpoint: string, body: TBody): Promise<TResponse<T>>;
+  get<T>(endpoint: string): Promise<TResponse<T>>;
+  put<T>(endpoint: string, body: TBody): Promise<TResponse<T>>;
+  delete<T>(endpoint: string, body?: TBody): Promise<TResponse<T>>;
 }
 
 class ApiService implements IApiService {
   public baseUrl: string;
-  private envBaseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
-  private readonly error: TResponse = {
-    message: GENERIC_SERVER_ERROR,
-    status: 500
-  };
+  private readonly envBaseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
   constructor() {
     this.baseUrl = this.envBaseUrl;
   }
 
-  public async post(endpoint: string, body: TBody): Promise<any> {
+  private async request<T>(
+    method: 'get' | 'post' | 'put' | 'delete',
+    endpoint: string,
+    body?: TBody
+  ): Promise<TResponse<T>> {
     const url = `${this.baseUrl}${endpoint}`;
-
     try {
-      const response = await axios.post(url, body);
+      const config = body ? { data: body } : {};
+      const response: AxiosResponse = await axios({ method, url, ...config });
       return formatResponse(response);
     } catch (error) {
-      return this.error;
+      return handleError(error);
     }
   }
 
-  public async get(endpoint: string): Promise<any> {
-    const url = `${this.baseUrl}${endpoint}`;
-
-    try {
-      const response = await axios.get(url);
-      return formatResponse(response);
-    } catch (error) {
-      return this.error;
-    }
+  public post<T>(endpoint: string, body: TBody): Promise<TResponse<T>> {
+    return this.request<T>('post', endpoint, body);
   }
 
-  public async put(endpoint: string, body: TBody): Promise<any> {
-    const url = `${this.baseUrl}${endpoint}`;
-
-    try {
-      const response = await axios.put(url, body);
-      return formatResponse(response);
-    } catch (error) {
-      return this.error;
-    }
+  public get<T>(endpoint: string): Promise<TResponse<T>> {
+    return this.request<T>('get', endpoint);
   }
 
-  public async delete(endpoint: string, body?: TBody): Promise<any> {
-    const url = `${this.baseUrl}${endpoint}`;
+  public put<T>(endpoint: string, body: TBody): Promise<TResponse<T>> {
+    return this.request<T>('put', endpoint, body);
+  }
 
-    try {
-      const response = await axios.delete(url, { data: body });
-      return formatResponse(response);
-    } catch (error) {
-      return this.error;
-    }
+  public delete<T>(endpoint: string, body?: TBody): Promise<TResponse<T>> {
+    return this.request<T>('delete', endpoint, body);
   }
 }
 

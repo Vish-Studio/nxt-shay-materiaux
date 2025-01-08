@@ -2,8 +2,12 @@ export type TBody = {
   [key: string]: string;
 };
 
-export type TResponse = {
-  message?: string;
-  data?: any;
+export type TError = {
+  message: string;
+};
+
+export type TResponse<T = any> = {
+  error: string | null;
+  data: T | null;
   status: number;
 };

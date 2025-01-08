@@ -7,18 +7,21 @@ import Icon from '../icon/icon';
 import './styles.scss';
 
 const Button: FunctionComponent<ButtonProps> = ({
+  className,
   title,
   titleBold,
   variant = 'normal',
   iconName,
+  isDisabled,
   clickHandler,
   ...rest
 }) => {
   return (
     <>
       <button
-        className={`button ${variant} ${titleBold ? 'bold' : ''}`}
+        className={`button ${variant} ${titleBold ? 'bold' : ''} ${className} ${isDisabled ? 'disabled' : ''}`}
         onClick={clickHandler}
+        disabled={isDisabled}
         {...rest}
       >
         {iconName && <Icon iconName={iconName} />}

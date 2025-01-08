@@ -8,10 +8,11 @@ import { ButtonTypes } from '@/enums/button-types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import './style.scss';
+import { appRoutes } from '@/constants/routes/app-routes';
 
 export default function Page() {
   const {
@@ -22,24 +23,30 @@ export default function Page() {
 
   const router = useRouter();
   const { login, user } = useAuth();
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   // We check if user is already authenticated and we redirect to home if yes
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push(appRoutes.index);
     }
   }, [user, router]);
 
   const onSubmit = async (data: any) => {
+    setIsDisabled(!isDisabled);
     const response = await login(data);
 
-    if (response.status == 200) {
-      router.push('/');
+    if (response && response.status == 200) {
+      router.push(appRoutes.index);
+    } else {
+      setErrorMessage(response.error as string);
     }
+    setIsDisabled(false);
   };
 
   return (
-    <div className="sign-in">
+    <section className="sign-in">
       <div className="sign-in__header">
         <h1>Sign In</h1>
       </div>
@@ -55,15 +62,19 @@ export default function Page() {
               title="email"
               type="email"
               hint="Email"
+              onChange={() => setErrorMessage('')}
+              hasError={errors?.email || errorMessage ? true : false}
             />
-            {errors.email && <span>This field is required</span>}
             <FormInput
               {...register('password', { required: true })}
               title="password"
               type="password"
               hint="Password"
+              onChange={() => setErrorMessage('')}
+              errorMessage={errorMessage}
+              hasError={errors?.password || errorMessage ? true : false}
+              hasViewIcon={true}
             />
-            {errors.password && <span>This field is required</span>}
           </form>
         </div>
         <div className="sign-in__reset-password">
@@ -77,11 +88,12 @@ export default function Page() {
       </div>
       <div className="sign-in__button-container">
         <Button
-          title="Login"
+          title={isDisabled ? 'Loading...' : 'Login'}
           titleBold={true}
           type={ButtonTypes.Submit}
           variant="rounded"
           onClick={handleSubmit(onSubmit)}
+          isDisabled={isDisabled}
         />
         <p>
           Don’t have an account?{' '}
@@ -90,6 +102,6 @@ export default function Page() {
           </span>
         </p>
       </div>
-    </div>
+    </section>
   );
 }

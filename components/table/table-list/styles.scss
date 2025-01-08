@@ -1,0 +1,47 @@
+.table-list {
+  position: relative;
+  top: 65px;
+  width: 100%;
+
+  tbody {
+    tr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #dfdfdf;
+      height: 40px;
+      padding: 25px 0;
+
+      td {
+        &:last-child {
+          text-align: right;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1d1d1d;
+        }
+
+        span {
+          font-size: 12px;
+          font-weight: 500;
+          color: #959595;
+        }
+
+        &.status {
+          width: 5%;
+        }
+        &.name {
+          width: 37%;
+        }
+        &.phone {
+          width: 30%;
+        }
+        &.date {
+          width: 25%;
+        }
+      }
+    }
+  }
+}

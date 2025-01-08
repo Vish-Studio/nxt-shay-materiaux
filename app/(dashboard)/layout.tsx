@@ -10,14 +10,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
       <AuthProvider>
         <AuthGuard>
           <UserProvider>
-            /<main className="dashboard-page">{children}</main>;
+            <main className="dashboard-page">{children}</main>
           </UserProvider>
         </AuthGuard>
       </AuthProvider>
-    </>
   );
 }

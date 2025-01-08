@@ -1,4 +1,4 @@
-export type Clients = {
+export type TClients = {
   id: number;
   firstName: string;
   lastName: string;
@@ -6,3 +6,5 @@ export type Clients = {
   phone: number;
   address: string;
 };
+
+export interface IClientsData {}

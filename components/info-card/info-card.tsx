@@ -25,17 +25,17 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
             href={isInfo ? `${appRoutes.clients.index}/${route}` : `${appRoutes.clients.index}`}
           >
             <div className="info-details">
-              <>
-                {infoContents?.map((item, key) => {
+              {infoContents?.map((item, key) => {
+                return (
                   <div key={key}>
                     <InfoItem
                       icon="person"
                       title={item?.title}
                       hasMoreBtn={true}
                     />
-                  </div>;
-                })}
-              </>
+                  </div>
+                )
+              })}
             </div>
           </Link>
 
