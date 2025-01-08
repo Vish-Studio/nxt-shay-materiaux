@@ -38,12 +38,13 @@
   }
 
   &__form {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
   }
 
@@ -73,5 +74,20 @@
         color: $accent-color;
       }
     }
+
+    .button.rounded {
+      transition: all 0.2s ease;
+      &:hover {
+        background-color: #1b1b1beb;
+      }
+      &.disabled {
+        background-color: #1b1b1b45;
+      }
+    }
+  }
+
+  .txt-error {
+    font-size: 13px;
+    color: #ff0055;
   }
 }

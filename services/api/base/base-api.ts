@@ -18,7 +18,7 @@ class ApiService {
         status: response.status
       };
     } catch (error) {
-      throw error;
+      throw error as any;
     }
   }
 

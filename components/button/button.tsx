@@ -19,7 +19,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   return (
     <>
       <button
-        className={`button ${variant} ${titleBold ? 'bold' : ''} ${className}`}
+        className={`button ${variant} ${titleBold ? 'bold' : ''} ${className} ${isDisabled ? 'disabled' : ''}`}
         onClick={clickHandler}
         disabled={isDisabled}
         {...rest}

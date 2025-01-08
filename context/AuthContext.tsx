@@ -22,7 +22,6 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => Promise.resolve()
 });
 
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [storedUser] = useLocalStorage('user');
   const [user, setUser] = useState<IUser | null>(storedUser);
@@ -39,11 +38,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [user]);
 
   const login = async (credentials: any) => {
-    const response = await authApi.authenticate(credentials);
-    if (response.status == 200) {
-      setUser(response.data);
+    let res = null;
+
+    try {
+      const response = await authApi.authenticate(credentials);
+      if (response.status == 200) {
+        setUser(response.data);
+      }
+
+      res = response.data;
+    } catch (error: any) {
+      res = {
+        status: error.response.status,
+        message: error.response.data.message
+      };
     }
-    return response.data;
+
+    return res;
   };
 
   const logout = async () => {

@@ -1,31 +1,39 @@
-.input-field {
-  position: relative;
-  &__control {
-    font-size: 16px;
-    width: 100%;
-    padding: 15px 18px;
-    border-radius: 75px;
-    outline: none;
-    border: 1.5px solid rgba(0, 0, 0, 0.23);
+.form-input {
+  .input-field {
+    position: relative;
 
-    &::placeholder {
+    &__control {
       font-size: 16px;
-      font-weight: 500;
+      width: 100%;
+      padding: 15px 18px;
+      border-radius: 75px;
+      outline: none;
+      border: 1.5px solid rgba(0, 0, 0, 0.23);
+      transition: all 0.3s ease-in-out;
+      margin-bottom: 5px;
+
+      &::placeholder {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      &:focus {
+        border-color: #1b1b1b;
+      }
+
+      &.error {
+        border-color: #ff0055;
+      }
     }
 
-    &.error {
-      border-color: #ffa1a1;
-    }
-  }
-
-  .btn-icon {
-    position: absolute;
-    right: 16px;
-    top: 0;
-    bottom: 0;
-    color: #969696;
-    span {
-      font-size: 16px;
+    .btn-icon {
+      position: absolute;
+      right: 16px;
+      top: 5px;
+      color: #969696;
+      span {
+        font-size: 16px;
+      }
     }
   }
 }
