@@ -10,6 +10,6 @@ export interface IClient extends IPaymentType {
   brnNumber: number;
   phoneNumber: string;
   deliveryDateTime: number;
-  shops: IShop[];
-  payments: IPayment[];
+  shops?: IShop[];
+  payments?: IPayment[];
 }

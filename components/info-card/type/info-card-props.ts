@@ -1,9 +1,9 @@
+import { IClient } from '@/types/api/client';
 import { InfoContent } from '@/types/info-content';
 
 export default interface InfoCardProps {
   className?: string;
-  route: string;
   isInfo: boolean;
-  infoContents?: InfoContent[];
+  infoContents: IClient;
   type: 'products' | 'clients';
 }

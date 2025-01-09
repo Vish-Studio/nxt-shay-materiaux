@@ -8,7 +8,6 @@ import InfoCardProps from './type/info-card-props';
 
 const InfoCard: FunctionComponent<InfoCardProps> = ({
   className = '',
-  route,
   isInfo,
   infoContents,
   type
@@ -22,20 +21,24 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
       {isInfo ? (
         <>
           <Link
-            href={isInfo ? `${appRoutes.clients.index}/${route}` : `${appRoutes.clients.index}`}
+            href={
+              isInfo
+                ? `${appRoutes.clients.index}/${infoContents?.firstName}`
+                : `${appRoutes.clients.index}`
+            }
           >
             <div className="info-details">
-              {infoContents?.map((item, key) => {
-                return (
-                  <div key={key}>
-                    <InfoItem
-                      icon="person"
-                      title={item?.title}
-                      hasMoreBtn={true}
-                    />
-                  </div>
-                )
-              })}
+              <InfoItem
+                icon="person"
+                title={infoContents?.firstName}
+                hasMoreBtn={true}
+              />
+
+              <InfoItem
+                icon="person"
+                title={infoContents?.lastName}
+                hasMoreBtn={true}
+              />
             </div>
           </Link>
 
@@ -46,7 +49,7 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
                   className="button-fab-phone"
                   type="mini"
                   icon="call"
-                  clickHandler={() => window.open('tel:12345')}
+                  clickHandler={() => window.open(`tel:${infoContents?.phoneNumber}`)}
                 />
 
                 <ButtonFab

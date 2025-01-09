@@ -16,6 +16,7 @@ export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
   const [slug, setSlug] = useState<string>('vishroy');
   const [clientsData, setClientsData] = useState<IClient[] | []>([]);
+  const [selectedClient, setSelectedClient] = useState<IClient>({});
   const [isInfo, setIsInfo] = useState<boolean>(false);
   const router = useRouter();
 
@@ -28,16 +29,6 @@ export default function Clients() {
     fetchClients();
   }, []);
 
-  const data = [
-    {
-      title: 'John Snow',
-      brn: '#12234555',
-      address: 'Kalimaye st, Calebasses',
-      tel: '+23051234567',
-      shop: 'Good Shop'
-    }
-  ];
-
   const tabGroup: TabItem[] = [
     {
       title: 'All',
@@ -49,10 +40,20 @@ export default function Clients() {
     }
   ];
 
-  const handleTableClick = () => {
-    console.log(data);
+  const handleTableClick = (data: IClient) => {
+    let client: IClient = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      nid: data.nid,
+      createDateTime: data.createDateTime,
+      brnNumber: data.brnNumber,
+      phoneNumber: data.phoneNumber,
+      deliveryDateTime: data.deliveryDateTime,
+      paymentType: 'cash'
+    };
 
     setIsInfo(!isInfo);
+    setSelectedClient(client);
   };
 
   return (
@@ -72,9 +73,8 @@ export default function Clients() {
 
         <section>
           <InfoCard
-            route={slug}
             type="clients"
-            infoContents={data}
+            infoContents={selectedClient}
             isInfo={isInfo}
           />
         </section>
@@ -83,6 +83,7 @@ export default function Clients() {
           <TableFilter tabItems={tabGroup} />
           <TableList
             tableData={clientsData}
+            clickEvent={handleTableClick}
           />
         </section>
 
