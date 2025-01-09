@@ -29,17 +29,6 @@ export default function Clients() {
     fetchClients();
   }, []);
 
-  const tabGroup: TabItem[] = [
-    {
-      title: 'All',
-      clickHandle: () => alert('test')
-    },
-    {
-      title: 'Paid',
-      clickHandle: () => alert('Paid')
-    }
-  ];
-
   const handleTableClick = (data: IClient) => {
     let client: IClient = {
       firstName: data.firstName,
@@ -80,7 +69,6 @@ export default function Clients() {
         </section>
 
         <section className="main-content">
-          <TableFilter tabItems={tabGroup} />
           <TableList
             tableData={clientsData}
             clickEvent={handleTableClick}

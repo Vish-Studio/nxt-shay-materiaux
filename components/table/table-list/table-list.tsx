@@ -3,6 +3,7 @@ import { FunctionComponent, useState } from 'react';
 import './styles.scss';
 import TagPayment from '../tag-payment/tag-payment';
 import { IClient } from '@/types/api/client';
+import TableFilter, { TabItem } from '../table-filter/table-filter';
 
 interface TableProps {
   tableData?: IClient[];
@@ -23,18 +24,33 @@ const TableList: FunctionComponent<TableProps> = ({
     setCurrentItem(item);
   };
 
+  const tabGroup: TabItem[] = [
+    {
+      title: 'All',
+      clickHandle: () => alert('test')
+    },
+    {
+      title: 'Paid',
+      clickHandle: () => alert('Paid')
+    }
+  ];
+
   return (
     <table
       className="table-list"
       {...rest}
     >
+      <thead>
+        <tr>
+          <TableFilter tabItems={tabGroup} />
+        </tr>
+      </thead>
       <tbody>
         {tableData?.map((item) => {
           return (
             <tr
               className={currentItem?.nid === item?.nid ? 'selected' : ''}
               key={item.nid}
-              // onClick={() => setCurrentItem(item)}
               onClick={() => handleClick(item)}
             >
               <td className="status">
