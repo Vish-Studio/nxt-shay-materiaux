@@ -58,7 +58,9 @@ const TableList: FunctionComponent<TableProps> = ({
               </td>
               <td className="title">
                 <p>{item.firstName + ' ' + item.lastName}</p>
-                <span>{item?.shops?.length !== 0 && item?.shops[0].address.name}</span>
+                <span>
+                  {item?.shops?.length !== 0 && item?.shops && item?.shops[0].address.name}
+                </span>
               </td>
               <td className="description">
                 <p>Phone</p>
