@@ -42,7 +42,9 @@ const TableList: FunctionComponent<TableProps> = ({
     >
       <thead>
         <tr>
-          <TableFilter tabItems={tabGroup} />
+          <td>
+            <TableFilter tabItems={tabGroup} />
+          </td>
         </tr>
       </thead>
       <tbody>
