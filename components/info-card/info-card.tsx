@@ -12,10 +12,6 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
   infoContents,
   type
 }) => {
-  const getInfoOverviewNum = (): number => {
-    return 0;
-  };
-
   return (
     <div className={`info-card ${type} ${className}`}>
       {isInfo ? (

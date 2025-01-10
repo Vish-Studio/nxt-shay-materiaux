@@ -41,7 +41,7 @@ export default function Clients() {
       paymentType: 'cash'
     };
 
-    setIsInfo(!isInfo);
+    setIsInfo(true);
     setSelectedClient(client);
   };
 
