@@ -6,6 +6,8 @@ import { FunctionComponent } from "react";
 import Icon from "../icon/icon";
 import ButtonFab from "../button-fab/button-fab";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { appRoutes } from "@/constants/routes/app-routes";
 
 
 const ButtonCard: FunctionComponent<ButtonCardProps> = ({
@@ -18,10 +20,11 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   numTotalTxt,
   redirect
 }) => {
-
+  const router = useRouter()
   return (
-    <Link href={redirect}>
-      <div className={`button-card ${className}`}>
+
+    <div className="button-card-container">
+      <div className={`button-card ${className}`} onClick={() => router.push(redirect)}>
         <div className="button-card-top">
           <div className="title">
             <Icon iconName={iconName} />
@@ -29,10 +32,6 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
               {title}
             </p>
           </div>
-          <ButtonFab
-            clickHandler={() => alert('fab click')}
-            icon="add"
-            type="mini" />
         </div>
 
         <div className="button-card-bottom">
@@ -40,7 +39,13 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
           <p><span>{numTotal}</span>{numTotalTxt}</p>
         </div>
       </div>
-    </Link>
+
+      <ButtonFab
+        clickHandler={() => router.push(appRoutes.clients.new)}
+        icon="add"
+        type="mini" />
+    </div>
+
   )
 }
 

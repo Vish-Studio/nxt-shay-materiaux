@@ -8,7 +8,7 @@ import TableFilter, { TabItem } from '../table-filter/table-filter';
 interface TableProps {
   tableData?: IClient[];
   isClient?: boolean;
-  clickEvent: (data: IClient) => void;
+  clickEvent: (e: IClient) => void;
 }
 
 const TableList: FunctionComponent<TableProps> = ({
@@ -42,13 +42,11 @@ const TableList: FunctionComponent<TableProps> = ({
     >
       <thead>
         <tr>
-          <td>
-            <TableFilter tabItems={tabGroup} />
-          </td>
+          <td><TableFilter tabItems={tabGroup} /></td>
         </tr>
       </thead>
       <tbody>
-        {tableData?.map((item) => {
+        {tableData && tableData?.map((item) => {
           return (
             <tr
               className={currentItem?.nid === item?.nid ? 'selected' : ''}

@@ -1,6 +1,7 @@
 
 import { FunctionComponent } from "react";
 import './styles.scss'
+import Icon from "@/components/icon/icon";
 
 export interface TabItem {
   title: string;
@@ -37,7 +38,9 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
       </div>
 
       <div className="tab-sort">
-        <button>test</button>
+        <button>
+          <Icon iconName="compare_arrows" />
+        </button>
       </div>
     </div>
   )

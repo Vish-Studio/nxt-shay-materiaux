@@ -40,9 +40,8 @@ export default function Clients() {
       paymentType: 'cash'
     };
 
-    setIsInfo(true);
+    setIsInfo(!isInfo);
     setSelectedClient(client);
-
   };
 
   return (
@@ -55,7 +54,7 @@ export default function Clients() {
       <div className="page-clients">
         <TopBar
           leftIcon="arrow_back"
-          redirectBackLink="/"
+          redirectBackLink={"/"}
           title="Clients"
           hasSearch={true}
         />

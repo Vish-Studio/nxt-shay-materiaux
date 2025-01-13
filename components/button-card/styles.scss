@@ -1,51 +1,62 @@
-.button-card {
-  height: 175px;
-  width: 170px;
-  background-color: #ff2d55;
-  color: #fff;
-  border-radius: 25px;
-  padding: 10px 12px;
-  padding-bottom: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.button-card-container {
+  position: relative;
 
-  &.yellow {
-    background-color: #ffcc00;
+  .button-card {
+    height: 175px;
+    width: 170px;
+    background-color: #ff2d55;
+    color: #fff;
+    border-radius: 25px;
+    padding: 10px 12px;
+    padding-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &.yellow {
+      background-color: #ffcc00;
+    }
   }
-}
 
-.button-card .button-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .title {
+  .button-card .button-card-top {
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+    margin-top: 7px;
 
-    .icon {
-      font-size: 22px;
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .icon {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 15px;
+        font-weight: 600;
+      }
     }
+  }
 
+  .button-card .button-card-bottom {
     p {
-      font-size: 15px;
-      font-weight: 600;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 14px;
+
+      span {
+        font-weight: 700;
+        font-size: 20px;
+      }
     }
   }
-}
 
-.button-card .button-card-bottom {
-  p {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    font-size: 14px;
-
-    span {
-      font-weight: 700;
-      font-size: 20px;
-    }
+  .button-fab.mini {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 }

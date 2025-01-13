@@ -48,7 +48,7 @@ export default function NewClients() {
           {errors.password && <span>This field is required</span>}
           <br />
           <FormInput
-            {...register('brn', { required: true, })}
+            {...register('brn', { required: false, })}
             title="brn"
             type="text"
             hint="Business Registration Number (BRN)"
