@@ -14,7 +14,6 @@ import { IClient } from '@/types/api/client';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
-  const [slug, setSlug] = useState<string>('vishroy');
   const [clientsData, setClientsData] = useState<IClient[] | []>([]);
   const [selectedClient, setSelectedClient] = useState<IClient>(Object);
   const [isInfo, setIsInfo] = useState<boolean>(false);
@@ -43,6 +42,7 @@ export default function Clients() {
 
     setIsInfo(true);
     setSelectedClient(client);
+
   };
 
   return (

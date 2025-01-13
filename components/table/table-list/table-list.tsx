@@ -8,7 +8,7 @@ import TableFilter, { TabItem } from '../table-filter/table-filter';
 interface TableProps {
   tableData?: IClient[];
   isClient?: boolean;
-  clickEvent: (e: IClient) => void;
+  clickEvent: (data: IClient) => void;
 }
 
 const TableList: FunctionComponent<TableProps> = ({

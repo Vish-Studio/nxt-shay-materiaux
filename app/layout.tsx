@@ -22,8 +22,8 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: 'Shay - Inventory app',
-  description: 'An inventory app for managing clients and products.'
+  title: 'SME Inventory app',
+  description: 'An inventory app for managing your clients and products.'
 };
 
 export default function RootLayout({
