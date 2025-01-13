@@ -6,6 +6,13 @@
   right: 16px;
   gap: 10px;
 
+  thead {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    tr
+  }
   .tab-group {
     background-color: #f2f2f2;
     border-radius: 6px;

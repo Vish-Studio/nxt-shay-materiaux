@@ -59,13 +59,11 @@ export default function Clients() {
           hasSearch={true}
         />
 
-        <section>
-          <InfoCard
-            type="clients"
-            infoContents={selectedClient}
-            isInfo={isInfo}
-          />
-        </section>
+        <InfoCard
+          type="clients"
+          infoContents={selectedClient}
+          isInfo={isInfo}
+        />
 
         <section className="main-content">
           <TableList
