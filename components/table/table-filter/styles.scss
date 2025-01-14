@@ -4,15 +4,7 @@
   position: fixed;
   left: 16px;
   right: 16px;
-  gap: 10px;
 
-  thead {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-
-    tr
-  }
   .tab-group {
     background-color: #f2f2f2;
     border-radius: 6px;
@@ -25,22 +17,6 @@
       background-color: #fff;
       border-radius: 5px;
       font-size: 11px;
-    }
-  }
-
-  .tab-sort {
-    button {
-      border: 1px solid #f2f2f2;
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      span {
-        color: #878787;
-        font-size: 20px;
-        transform: rotate(90deg);
-      }
     }
   }
 }

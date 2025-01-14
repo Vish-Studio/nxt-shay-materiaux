@@ -40,11 +40,7 @@ const TableList: FunctionComponent<TableProps> = ({
       className="table-list"
       {...rest}
     >
-      <thead>
-        <tr>
-          <td><TableFilter tabItems={tabGroup} /></td>
-        </tr>
-      </thead>
+      <TableFilter tabItems={tabGroup} />
       <tbody>
         {tableData && tableData?.map((item) => {
           return (
@@ -58,17 +54,17 @@ const TableList: FunctionComponent<TableProps> = ({
               </td>
               <td className="title">
                 <p>{item.firstName + ' ' + item.lastName}</p>
-                <span>
+                {/* <span>
                   {item?.shops?.length !== 0 && item?.shops && item?.shops[0].address.name}
-                </span>
+                </span> */}
               </td>
               <td className="description">
-                <p>Phone</p>
+                {/* <p>Phone</p> */}
                 <span>{item.phoneNumber}</span>
               </td>
               <td className="date">
-                <p>Date</p>
-                <span>{item.createDateTime}</span>
+                {/* <p>Date</p> */}
+                <span>{item.createDateTime || 'Monday'}</span>
               </td>
             </tr>
           );
