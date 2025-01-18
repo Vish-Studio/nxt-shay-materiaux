@@ -30,6 +30,18 @@ a {
     color: $accent-color;
 }
 
+form {
+    .horizontal-fields {
+        display: flex;
+        gap: 8px;
+    }
+
+    .vertical-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+}
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
