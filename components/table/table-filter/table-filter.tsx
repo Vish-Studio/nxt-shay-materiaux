@@ -18,8 +18,10 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest })
 
   return (
     <thead className="table-filter">
-      <tr>
-        <td>
+      <tr style={{
+        width: '100%'
+      }}>
+        <td style={{ width: '90%' }}>
           <div className="tab-group">
             {tabItems.map((item, key) => {
               return (
@@ -34,7 +36,7 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest })
           </div>
         </td>
 
-        <td>
+        <td style={{ width: '10%' }}>
           <div className="tab-sort">
             <button>
               <Icon iconName="swap_vert" />

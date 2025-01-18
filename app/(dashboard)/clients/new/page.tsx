@@ -31,21 +31,24 @@ export default function NewClients() {
 
       <div className="content">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormInput
-            {...register('name', { required: true })}
-            title="name"
-            type="text"
-            hint="Name"
-          />
-          {errors.email && <span>This field is required</span>}
-          <br />
-          <FormInput
-            {...register('tel', { required: true, })}
-            title="tel"
-            type="text"
-            hint="Phone Number"
-          />
-          {errors.password && <span>This field is required</span>}
+          <div className="general-info vertical-fields">
+            <label htmlFor="firstName">General info</label>
+
+            <FormInput
+              {...register('firstName', { required: true })}
+              title="firstName"
+              type="text"
+              hint="First Name"
+            />
+            {errors.email && <span>This field is required</span>}
+            <FormInput
+              {...register('lastName', { required: true, })}
+              title="lastName"
+              type="text"
+              hint="Last Name"
+            />
+            {errors.password && <span>This field is required</span>}
+          </div>
           <br />
           <FormInput
             {...register('brn', { required: false, })}
@@ -70,7 +73,7 @@ export default function NewClients() {
           title="Submit"
           titleBold={true}
           type={ButtonTypes.Button}
-          clickHandler={() => console.log()}
+          clickHandler={onSubmit}
         />
       </div>
     </section>
