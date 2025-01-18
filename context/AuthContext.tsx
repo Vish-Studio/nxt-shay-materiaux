@@ -68,6 +68,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [user]
   );
 
+  // Show loading state until we determine authentication status
+  if (loading) return <div>Loading...</div>;
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
