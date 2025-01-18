@@ -11,5 +11,11 @@ export const apiRoutes = {
   },
   users: {
     index: '/users'
+  },
+  categories: {
+    index: '/categories'
+  },
+  products: {
+    index: '/products'
   }
 };

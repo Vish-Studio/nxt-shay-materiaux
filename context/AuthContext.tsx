@@ -1,8 +1,8 @@
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { authApi } from '@/services/api/auth';
-import type { TResponse } from '@/types/api/base';
+import type { IApiResponse } from '@/types/api/base';
 import type { IUser } from '@/types/api/user';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 
 export interface AuthContextState {
   user: IUser | null;
@@ -13,7 +13,7 @@ export const initialState: AuthContextState = {
 };
 
 export interface AuthContextType extends AuthContextState {
-  login: (credentials: any) => Promise<TResponse<IUser>>;
+  login: (credentials: any) => Promise<IApiResponse<IUser>>;
   logout: () => Promise<void>;
 }
 
@@ -21,9 +21,9 @@ const AuthContext = createContext<AuthContextType>({
   ...initialState,
   login: () =>
     Promise.resolve({
-      data: null,
-      status: 500,
-      error: 'Not implemented'
+      status: 'error',
+      message: 'Not implemented',
+      statusCode: 501
     }),
   logout: () => Promise.resolve()
 });
@@ -46,8 +46,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (credentials: any) => {
     const response = await authApi.authenticate(credentials);
 
-    if (response.status == 200) {
-      setUser(response.data);
+    if (response.status == 'success') {
+      setUser(response.data ?? null);
     }
 
     return response;
@@ -58,10 +58,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
-  // Show loading state until we determine authentication status
-  // if (loading) return <div>Loading...</div>;
+  // Memoize the context value to avoid unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      user,
+      login,
+      logout
+    }),
+    [user]
+  );
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  // Show loading state until we determine authentication status
+  if (loading) return <div>Loading...</div>;
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

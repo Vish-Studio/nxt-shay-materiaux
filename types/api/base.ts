@@ -6,8 +6,13 @@ export type TError = {
   message: string;
 };
 
-export type TResponse<T = any> = {
-  error: string | null;
-  data: T | null;
-  status: number;
-};
+export type TFetchMethod = 'get' | 'post' | 'put' | 'delete';
+
+export type TResponseStatus = 'success' | 'fail' | 'error' | 'pending';
+
+export interface IApiResponse<T = unknown> {
+  status: TResponseStatus;
+  message: string;
+  statusCode: number;
+  data?: T | null;
+}

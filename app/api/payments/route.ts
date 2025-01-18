@@ -1,17 +1,15 @@
-import { Client } from '@/models/client';
 import { Payment } from '@/models/payment';
 import { dbConnect } from '@/utils/db-connect';
-import { NextRequest, NextResponse } from 'next/server';
+import { createHttpResponse } from '@/utils/http';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await dbConnect();
-    Client;
 
-    const payments = await Payment.find({}).populate('client').exec();
-    return NextResponse.json(payments, { status: 200 });
+    const payments = await Payment.find({}).exec();
+    return createHttpResponse('success', 'Payments fetched successfully', payments);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return createHttpResponse('error', 'Internal Server Error', null, 500);
   }
 }

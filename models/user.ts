@@ -1,5 +1,7 @@
 import type { IUser } from '@/types/api/user';
+
 import mongoose, { Schema, model } from 'mongoose';
+import type { Model } from 'mongoose';
 
 export const userSchema = new Schema<IUser>({
   email: { type: String, required: true },

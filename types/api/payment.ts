@@ -1,6 +1,3 @@
-import { IPaymentType } from '../payment-type';
-import { IClient } from './client';
+import type { IPaymentType } from '../payment-type';
 
-export interface IPayment extends IPaymentType {
-  client: IClient;
-}
+export interface IPayment extends IPaymentType {}

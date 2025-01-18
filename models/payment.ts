@@ -1,10 +1,11 @@
 import type { IPayment } from '@/types/api/payment';
-import mongoose, { Schema, model } from 'mongoose';
 
-export const paymentSchema: any = new Schema<IPayment>({
-  paymentType: { type: String, required: true },
-  client: { type: Schema.Types.ObjectId, ref: 'Client' }
+import mongoose, { Schema, model } from 'mongoose';
+import type { Model } from 'mongoose';
+
+export const paymentSchema = new Schema<IPayment>({
+  paymentType: { type: String, required: true }
 });
 
-export const Payment =
+export const Payment: Model<IPayment> =
   mongoose.models.Payment || model<IPayment>('Payment', paymentSchema, 'payments');

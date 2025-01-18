@@ -1,8 +1,9 @@
 import { User } from '@/models/user';
 import type { UserMeBodyParams } from '@/types/api/user';
 import { dbConnect } from '@/utils/db-connect';
+import { createHttpResponse } from '@/utils/http';
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,15 +13,16 @@ export async function POST(request: NextRequest) {
 
     const user = await User.findById(id);
     if (!user) {
-      return NextResponse.json({ message: 'User cannot be found' }, { status: 500 });
+      return createHttpResponse('error', 'User cannot be found', null, 500);
     }
 
     // Convert user to a plain object, then delete the password property
     const userData = user.toJSON();
     delete userData.password;
 
-    return NextResponse.json(userData, { status: 200 });
+    return createHttpResponse('success', 'User found successfully', userData, 200);
   } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
+    console.error(error);
+    return createHttpResponse('error', 'Internal server error', null, 500);
   }
 }

@@ -1,5 +1,7 @@
 import type { IShop } from '@/types/api/shop';
+
 import mongoose, { Schema, model } from 'mongoose';
+import type { Model } from 'mongoose';
 
 export const shopSchema = new Schema<IShop>({
   shopName: { type: String, required: true },
@@ -10,4 +12,4 @@ export const shopSchema = new Schema<IShop>({
   }
 });
 
-export const Shop = mongoose.models.Shop || model<IShop>('Shop', shopSchema, 'shops');
+export const Shop: Model<IShop> = mongoose.models.Shop || model<IShop>('Shop', shopSchema, 'shops');
