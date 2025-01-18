@@ -3,30 +3,25 @@ import ButtonFab from '@/components/button-fab/button-fab';
 import TopBar from '@/components/top-bar/top-bar';
 import './styles.scss';
 import InfoCard from '@/components/info-card/info-card';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SearchContext } from '@/context/SearchContext';
 import { useRouter } from 'next/navigation';
 import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 import TableList from '@/components/table/table-list/table-list';
 import { appRoutes } from '@/constants/routes/app-routes';
-import { clientsApi } from '@/services/api/client';
 import { IClient } from '@/types/api/client';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { apiRoutes } from '@/constants/routes/api-routes';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
-  const [clientsData, setClientsData] = useState<IClient[] | []>([]);
   const [selectedClient, setSelectedClient] = useState<IClient>(Object);
   const [isInfo, setIsInfo] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      const clientsData = await clientsApi.getAllClients();
-      setClientsData(clientsData.data ?? []);
-    };
-
-    fetchClients();
-  }, []);
+  const { data: clientsData } = useApiFetch<IClient[]>({
+    endpoint: apiRoutes.clients.index
+  });
 
   const handleTableClick = (data: IClient) => {
     let client: IClient = {
@@ -54,7 +49,7 @@ export default function Clients() {
       <div className="page-clients">
         <TopBar
           leftIcon="arrow_back"
-          redirectBackLink={"/"}
+          redirectBackLink={'/'}
           title="Clients"
           hasSearch={true}
         />
@@ -67,7 +62,7 @@ export default function Clients() {
 
         <section className="main-content">
           <TableList
-            tableData={clientsData}
+            tableData={clientsData ?? []}
             clickEvent={handleTableClick}
           />
         </section>

@@ -1,42 +1,42 @@
 import { GENERIC_SERVER_ERROR } from '@/constants/global';
-import type { TBody, TError, TResponse } from '@/types/api/base';
+import type { TBody, TError, IApiResponse, TFetchMethod } from '@/types/api/base';
 
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
-const formatResponse = <T>(response: AxiosResponse<T> | AxiosError<TError>): TResponse<T> => {
+const formatResponse = <T>(
+  response: AxiosResponse<IApiResponse<T>> | AxiosError<TError>
+): IApiResponse<T> => {
   if (axios.isAxiosError(response)) {
     return {
-      data: (response.response?.data as T) || null,
-      status: response.response?.status ?? 500,
-      error: response.response?.data.message ?? response.message
+      status: 'error',
+      message: response.response?.data.message ?? response.message,
+      statusCode: response.response?.status ?? 500,
+      data: (response.response?.data as T) || null
     };
   }
 
-  return {
-    data: response.data,
-    status: response.status,
-    error: null
-  };
+  return response.data;
 };
 
-const handleError = <T>(error: unknown): TResponse<T> => {
+const handleError = <T>(error: unknown): IApiResponse<T> => {
   if (axios.isAxiosError(error)) {
     return formatResponse<T>(error);
   }
 
   return {
-    data: null,
-    status: 500,
-    error: GENERIC_SERVER_ERROR
+    status: 'error',
+    message: GENERIC_SERVER_ERROR,
+    statusCode: 500,
+    data: null
   };
 };
 
 interface IApiService {
-  post<T>(endpoint: string, body: TBody): Promise<TResponse<T>>;
-  get<T>(endpoint: string): Promise<TResponse<T>>;
-  put<T>(endpoint: string, body: TBody): Promise<TResponse<T>>;
-  delete<T>(endpoint: string, body?: TBody): Promise<TResponse<T>>;
+  post<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>>;
+  get<T>(endpoint: string): Promise<IApiResponse<T>>;
+  put<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>>;
+  delete<T>(endpoint: string, body?: TBody): Promise<IApiResponse<T>>;
 }
 
 class ApiService implements IApiService {
@@ -48,10 +48,10 @@ class ApiService implements IApiService {
   }
 
   private async request<T>(
-    method: 'get' | 'post' | 'put' | 'delete',
+    method: TFetchMethod,
     endpoint: string,
     body?: TBody
-  ): Promise<TResponse<T>> {
+  ): Promise<IApiResponse<T>> {
     const url = `${this.baseUrl}${endpoint}`;
     try {
       const config = body ? { data: body } : {};
@@ -62,19 +62,19 @@ class ApiService implements IApiService {
     }
   }
 
-  public post<T>(endpoint: string, body: TBody): Promise<TResponse<T>> {
+  public post<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>> {
     return this.request<T>('post', endpoint, body);
   }
 
-  public get<T>(endpoint: string): Promise<TResponse<T>> {
+  public get<T>(endpoint: string): Promise<IApiResponse<T>> {
     return this.request<T>('get', endpoint);
   }
 
-  public put<T>(endpoint: string, body: TBody): Promise<TResponse<T>> {
+  public put<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>> {
     return this.request<T>('put', endpoint, body);
   }
 
-  public delete<T>(endpoint: string, body?: TBody): Promise<TResponse<T>> {
+  public delete<T>(endpoint: string, body?: TBody): Promise<IApiResponse<T>> {
     return this.request<T>('delete', endpoint, body);
   }
 }

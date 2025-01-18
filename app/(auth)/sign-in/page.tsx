@@ -37,10 +37,10 @@ export default function Page() {
     setIsDisabled(!isDisabled);
     const response = await login(data);
 
-    if (response && response.status == 200) {
+    if (response && response.status == 'success') {
       router.push(appRoutes.index);
     } else {
-      setErrorMessage(response.error as string);
+      setErrorMessage(response.message);
     }
     setIsDisabled(false);
   };

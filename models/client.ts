@@ -1,5 +1,9 @@
 import type { IClient } from '@/types/api/client';
+
 import mongoose, { Schema, model } from 'mongoose';
+import type { Model } from 'mongoose';
+import { Shop } from './shop';
+import { Payment } from './payment';
 
 export const clientSchema = new Schema<IClient>({
   createDateTime: { type: Number, required: true },
@@ -9,8 +13,9 @@ export const clientSchema = new Schema<IClient>({
   brnNumber: { type: Number, required: true },
   phoneNumber: { type: String, required: true },
   deliveryDateTime: { type: Number, required: true },
-  shops: [{ type: Schema.Types.ObjectId, ref: 'Shop' }],
-  payments: [{ type: Schema.Types.ObjectId, ref: 'Payment' }]
+  shops: [{ type: Schema.Types.ObjectId, ref: Shop.modelName }],
+  payments: [{ type: Schema.Types.ObjectId, ref: Payment.modelName }]
 });
 
-export const Client = mongoose.models.Client || model<IClient>('Client', clientSchema, 'clients');
+export const Client: Model<IClient> =
+  mongoose.models.Client || model<IClient>('Client', clientSchema, 'clients');

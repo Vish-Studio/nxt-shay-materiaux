@@ -47,7 +47,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, initialUse
       try {
         const apiBody = { id: currentUser._id };
         const response = await authApi.me(apiBody);
-        setUser(response.data);
+        setUser(response.data ?? null);
       } catch (err) {
         setError('Failed to fetch user data');
       } finally {
