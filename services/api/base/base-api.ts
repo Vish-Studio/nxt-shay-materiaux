@@ -4,34 +4,6 @@ import type { TBody, TError, IApiResponse, TFetchMethod } from '@/types/api/base
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
-const formatResponse = <T>(
-  response: AxiosResponse<IApiResponse<T>> | AxiosError<TError>
-): IApiResponse<T> => {
-  if (axios.isAxiosError(response)) {
-    return {
-      status: 'error',
-      message: response.response?.data.message ?? response.message,
-      statusCode: response.response?.status ?? 500,
-      data: (response.response?.data as T) || null
-    };
-  }
-
-  return response.data;
-};
-
-const handleError = <T>(error: unknown): IApiResponse<T> => {
-  if (axios.isAxiosError(error)) {
-    return formatResponse<T>(error);
-  }
-
-  return {
-    status: 'error',
-    message: GENERIC_SERVER_ERROR,
-    statusCode: 500,
-    data: null
-  };
-};
-
 interface IApiService {
   post<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>>;
   get<T>(endpoint: string): Promise<IApiResponse<T>>;
@@ -47,6 +19,34 @@ class ApiService implements IApiService {
     this.baseUrl = this.envBaseUrl;
   }
 
+  private formatResponse<T>(
+    response: AxiosResponse<IApiResponse<T>> | AxiosError<TError>
+  ): IApiResponse<T> {
+    if (axios.isAxiosError(response)) {
+      return {
+        status: 'error',
+        message: response.response?.data.message ?? response.message,
+        statusCode: response.response?.status ?? 500,
+        data: (response.response?.data as T) || null
+      };
+    }
+
+    return response.data;
+  }
+
+  private handleError<T>(error: unknown): IApiResponse<T> {
+    if (axios.isAxiosError(error)) {
+      return this.formatResponse<T>(error);
+    }
+
+    return {
+      status: 'error',
+      message: GENERIC_SERVER_ERROR,
+      statusCode: 500,
+      data: null
+    };
+  }
+
   private async request<T>(
     method: TFetchMethod,
     endpoint: string,
@@ -56,9 +56,9 @@ class ApiService implements IApiService {
     try {
       const config = body ? { data: body } : {};
       const response: AxiosResponse = await axios({ method, url, ...config });
-      return formatResponse(response);
+      return this.formatResponse(response);
     } catch (error) {
-      return handleError(error);
+      return this.handleError(error);
     }
   }
 
