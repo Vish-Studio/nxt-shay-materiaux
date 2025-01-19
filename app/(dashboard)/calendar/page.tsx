@@ -10,9 +10,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Schedule from '@/components/calendar/schedule/schedule';
+import ButtonIcon from '@/components/button-icon/button-icon';
 
 
-export default function Clients() {
+export default function Calendar() {
   const [searchResults, setSearchResults] = useState('');
   const router = useRouter();
 
@@ -39,8 +40,25 @@ export default function Clients() {
           </LocalizationProvider>
 
           <section className='schedules-list'>
-            <div className="title">
-              <h2>Schedules</h2>
+            <div className="header">
+              <div className="text">
+                <h2>Reminders</h2>
+                <p>You have {2} reminders today.</p>
+              </div>
+
+              <div className="actions">
+                <ButtonIcon
+                  className='btn-sort'
+                  icon='swap_vert'
+                  onClick={() => { }}
+                />
+
+                <ButtonIcon
+                  className='btn-filter'
+                  icon='filter_list'
+                  onClick={() => { }}
+                />
+              </div>
             </div>
 
             <div className="schedules">

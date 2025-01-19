@@ -12,9 +12,9 @@ interface TableFilterProps {
 }
 
 const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest }) => {
-  const handleSort = () => {};
+  const handleSort = () => { };
 
-  const handleFilter = () => {};
+  const handleFilter = () => { };
 
   return (
     <thead className="table-filter">
@@ -36,6 +36,12 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest })
 
         <td>
           <div className="tab-sort">
+            <button>
+              <Icon iconName="swap_vert" />
+            </button>
+          </div>
+
+          <div className="tab-filter">
             <button>
               <Icon iconName="swap_vert" />
             </button>

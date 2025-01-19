@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import IconProps from './type/icon-props';
+import './styles.scss'
 
 const Icon: FunctionComponent<IconProps> = ({ className, iconName, clickHandler }) => {
-  // const classNames = `icon material-symbols-outlined symbol${className ?? ''}`;
   const classNames = `icon symbol${className ?? ''}`;
 
   return (
