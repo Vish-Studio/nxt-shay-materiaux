@@ -2,7 +2,7 @@
   .main-content {
     margin-top: 75px;
 
-    .css-5wchs2-MuiDateCalendar-root {
+    .MuiDateCalendar-root {
       color: #fff;
       background-color: #1d1d1d;
       border-radius: 20px;
@@ -13,24 +13,28 @@
       right: 16px;
       top: 70px;
 
-      .css-1rl1vrc-MuiDayCalendar-header,
-      .css-1pv2de5-MuiDayCalendar-weekContainer {
+      .MuiDayCalendar-header,
+      .MuiDayCalendar-weekContainer {
         justify-content: space-evenly;
       }
 
-      .css-xp4e7m-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button,
-      .css-1bsiu4i-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button,
-      .css-17f9e7e-MuiTypography-root-MuiDayCalendar-weekDayLabel,
-      .css-4k4mmf-MuiButtonBase-root-MuiPickersDay-root,
-      .css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+      .MuiPickersArrowSwitcher-button,
+      .MuiDayCalendar-weekContainer,
+      .MuiDayCalendar-weekDayLabel,
+      .MuiPickersDay-root,
+      .MuiPickersDay-root:not(.Mui-selected) {
         color: #ffffff;
       }
 
-      .css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+      .MuiPickersDay-root:not(.Mui-selected) {
         border-color: #ffffff;
       }
 
-      .css-1fx2l1t-MuiButtonBase-root-MuiPickersDay-root {
+      .MuiPickersDay-root.Mui-selected {
+        background-color: #4f4f4f;
+      }
+
+      .MuiPickersDay-root {
         color: #ffffff99;
       }
     }
