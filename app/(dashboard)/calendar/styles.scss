@@ -18,11 +18,23 @@
         justify-content: space-evenly;
       }
 
+      .MuiPickersYear-root {
+        .Mui-selected {
+          background-color: #4f4f4f;
+        }
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
       .MuiPickersArrowSwitcher-button,
       .MuiDayCalendar-weekContainer,
       .MuiDayCalendar-weekDayLabel,
       .MuiPickersDay-root,
-      .MuiPickersDay-root:not(.Mui-selected) {
+      .MuiPickersDay-root:not(.Mui-selected),
+      .MuiIconButton-root {
         color: #ffffff;
       }
 
@@ -41,14 +53,26 @@
   }
 
   .schedules-list {
-    margin-top: 430px;
+    margin-top: 415px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 22px;
 
     .header {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      // position: fixed;
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      width: auto;
+      background-color: #ffffff;
+      padding: 16px 0;
+      z-index: 1;
 
       .text {
         gap: 4px;
@@ -78,7 +102,8 @@
       flex-direction: column;
       gap: 18px;
       position: relative;
-      top: 20px;
+      top: 80px;
+      width: 100%;
     }
   }
 
