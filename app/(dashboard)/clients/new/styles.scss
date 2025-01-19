@@ -1,13 +1,28 @@
 .new-clients-page {
   .content {
     margin-top: 100px;
+    padding-bottom: 75px;
   }
 
   form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 35px;
     label {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-weight: 600;
       color: #606060;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      span {
+        font-size: 13px;
+        color: #9f9f9f;
+      }
     }
   }
 
