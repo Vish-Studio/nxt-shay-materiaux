@@ -9,5 +9,5 @@ export default interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   variant?: 'rounded' | 'normal';
   iconName?: string;
   isDisabled?: boolean;
-  clickHandler?: () => void;
+  clickHandler?: (data: any) => void;
 }
