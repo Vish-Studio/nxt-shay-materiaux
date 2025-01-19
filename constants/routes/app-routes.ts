@@ -4,8 +4,13 @@ export const appRoutes = {
     index: '/clients',
     new: '/clients/new'
   },
+  calendar: {
+    index: '/calendar',
+    new: '/calendar/new'
+  },
   products: {
-    index: '/products'
+    index: '/products',
+    new: '/products/new'
   },
   signIn: {
     index: '/sign-in'

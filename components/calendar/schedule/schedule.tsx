@@ -9,10 +9,12 @@ const Schedule: FunctionComponent<SchedulesProps> = ({
   time,
   color = 'client',
   restrictLength,
-  isEmpty
+  isEmpty,
+  isMainComp,
+  ...rest
 }) => {
   return (
-    <div className={`schedule ${className} ${color} ${isEmpty ? 'empty' : ''}`}>
+    <div className={`schedule ${className} ${color} ${isEmpty ? 'empty' : ''} ${isMainComp ? 'main' : ''}`} {...rest}>
       {title ?
         <>
           <div className="spacer"></div>
@@ -23,7 +25,9 @@ const Schedule: FunctionComponent<SchedulesProps> = ({
             </p>
 
             <div className="time">
-              <Icon iconName="schedule" />
+              {!isMainComp && (
+                <Icon iconName="schedule" />
+              )}
               <p className="time__text">{time}</p>
             </div>
           </div>

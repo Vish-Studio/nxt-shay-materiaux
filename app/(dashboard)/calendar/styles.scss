@@ -1,0 +1,65 @@
+.page-calendar {
+  .main-content {
+    margin-top: 75px;
+
+    .css-5wchs2-MuiDateCalendar-root {
+      color: #fff;
+      background-color: #1d1d1d;
+      border-radius: 20px;
+      width: auto;
+      margin-bottom: 20px;
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      top: 70px;
+
+      .css-1rl1vrc-MuiDayCalendar-header,
+      .css-1pv2de5-MuiDayCalendar-weekContainer {
+        justify-content: space-evenly;
+      }
+
+      .css-xp4e7m-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button,
+      .css-1bsiu4i-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button,
+      .css-17f9e7e-MuiTypography-root-MuiDayCalendar-weekDayLabel,
+      .css-4k4mmf-MuiButtonBase-root-MuiPickersDay-root,
+      .css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+        color: #ffffff;
+      }
+
+      .css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected) {
+        border-color: #ffffff;
+      }
+
+      .css-1fx2l1t-MuiButtonBase-root-MuiPickersDay-root {
+        color: #ffffff99;
+      }
+    }
+  }
+
+  .schedules-list {
+    margin-top: 430px;
+
+    .title {
+      margin-bottom: 14px;
+      position: fixed;
+      h2 {
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+
+    .schedules {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      top: 40px;
+    }
+  }
+
+  .button-fab.normal {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+  }
+}

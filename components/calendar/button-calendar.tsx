@@ -6,6 +6,8 @@ import './styles.scss';
 import Icon from "../icon/icon";
 import Schedule from "./schedule/schedule";
 import fakeData from './schedule/data.json'
+import { useRouter } from "next/navigation";
+import { appRoutes } from "@/constants/routes/app-routes";
 
 const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
   className = "",
@@ -65,10 +67,11 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
     return monthTxt;
   }
 
-  const [active, setActive] = useState(true)
+  const router = useRouter();
+
 
   return (
-    <div className={`button-calendar ${className}`} onClick={() => setActive(!active)}>
+    <div className={`button-calendar ${className}`} onClick={() => router.push(appRoutes.calendar.index)}>
       <div className="date">
         <div className="today">
           <Icon iconName="today" />
@@ -83,7 +86,7 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
       <div className="schedules">
 
 
-        {active ?
+        {items ?
           <>
             {
               items && items?.data?.map((item, key) => (

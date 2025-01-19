@@ -14,6 +14,7 @@ const TopBar: FunctionComponent<TopBarProps> = ({
   leftIcon,
   redirectBackLink = '/',
   title,
+  titleCenter,
   hasSearch = false
 }) => {
   const route = useRouter();
@@ -23,8 +24,8 @@ const TopBar: FunctionComponent<TopBarProps> = ({
   }
 
   return (
-    <div className={`top-bar ${className}`}>
-      <div>
+    <div className={`top-bar ${className} ${titleCenter ? 'centered' : ''}`}>
+      <div className="btn-back">
         {
           leftIcon ? (
             <Icon iconName={leftIcon} clickHandler={() => route.push(redirectBackLink)} />
@@ -48,14 +49,14 @@ const TopBar: FunctionComponent<TopBarProps> = ({
             </div>
           )
         }
-        {
-          hasSearch && (
-            <button className="btn-search" onClick={btnSearch}>
-              <Icon iconName={`${showSearchBar ? 'close' : 'search'}`} />
-            </button>
-          )
-        }
       </div>
+      {
+        hasSearch && (
+          <button className="btn-search" onClick={btnSearch}>
+            <Icon iconName={`${showSearchBar ? 'close' : 'search'}`} />
+          </button>
+        )
+      }
     </div>
   )
 }

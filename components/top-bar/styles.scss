@@ -15,6 +15,10 @@
     align-items: center;
     text-decoration: none;
   }
+
+  &.centered .title {
+    justify-content: center;
+  }
 }
 
 .top-bar .title {

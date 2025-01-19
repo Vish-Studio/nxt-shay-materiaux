@@ -3,5 +3,6 @@ export default interface TopBarProps {
   leftIcon?: string;
   redirectBackLink?: string | void;
   title?: string;
+  titleCenter?: boolean;
   hasSearch?: boolean;
 }

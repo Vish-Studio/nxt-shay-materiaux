@@ -5,4 +5,6 @@ export default interface SchedulesProps {
   color?: 'client' | 'product' | 'payment' | string;
   restrictLength?: boolean;
   isEmpty?: boolean;
+  isMainComp?: boolean;
+  onClick?: () => void;
 }
