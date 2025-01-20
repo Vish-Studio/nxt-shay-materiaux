@@ -16,4 +16,16 @@
     right: 16px;
     bottom: 16px;
   }
+
+  .products-table-list {
+    .table-cell {
+      &.name {
+        flex: 3 1;
+      }
+
+      &.date {
+        text-align: right;
+      }
+    }
+  }
 }

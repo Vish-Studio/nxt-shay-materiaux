@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import type { ReactNode, TableHTMLAttributes } from 'react';
+import type { ReactNode, HTMLAttributes } from 'react';
 
 import { renderValidReactNode } from '@/utils/react';
 
@@ -8,18 +8,30 @@ import './styles.scss';
 export interface IColumn<T> {
   title: string;
   dataIndex: keyof T;
+  className?: string;
   render?: (value: T[keyof T], record: T) => ReactNode;
 }
 
-interface ITableListV2Props<T> extends TableHTMLAttributes<HTMLTableElement> {
+interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
   columns: IColumn<T>[];
   data: T[];
+  hideHeader?: boolean;
   onRowClick?: (record: T) => void;
+  containerClassName?: string;
+  rowClassName?: string;
+  headerClassName?: string;
 }
 
-export const TableListV2 = <T,>(props: ITableListV2Props<T>) => {
-  const { columns, data, onRowClick, ...rest } = props;
-
+export const TableListV2 = <T,>({
+  columns,
+  data,
+  hideHeader,
+  onRowClick,
+  containerClassName,
+  rowClassName,
+  headerClassName,
+  ...rest
+}: ITableListV2Props<T>) => {
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
 
   const generateKey = (record: T) => JSON.stringify(record);
@@ -33,38 +45,48 @@ export const TableListV2 = <T,>(props: ITableListV2Props<T>) => {
   );
 
   return (
-    <table
-      className="table-list"
+    <div
+      className={`table-container ${containerClassName ?? ''}`}
       {...rest}
     >
-      <thead>
-        <tr>
+      {!hideHeader && (
+        <div className={`table-header ${headerClassName ?? ''}`}>
           {columns.map((column) => (
-            <th key={column.title}>{column.title}</th>
+            <div
+              key={column.title}
+              className={`table-header-cell ${column.className ?? ''}`}
+            >
+              {column.title}
+            </div>
           ))}
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+      )}
+      <div className="table-body">
         {data.map((record, _) => {
           const key = generateKey(record);
 
           return (
-            <tr
+            <button
               key={key}
-              className={record === selectedRecord ? 'selected' : ''}
+              className={`table-row ${rowClassName ?? ''} ${
+                record === selectedRecord ? 'selected' : ''
+              }`}
               onClick={() => handleRowClick(record)}
             >
               {columns.map((column) => (
-                <td key={column.dataIndex as string}>
+                <div
+                  key={column.dataIndex as string}
+                  className={`table-cell ${column.className ?? ''}`}
+                >
                   {column.render
                     ? column.render(record[column.dataIndex], record)
                     : renderValidReactNode(record[column.dataIndex])}
-                </td>
+                </div>
               ))}
-            </tr>
+            </button>
           );
         })}
-      </tbody>
-    </table>
+      </div>
+    </div>
   );
 };

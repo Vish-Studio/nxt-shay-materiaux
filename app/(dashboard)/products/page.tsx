@@ -12,7 +12,6 @@ import { useApiFetch } from '@/hooks/use-api-fetch';
 import { IProduct } from '@/types/api/product';
 import { apiRoutes } from '@/constants/routes/api-routes';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
-import { ICategory } from '@/types/api/category';
 
 export default function Products() {
   const [slug, setSlug] = useState<string>('plasticbags');
@@ -23,21 +22,36 @@ export default function Products() {
   const columns: IColumn<IProduct>[] = [
     {
       title: 'Name',
-      dataIndex: 'name'
+      dataIndex: 'name',
+      className: 'name',
+      render: (value, record) => (
+        <>
+          <p className="title">{value as string}</p>
+          <span className="subtitle">{record.category?.name}</span>
+        </>
+      )
     },
     {
-      title: 'Category',
-      dataIndex: 'category',
-      render: (value) => (value as ICategory)?.name
+      title: 'Qty',
+      dataIndex: 'quantity',
+      className: 'quantity',
+      render: (value) => (
+        <>
+          <p className="title">Qty</p>
+          <span className="subtitle">{`${value as number} pieces`}</span>
+        </>
+      )
     },
     {
-      title: 'Quantity',
-      dataIndex: 'quantity'
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      render: (value) => (typeof value === 'number' ? `Rs ${value}` : '')
+      title: 'Date',
+      dataIndex: 'moreInfo', // TODO: To change to date
+      className: 'date',
+      render: (value) => (
+        <>
+          <p className="title">Date</p>
+          <span className="subtitle">Monday</span>
+        </>
+      )
     }
   ];
 
@@ -64,8 +78,10 @@ export default function Products() {
           clickEvent={() => {}}
         /> */}
         <TableListV2
+          containerClassName="products-table-list"
           columns={columns}
           data={productsData ?? []}
+          hideHeader
           onRowClick={(record) => {
             console.log('Column clicked', record);
           }}
