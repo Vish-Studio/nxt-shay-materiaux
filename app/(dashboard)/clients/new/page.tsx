@@ -7,8 +7,13 @@ import { useForm } from 'react-hook-form';
 import './styles.scss'
 import Button from '@/components/button/button';
 
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap from '@/components/google-maps/google-map';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import React from 'react';
 
 
 export default function NewClients() {
@@ -18,6 +23,8 @@ export default function NewClients() {
     handleSubmit,
     formState: { errors }
   } = useForm();
+
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
   const onSubmit = async (data: any) => {
     console.log('');
@@ -34,7 +41,10 @@ export default function NewClients() {
       <div className="content">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="general-info vertical-fields">
-            <label htmlFor="firstName">General info</label>
+            <div className="header">
+              <label htmlFor="firstName">General info</label>
+              <span>Basic client info</span>
+            </div>
 
             <FormInput
               {...register('firstName', { required: true })}
@@ -101,8 +111,8 @@ export default function NewClients() {
               hint="City"
             />
 
-            <div className="google-maps">
-              <GoogleMap zoom={9} />
+            <div className="maps">
+              <GoogleMap zoom={17} />
             </div>
           </div>
 
@@ -134,22 +144,21 @@ export default function NewClients() {
               <span>Add delivery date for reminders.</span>
             </div>
 
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker label="Basic date picker" />
+              </DemoContainer>
+            </LocalizationProvider>
+
             <FormInput
               {...register('date', { required: false, })}
               title="date"
               type="text"
               hint="Delivery Date"
             />
-
-            <FormInput
-              {...register('brn', { required: false })}
-              title="brn"
-              type="text"
-              hint="BRN"
-            />
           </div>
         </form>
-      </div>
+      </div >
 
       <div className="btn-submit">
         <Button
@@ -159,6 +168,6 @@ export default function NewClients() {
           clickHandler={onSubmit}
         />
       </div>
-    </section>
+    </section >
   )
 }
