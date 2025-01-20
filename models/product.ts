@@ -1,4 +1,5 @@
 import type { IProduct } from '@/types/api/product';
+import { PaymentStatus } from '@/enums/payment-status';
 
 import { categorySchema } from './category';
 
@@ -16,7 +17,12 @@ export const productSchema = new Schema<IProduct>({
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
   price: { type: Number, required: true },
   buyingPrice: { type: Number, required: true },
-  moreInfo: { type: String }
+  moreInfo: { type: String },
+  paymentStatus: {
+    type: String,
+    enum: Object.keys(PaymentStatus).map((key) => key.toLowerCase()),
+    required: true
+  }
 });
 
 export const Product: Model<IProduct> =

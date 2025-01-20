@@ -19,6 +19,10 @@
 
   .products-table-list {
     .table-cell {
+      &.status {
+        flex: 0 0 30px;
+      }
+
       &.name {
         flex: 3 1;
       }

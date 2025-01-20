@@ -12,6 +12,8 @@ import { useApiFetch } from '@/hooks/use-api-fetch';
 import { IProduct } from '@/types/api/product';
 import { apiRoutes } from '@/constants/routes/api-routes';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
+import TagPayment from '@/components/table/tag-payment/tag-payment';
+import type { TPaymentStatusValues } from '@/types/payment-status';
 
 export default function Products() {
   const [slug, setSlug] = useState<string>('plasticbags');
@@ -20,6 +22,14 @@ export default function Products() {
   const { data: productsData } = useApiFetch<IProduct[]>({ endpoint: apiRoutes.products.index });
 
   const columns: IColumn<IProduct>[] = [
+    {
+      title: 'Status',
+      dataIndex: 'paymentStatus',
+      className: 'status',
+      render: (value) => {
+        return <TagPayment status={value?.toString() as TPaymentStatusValues} />;
+      }
+    },
     {
       title: 'Name',
       dataIndex: 'name',
