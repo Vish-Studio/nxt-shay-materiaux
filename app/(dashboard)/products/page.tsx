@@ -34,34 +34,19 @@ export default function Products() {
       title: 'Name',
       dataIndex: 'name',
       className: 'name',
-      render: (value, record) => (
-        <>
-          <p className="title">{value as string}</p>
-          <span className="subtitle">{record.category?.name}</span>
-        </>
-      )
+      render: (value) => <span className="text-muted">{value as string}</span>
     },
     {
       title: 'Qty',
       dataIndex: 'quantity',
       className: 'quantity',
-      render: (value) => (
-        <>
-          <p className="title">Qty</p>
-          <span className="subtitle">{`${value as number} pieces`}</span>
-        </>
-      )
+      render: (value) => <span className="text-secondary">{`${value as number} pieces`}</span>
     },
     {
       title: 'Date',
       dataIndex: 'moreInfo', // TODO: To change to date
       className: 'date',
-      render: (value) => (
-        <>
-          <p className="title">Date</p>
-          <span className="subtitle">Monday</span>
-        </>
-      )
+      render: (value) => <span className="text-secondary">Monday</span>
     }
   ];
 
