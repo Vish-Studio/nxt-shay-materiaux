@@ -1,6 +1,32 @@
+import withPWA from 'next-pwa';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false
+  // Add security headers for PWA
+  reactStrictMode: false,
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+const pwaConfig = {
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+};
+
+export default withPWA(pwaConfig)(nextConfig);
