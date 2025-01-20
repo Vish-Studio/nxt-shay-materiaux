@@ -4,6 +4,7 @@ import {
   Map,
   Pin
 } from '@vis.gl/react-google-maps';
+import './styles.scss'
 
 interface GoogleMapProps {
   zoom: number,
@@ -29,10 +30,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
 
   return (
     <APIProvider apiKey={googleMapKey}>
-      <div style={{
-        width: '100%',
-        height: '100%'
-      }}>
+      <div className="google-maps">
         <Map zoom={zoom} center={{ lat: 54, lng: 100 }}></Map>
       </div>
     </APIProvider>
