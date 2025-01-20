@@ -1,19 +1,15 @@
-import { FunctionComponent } from "react"
-import './styles.scss'
+import type { FunctionComponent } from 'react';
+import type { TPaymentStatusValues } from '@/types/payment-status';
 
+import './styles.scss';
 
 interface TagPaymentProps {
   classname?: string;
-  status: 'pending' | 'paid';
+  status: TPaymentStatusValues;
 }
 
-const TagPayment: FunctionComponent<TagPaymentProps> = ({
-  classname,
-  status
-}) => {
-  return (
-    <div className={`tag-payment ${classname} ${status}`}></div>
-  )
-}
+const TagPayment: FunctionComponent<TagPaymentProps> = ({ classname, status }) => {
+  return <div className={`tag-payment ${classname} ${status}`}></div>;
+};
 
 export default TagPayment;

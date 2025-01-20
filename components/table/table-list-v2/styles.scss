@@ -1,56 +1,64 @@
-.table-list {
+.table-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 
-  tr {
+  .table-header,
+  .table-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
     border-bottom: 1px solid #dfdfdf;
-    height: 55px;
-    padding: 25px 0;
-    transition: all 0.3s ease-in-out;
+    padding: 12px 0;
+  }
+
+  .table-header {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .table-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-header-cell,
+  .table-cell {
+    flex: 1;
+    text-align: left;
+  }
+
+  .table-row {
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+
     &.selected {
       border-color: #1d1d1d;
     }
   }
 
-  tbody,
-  thead {
-    position: relative;
-    top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+  span {
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-    td {
-      &:last-child {
-        text-align: right;
-      }
+  .text-muted {
+    font-size: 14px;
+    font-weight: 600;
+    color: #606060;
+  }
 
-      p {
-        font-size: 14px;
-        font-weight: 600;
-        color: #1d1d1d;
-      }
+  .text-primary {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1d;
+  }
 
-      span {
-        font-size: 12px;
-        font-weight: 500;
-        color: #959595;
-      }
-
-      &.status {
-        width: 5%;
-      }
-      &.name {
-        width: 37%;
-      }
-      &.phone {
-        width: 30%;
-      }
-      &.date {
-        width: 25%;
-      }
-    }
+  .text-secondary {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.4px;
+    color: #959595;
   }
 }
