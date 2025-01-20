@@ -8,9 +8,11 @@ import './styles.scss'
 import Button from '@/components/button/button';
 
 import { ButtonTypes } from '@/enums/button-types';
+import GoogleMap from '@/components/google-maps/google-map';
 
 
 export default function NewClients() {
+
   const {
     register,
     handleSubmit,
@@ -98,6 +100,10 @@ export default function NewClients() {
               type="text"
               hint="City"
             />
+
+            <div className="google-maps">
+              <GoogleMap zoom={9} />
+            </div>
           </div>
 
 
