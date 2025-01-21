@@ -1,0 +1,44 @@
+.linear-progress {
+  &-container {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    &.relative {
+      position: relative;
+    }
+  }
+
+  &-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+
+    &.indeterminate {
+      position: absolute;
+      left: 0;
+      animation: indeterminate 1.5s infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -100%;
+    width: 100%;
+  }
+  50% {
+    left: 25%;
+    width: 50%;
+  }
+  100% {
+    left: 100%;
+    width: 100%;
+  }
+}

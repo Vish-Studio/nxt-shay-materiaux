@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import type { TFetchMethod, IApiResponse, TResponseStatus, TBody } from '@/types/api/base';
-import { api } from '@/services/api/base/base-api';
 
-interface IUseApiFetchOptions {
-  endpoint: string;
-  method?: TFetchMethod;
-  body?: TBody;
+import type { IApiResponse, TResponseStatus } from '@/types/api/base';
+
+export interface IUseApiFetchOptions<T> {
+  serviceFn: () => Promise<IApiResponse<T>>;
 }
 
-export const useApiFetch = <T>({ endpoint, method = 'get', body }: IUseApiFetchOptions) => {
+export const useApiFetch = <T>({ serviceFn }: IUseApiFetchOptions<T>) => {
   const [data, setData] = useState<T | null>(null);
   const [status, setStatus] = useState<TResponseStatus>('pending');
   const [loading, setLoading] = useState<boolean>(false);
@@ -20,25 +18,19 @@ export const useApiFetch = <T>({ endpoint, method = 'get', body }: IUseApiFetchO
       setError(null);
 
       try {
-        const response: IApiResponse<T> = await api[method]<T>(endpoint, body ?? {});
-
-        if (response.status === 'success') {
-          setStatus(response.status);
-          setData(response.data ?? null);
-        } else {
-          setStatus(response.status);
-          setError(response.message || 'Failed to fetch data');
-        }
-      } catch (error) {
+        const response = await serviceFn();
+        setData(response.data ?? null);
+        setStatus('success');
+      } catch (err: any) {
         setStatus('error');
-        setError('An error occurred while fetching data');
+        setError(err.message || 'An error occurred while fetching data');
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [endpoint, method, body]);
+  }, [serviceFn]);
 
   return { data, status, loading, error };
 };

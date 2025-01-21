@@ -1,25 +1,29 @@
 'use client';
 
+import { useState } from 'react';
+
 import ButtonFab from '@/components/button-fab/button-fab';
 import InfoCard from '@/components/info-card/info-card';
 import TopBar from '@/components/top-bar/top-bar';
-import { useState } from 'react';
-
-import './styles.scss';
 import TableFilter from '@/components/table/table-filter/table-filter';
 import TableList from '@/components/table/table-list/table-list';
 import { useApiFetch } from '@/hooks/use-api-fetch';
-import { IProduct } from '@/types/api/product';
-import { apiRoutes } from '@/constants/routes/api-routes';
-import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
+import type { IProduct } from '@/types/api/product';
+import { type IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
 import TagPayment from '@/components/table/tag-payment/tag-payment';
 import type { TPaymentStatusValues } from '@/types/payment-status';
+import { productApiService } from '@/services/api/product';
+import { getDayOfWeek } from '@/utils/date';
+
+import './styles.scss';
 
 export default function Products() {
   const [slug, setSlug] = useState<string>('plasticbags');
   const [isInfo, setIsInfo] = useState<boolean>(false);
 
-  const { data: productsData } = useApiFetch<IProduct[]>({ endpoint: apiRoutes.products.index });
+  const { data: productsData, loading: productsDataLoading } = useApiFetch<IProduct[]>({
+    serviceFn: productApiService.getProducts
+  });
 
   const columns: IColumn<IProduct>[] = [
     {
@@ -44,11 +48,30 @@ export default function Products() {
     },
     {
       title: 'Date',
-      dataIndex: 'moreInfo', // TODO: To change to date
+      dataIndex: 'createdAt',
       className: 'date',
-      render: (value) => <span className="text-secondary">Monday</span>
+      render: (value) => {
+        const dayOfWeek = getDayOfWeek(value as string);
+        return <span className="text-secondary">{dayOfWeek}</span>;
+      }
     }
   ];
+
+  // This is for testing purpose only
+  const AddProductTest = () => {
+    const testAdd = () => {
+      productApiService.createProduct({
+        name: 'Test Product',
+        quantity: 100,
+        category: '678ac6dddb99f228bc59538c',
+        price: 1000,
+        buyingPrice: 800,
+        paymentStatus: 'paid'
+      });
+    };
+
+    return <button onClick={testAdd}>Add Product TEST</button>;
+  };
 
   return (
     <main className="page-products">
@@ -73,14 +96,17 @@ export default function Products() {
           clickEvent={() => {}}
         /> */}
         <TableListV2
-          containerClassName="products-table-list"
           columns={columns}
           data={productsData ?? []}
+          loading={productsDataLoading}
           hideHeader
           onRowClick={(record) => {
             console.log('Column clicked', record);
           }}
+          containerClassName="products-table-list"
         />
+
+        <AddProductTest />
       </section>
 
       <ButtonFab

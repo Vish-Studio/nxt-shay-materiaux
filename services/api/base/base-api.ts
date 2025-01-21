@@ -5,10 +5,10 @@ import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
 interface IApiService {
-  post<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>>;
+  post<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>>;
   get<T>(endpoint: string): Promise<IApiResponse<T>>;
-  put<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>>;
-  delete<T>(endpoint: string, body?: TBody): Promise<IApiResponse<T>>;
+  put<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>>;
+  delete<T, U = TBody>(endpoint: string, body?: U): Promise<IApiResponse<T>>;
 }
 
 class ApiService implements IApiService {
@@ -47,10 +47,10 @@ class ApiService implements IApiService {
     };
   }
 
-  private async request<T>(
+  private async request<T, U>(
     method: TFetchMethod,
     endpoint: string,
-    body?: TBody
+    body?: U
   ): Promise<IApiResponse<T>> {
     const url = `${this.baseUrl}${endpoint}`;
     try {
@@ -62,20 +62,20 @@ class ApiService implements IApiService {
     }
   }
 
-  public post<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>> {
-    return this.request<T>('post', endpoint, body);
+  public post<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>> {
+    return this.request<T, U>('post', endpoint, body);
   }
 
   public get<T>(endpoint: string): Promise<IApiResponse<T>> {
-    return this.request<T>('get', endpoint);
+    return this.request<T, undefined>('get', endpoint);
   }
 
-  public put<T>(endpoint: string, body: TBody): Promise<IApiResponse<T>> {
-    return this.request<T>('put', endpoint, body);
+  public put<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>> {
+    return this.request<T, U>('put', endpoint, body);
   }
 
-  public delete<T>(endpoint: string, body?: TBody): Promise<IApiResponse<T>> {
-    return this.request<T>('delete', endpoint, body);
+  public delete<T, U = TBody>(endpoint: string, body?: U): Promise<IApiResponse<T>> {
+    return this.request<T, U>('delete', endpoint, body);
   }
 }
 

@@ -10,6 +10,11 @@ export type TFetchMethod = 'get' | 'post' | 'put' | 'delete';
 
 export type TResponseStatus = 'success' | 'fail' | 'error' | 'pending';
 
+export interface IBase {
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface IApiResponse<T = unknown> {
   status: TResponseStatus;
   message: string;

@@ -11,7 +11,7 @@ import TableList from '@/components/table/table-list/table-list';
 import { appRoutes } from '@/constants/routes/app-routes';
 import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
-import { apiRoutes } from '@/constants/routes/api-routes';
+import { clientsApi } from '@/services/api/client';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
@@ -19,9 +19,7 @@ export default function Clients() {
   const [isInfo, setIsInfo] = useState<boolean>(false);
   const router = useRouter();
 
-  const { data: clientsData } = useApiFetch<IClient[]>({
-    endpoint: apiRoutes.clients.index
-  });
+  const { data: clientsData } = useApiFetch<IClient[]>({ serviceFn: clientsApi.getAllClients });
 
   const handleTableClick = (data: IClient) => {
     let client: IClient = {
