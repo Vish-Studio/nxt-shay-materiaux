@@ -34,23 +34,28 @@ export default function NewClients() {
       <div className="content">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="general-info vertical-fields">
-            <label htmlFor="firstName">General info</label>
+            <div className="header">
+              <label htmlFor="firstName">General info</label>
+              <span>Fill in the required basic info.</span>
+            </div>
 
-            <FormInput
-              {...register('firstName', { required: true })}
-              title="firstName"
-              type="text"
-              hint="First Name"
-            />
-            {errors.firstName && <span>This field is required</span>}
+            <div className="horizontal-fields">
+              <FormInput
+                {...register('firstName', { required: true })}
+                title="firstName"
+                type="text"
+                hint="First Name"
+              />
+              {errors.firstName && <span>This field is required</span>}
 
-            <FormInput
-              {...register('lastName', { required: true, })}
-              title="lastName"
-              type="text"
-              hint="Last Name"
-            />
-            {errors.lastName && <span>This field is required</span>}
+              <FormInput
+                {...register('lastName', { required: true, })}
+                title="lastName"
+                type="text"
+                hint="Last Name"
+              />
+              {errors.lastName && <span>This field is required</span>}
+            </div>
 
             <FormInput
               {...register('nid', { required: true, })}
