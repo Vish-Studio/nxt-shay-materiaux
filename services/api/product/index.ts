@@ -13,7 +13,7 @@ interface IProductApiService {
   getProducts(): Promise<IApiResponse<IProduct[]>>;
   createProduct(product: IAddProductParams): Promise<IApiResponse<IProduct>>;
   updateProduct(product: IUpdateProductParams): Promise<IApiResponse<IProduct>>;
-  deleteProduct(product: IDeleteProductParams): Promise<IApiResponse<IProduct>>;
+  deleteProduct(product: IDeleteProductParams): Promise<IApiResponse<null>>;
 }
 
 class ProductApiService implements IProductApiService {
@@ -29,8 +29,8 @@ class ProductApiService implements IProductApiService {
     return await api.put<IProduct, IUpdateProductParams>(apiRoutes.products.index, product);
   }
 
-  public async deleteProduct(product: IDeleteProductParams): Promise<IApiResponse<IProduct>> {
-    return await api.delete<IProduct, IDeleteProductParams>(apiRoutes.products.index, product);
+  public async deleteProduct(product: IDeleteProductParams): Promise<IApiResponse<null>> {
+    return await api.delete<null, IDeleteProductParams>(apiRoutes.products.index, product);
   }
 }
 
