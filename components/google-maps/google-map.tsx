@@ -117,7 +117,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
 
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator && navigator.geolocation.getCurrentPosition((position) => {
       setCurrentLoc({
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -134,7 +134,6 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
           fullscreenControl={true}
           zoom={zoom}
           center={currentLoc}>
-
         </Map>
       </div >
     </APIProvider >
