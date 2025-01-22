@@ -17,8 +17,11 @@
     text-decoration: none;
   }
 
-  &.centered .title {
-    justify-content: center;
+  &.centered {
+    height: 65px;
+    .title {
+      justify-content: center;
+    }
   }
 }
 

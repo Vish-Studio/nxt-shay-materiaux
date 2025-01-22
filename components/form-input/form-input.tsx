@@ -9,6 +9,7 @@ import Icon from '../icon/icon';
 const FormInput: FunctionComponent<FormInputProps> = forwardRef(
   ({ className, title, hint, type, errorMessage, hasError, hasViewIcon = false, ...rest }, ref) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
+
     const viewClick = (e: any) => {
       e.preventDefault();
       setIsVisible(!isVisible);

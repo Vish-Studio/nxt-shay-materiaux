@@ -1,19 +1,24 @@
 'use client'
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import TopBar from '@/components/top-bar/top-bar';
 import '../styles.scss';
 import { appRoutes } from '@/constants/routes/app-routes';
 import FormInput from '@/components/form-input/form-input';
-import { useForm } from 'react-hook-form';
 import './styles.scss'
 import Button from '@/components/button/button';
 
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap from '@/components/google-maps/google-map';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider, DatePicker, DateTimePicker, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import { InputLabel, Select, MenuItem, FormHelperText, Checkbox, FormGroup, FormLabel } from '@mui/material';
 
 
 export default function NewClients() {
@@ -35,7 +40,7 @@ export default function NewClients() {
       <TopBar
         leftIcon="arrow_back"
         redirectBackLink={appRoutes.clients.index}
-        title="Add clients"
+        title="Add client"
       />
 
       <div className="content">
@@ -68,25 +73,24 @@ export default function NewClients() {
               {...register('nid', { required: true, })}
               title="nid"
               type="text"
-              hint="National ID"
+              hint="National ID (NID)"
             />
-            {errors.nid && <span>This field is required</span>}
           </div>
 
           <div className="contact-info vertical-fields">
-            <label htmlFor="tel">Contact</label>
+            <label htmlFor="phoneNumber">Contact</label>
 
             <div className="horizontal-fields">
               <FormInput
-                {...register('phone', { required: false })}
-                title="phone"
+                {...register('phoneNumber', { required: false })}
+                title="phoneNumber"
                 type="number"
                 hint="Phone"
               />
 
               <FormInput
-                {...register('mobile', { required: false })}
-                title="mobile"
+                {...register('mobileNumber', { required: false })}
+                title="mobileNumber"
                 type="number"
                 hint="Mobile"
               />
@@ -95,23 +99,30 @@ export default function NewClients() {
 
           <div className="address-info vertical-fields">
             <div className="header">
-              <label htmlFor="adress">Address</label>
+              <label htmlFor="address">Address</label>
               <span>Fill in required address or add from the map below.</span>
             </div>
 
             <FormInput
-              {...register('adress', { required: false })}
-              title="adress"
+              {...register('shops.address.name', { required: false })}
+              title="shops.address.name"
               type="text"
               hint="Addresse"
             />
 
             <FormInput
-              {...register('city', { required: false })}
-              title="city"
+              {...register('shops.address.city', { required: false })}
+              title="shops.address.city"
               type="text"
               hint="City"
             />
+          </div>
+
+          <div className="address-info vertical-fields">
+            <div className="header">
+              <label htmlFor="maps">Pin Point</label>
+              <span>Add the current location by clicking the (+) button</span>
+            </div>
 
             <div className="maps">
               <GoogleMap zoom={17} />
@@ -121,43 +132,103 @@ export default function NewClients() {
 
           <div className="business-info vertical-fields">
             <div className="header">
-              <label htmlFor="shopName">Company</label>
+              <label htmlFor="shops.shopName">Company</label>
               <span>Details about the company of the client.</span>
             </div>
 
             <FormInput
-              {...register('shopName', { required: false, })}
-              title="shopName"
+              {...register('shops.shopName', { required: false, })}
+              title="shop.shopName"
               type="text"
               hint="Shop name"
             />
 
             <FormInput
-              {...register('brn', { required: false })}
-              title="brn"
+              {...register('brnNumber', { required: false })}
+              title="brnNumber"
               type="text"
-              hint="BRN"
+              hint="Business Registration Number (BRN)"
             />
           </div>
 
           <div className="delivery-info vertical-fields">
             <div className="header">
-              <label htmlFor="shopName">Delivery</label>
+              <label htmlFor="deliveryDateTime">Delivery</label>
               <span>Add delivery date for reminders.</span>
             </div>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker', 'DatePicker']}>
-                <DatePicker label="Basic date picker" />
-              </DemoContainer>
-            </LocalizationProvider>
+            <FormControl component="fieldset">
+              <FormGroup aria-label="position" row>
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Mon"
+                  labelPlacement="bottom"
+                />
 
-            <FormInput
-              {...register('date', { required: false, })}
-              title="date"
-              type="text"
-              hint="Delivery Date"
-            />
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Tue"
+                  labelPlacement="bottom"
+                />
+
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Wed"
+                  labelPlacement="bottom"
+                />
+
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Thurs"
+                  labelPlacement="bottom"
+                />
+
+
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Fri"
+                  labelPlacement="bottom"
+                />
+
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Sat"
+                  labelPlacement="bottom"
+                />
+
+                <FormControlLabel
+                  value="bottom"
+                  control={<Checkbox />}
+                  label="Sun"
+                  labelPlacement="bottom"
+                />
+              </FormGroup>
+            </FormControl>
+          </div>
+
+          <div className="payment-info vertical-fields">
+            <div className="header">
+              <label htmlFor="deliveryDateTime">Payment Type</label>
+              <span>Select the payment type of this client.</span>
+            </div>
+
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel value="cash" control={<Radio />} label="Cash" />
+                <FormControlLabel value="juice" control={<Radio />} label="Juice" />
+                <FormControlLabel value="cheque" control={<Radio />} label="Cheque" />
+              </RadioGroup>
+            </FormControl>
           </div>
         </form>
       </div >
@@ -167,6 +238,7 @@ export default function NewClients() {
           title="Submit"
           titleBold={true}
           type={ButtonTypes.Button}
+          variant='rounded'
           clickHandler={onSubmit}
         />
       </div>

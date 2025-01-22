@@ -7,4 +7,11 @@
   .gmnoprint {
     display: none;
   }
+
+  button.gm-fullscreen-control {
+    top: unset !important;
+    bottom: 0;
+    border-radius: 35px !important;
+    background-color: #ffffff !important;
+  }
 }
