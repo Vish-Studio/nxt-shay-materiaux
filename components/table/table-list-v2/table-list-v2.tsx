@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import type { ReactNode, HTMLAttributes } from 'react';
 
 import { renderValidReactNode } from '@/utils/react';
+import { LinearProgress } from '@/components/linear-progress/linear-progress';
 
 import './styles.scss';
 
@@ -15,6 +16,7 @@ export interface IColumn<T> {
 interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
   columns: IColumn<T>[];
   data: T[];
+  loading?: boolean;
   hideHeader?: boolean;
   onRowClick?: (record: T) => void;
   containerClassName?: string;
@@ -25,6 +27,7 @@ interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
 export const TableListV2 = <T,>({
   columns,
   data,
+  loading,
   hideHeader,
   onRowClick,
   containerClassName,
@@ -49,6 +52,12 @@ export const TableListV2 = <T,>({
       className={`table-container ${containerClassName ?? ''}`}
       {...rest}
     >
+      {loading && (
+        <LinearProgress
+          isIndeterminate
+          position="relative"
+        />
+      )}
       {!hideHeader && (
         <div className={`table-header ${headerClassName ?? ''}`}>
           {columns.map((column) => (

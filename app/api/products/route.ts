@@ -1,4 +1,9 @@
 import { Product } from '@/models/product';
+import type {
+  IAddProductParams,
+  IDeleteProductParams,
+  IUpdateProductParams
+} from '@/types/api/product';
 import { dbConnect } from '@/utils/db-connect';
 import { createHttpResponse } from '@/utils/http';
 
@@ -19,19 +24,27 @@ export async function POST(req: Request) {
   try {
     await dbConnect();
 
-    const body = await req.json();
-    const { name, quantity, category, price, buyingPrice, moreInfo } = body;
+    const body = (await req.json()) as IAddProductParams;
+    const { name, quantity, category, price, buyingPrice, paymentStatus, moreInfo } = body;
 
-    if (!name || quantity == null || !price || !buyingPrice || !category) {
+    if (!name || quantity == null || !price || !buyingPrice || !category || !paymentStatus) {
       return createHttpResponse(
         'fail',
-        'Required fields are missing: name, quantity, price, buyingPrice, and category',
+        'Required fields are missing: name, quantity, price, buyingPrice, category and paymentStatus',
         null,
         400
       );
     }
 
-    const newProduct = new Product({ name, quantity, category, price, buyingPrice, moreInfo });
+    const newProduct = new Product({
+      name,
+      quantity,
+      category,
+      price,
+      buyingPrice,
+      paymentStatus,
+      moreInfo
+    });
     await newProduct.save();
 
     const populatedProduct = await Product.findById(newProduct._id).populate('category');
@@ -47,7 +60,7 @@ export async function PATCH(req: Request) {
   try {
     await dbConnect();
 
-    const body = await req.json();
+    const body = (await req.json()) as IUpdateProductParams;
     const { id, ...updates } = body;
 
     if (!id) {
@@ -73,7 +86,7 @@ export async function DELETE(req: Request) {
   try {
     await dbConnect();
 
-    const body = await req.json();
+    const body = (await req.json()) as IDeleteProductParams;
     const { id } = body;
 
     if (!id) {
