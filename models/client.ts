@@ -6,14 +6,15 @@ import { Shop } from './shop';
 import { Payment } from './payment';
 
 export const clientSchema = new Schema<IClient>({
-  createDateTime: { type: Number, required: true },
-  nid: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  brnNumber: { type: Number, required: true },
-  phoneNumber: { type: Number, required: true },
-  deliveryDateTime: { type: Number, required: true },
+  createDateTime: { type: Number, required: false },
+  firstName: { type: String, required: false },
+  lastName: { type: String, required: false },
+  nid: { type: String, required: false },
+  brnNumber: { type: Number, required: false },
+  phoneNumber: { type: Number, required: false },
+  mobileNumber: { type: Number, required: false },
   shops: [{ type: Schema.Types.ObjectId, ref: Shop.modelName }],
+  deliveryDateTime: { type: Number, required: false },
   payments: [{ type: Schema.Types.ObjectId, ref: Payment.modelName }]
 });
 

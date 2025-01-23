@@ -7,9 +7,9 @@ export interface IClient extends IPaymentType {
   firstName: string;
   lastName: string;
   nid: string;
-  brnNumber: number;
-  mobileNumber?: number;
-  phoneNumber: number;
+  brnNumber: number | null;
+  mobileNumber?: number | null;
+  phoneNumber: number | null;
   shops?: IShop[];
   deliveryDateTime: number;
   payments?: IPayment[];

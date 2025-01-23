@@ -6,6 +6,10 @@ class ClientsApi {
   public async getAllClients() {
     return await api.get<IClient[]>(apiRoutes.clients.index);
   }
+
+  public async addClient(body: any) {
+    return await api.post<IClient>(apiRoutes.clients.index, body);
+  }
 }
 
 export const clientsApi = new ClientsApi();

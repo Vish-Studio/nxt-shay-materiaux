@@ -1,11 +1,11 @@
-'use client'
-import React from 'react';
-import { useForm } from 'react-hook-form';
+'use client';
+import React, { useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import TopBar from '@/components/top-bar/top-bar';
 import '../styles.scss';
 import { appRoutes } from '@/constants/routes/app-routes';
 import FormInput from '@/components/form-input/form-input';
-import './styles.scss'
+import './styles.scss';
 import Button from '@/components/button/button';
 
 import { ButtonTypes } from '@/enums/button-types';
@@ -16,15 +16,39 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
-
+import { IClient } from '@/types/api/client';
 
 export default function NewClients() {
-
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors }
-  } = useForm();
+  } = useForm<IClient>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      nid: '',
+      brnNumber: null,
+      mobileNumber: null,
+      phoneNumber: null,
+      shops: [
+        {
+          shopName: '',
+          address: {
+            name: '',
+            city: ''
+          }
+        }
+      ],
+      deliveryDateTime: undefined,
+      payments: [
+        {
+          paymentType: 'cash'
+        }
+      ]
+    }
+  });
 
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
@@ -50,7 +74,7 @@ export default function NewClients() {
 
             <div className="horizontal-fields">
               <FormInput
-                {...register('firstName', { required: true })}
+                {...register('firstName', { required: false })}
                 title="firstName"
                 type="text"
                 hint="First Name"
@@ -58,7 +82,7 @@ export default function NewClients() {
               {errors.firstName && <span>This field is required</span>}
 
               <FormInput
-                {...register('lastName', { required: true, })}
+                {...register('lastName', { required: false })}
                 title="lastName"
                 type="text"
                 hint="Last Name"
@@ -67,7 +91,7 @@ export default function NewClients() {
             </div>
 
             <FormInput
-              {...register('nid', { required: true, })}
+              {...register('nid', { required: false })}
               title="nid"
               type="text"
               hint="National ID (NID)"
@@ -81,14 +105,14 @@ export default function NewClients() {
               <FormInput
                 {...register('phoneNumber', { required: false })}
                 title="phoneNumber"
-                type="number"
+                type="tel"
                 hint="Phone"
               />
 
               <FormInput
                 {...register('mobileNumber', { required: false })}
                 title="mobileNumber"
-                type="number"
+                type="tel"
                 hint="Mobile"
               />
             </div>
@@ -115,7 +139,7 @@ export default function NewClients() {
             />
           </div>
 
-          <div className="address-info vertical-fields">
+          <div className="address-map vertical-fields">
             <div className="header">
               <label htmlFor="maps">Pin Point</label>
               <span>Add the current location by clicking the (+) button</span>
@@ -126,7 +150,6 @@ export default function NewClients() {
             </div>
           </div>
 
-
           <div className="business-info vertical-fields">
             <div className="header">
               <label htmlFor="shops.shopName">Company</label>
@@ -134,7 +157,7 @@ export default function NewClients() {
             </div>
 
             <FormInput
-              {...register('shops.shopName', { required: false, })}
+              {...register('shops.0.shopName', { required: false })}
               title="shop.shopName"
               type="text"
               hint="Shop name"
@@ -154,57 +177,73 @@ export default function NewClients() {
               <span>Add delivery date for reminders.</span>
             </div>
 
-            <FormControl className="delivery-options" component="fieldset">
-              <FormGroup className='options-list' aria-label="position" row>
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Mon"
-                  labelPlacement="bottom"
-                />
+            <FormControl
+              className="delivery-options"
+              component="fieldset"
+            >
+              <FormGroup
+                className="options-list"
+                aria-label="position"
+                row
+              >
+                <>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(e) => console.log(e.target.name)}
+                        name="mon"
+                      />
+                    }
+                    label="Mon"
+                    labelPlacement="bottom"
+                  />
 
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Tue"
-                  labelPlacement="bottom"
-                />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(e) => console.log(e.target.name)}
+                        name="tue"
+                      />
+                    }
+                    label="Tue"
+                    labelPlacement="bottom"
+                  />
 
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Wed"
-                  labelPlacement="bottom"
-                />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(e) => console.log(e.target.name)}
+                        name="wed"
+                      />
+                    }
+                    label="Wed"
+                    labelPlacement="bottom"
+                  />
 
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Thurs"
-                  labelPlacement="bottom"
-                />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Thurs"
+                    labelPlacement="bottom"
+                  />
 
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Fri"
+                    labelPlacement="bottom"
+                  />
 
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Fri"
-                  labelPlacement="bottom"
-                />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Sat"
+                    labelPlacement="bottom"
+                  />
 
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Sat"
-                  labelPlacement="bottom"
-                />
-
-                <FormControlLabel
-                  value="bottom"
-                  control={<Checkbox />}
-                  label="Sun"
-                  labelPlacement="bottom"
-                />
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Sun"
+                    labelPlacement="bottom"
+                  />
+                </>
               </FormGroup>
             </FormControl>
           </div>
@@ -216,29 +255,49 @@ export default function NewClients() {
             </div>
 
             <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel value="cash" control={<Radio />} label="Cash" />
-                <FormControlLabel value="juice" control={<Radio />} label="Juice" />
-                <FormControlLabel value="cheque" control={<Radio />} label="Cheque" />
-              </RadioGroup>
+              <Controller
+                rules={{ required: true }}
+                control={control}
+                name="payments.0.paymentType"
+                render={({ field }) => (
+                  <RadioGroup
+                    {...field}
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="cash"
+                      control={<Radio />}
+                      label="Cash"
+                    />
+                    <FormControlLabel
+                      value="juice"
+                      control={<Radio />}
+                      label="Juice"
+                    />
+                    <FormControlLabel
+                      value="cheque"
+                      control={<Radio />}
+                      label="Cheque"
+                    />
+                  </RadioGroup>
+                )}
+              />
             </FormControl>
           </div>
         </form>
-      </div >
+      </div>
 
       <div className="btn-submit">
         <Button
           title="Submit"
           titleBold={true}
           type={ButtonTypes.Button}
-          variant='rounded'
-          clickHandler={() => handleSubmit(onSubmit)}
+          variant="rounded"
+          clickHandler={handleSubmit(onSubmit)}
         />
       </div>
-    </section >
-  )
+    </section>
+  );
 }
