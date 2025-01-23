@@ -125,14 +125,14 @@ export default function NewClients() {
             </div>
 
             <FormInput
-              {...register('shops.address.name', { required: false })}
+              {...register('shops.0.address.name', { required: false })}
               title="shops.address.name"
               type="text"
               hint="Addresse"
             />
 
             <FormInput
-              {...register('shops.address.city', { required: false })}
+              {...register('shops.0.address.city', { required: false })}
               title="shops.address.city"
               type="text"
               hint="City"
