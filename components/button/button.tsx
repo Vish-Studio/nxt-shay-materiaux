@@ -25,7 +25,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         {...rest}
       >
         {iconName && <Icon iconName={iconName} />}
-        {title}
+        {isDisabled ? 'Loading...' : title}
       </button>
     </>
   );

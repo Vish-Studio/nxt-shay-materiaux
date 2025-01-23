@@ -88,7 +88,7 @@ export default function Page() {
       </div>
       <div className="sign-in__button-container">
         <Button
-          title={isDisabled ? 'Loading...' : 'Login'}
+          title={'Login'}
           titleBold={true}
           type={ButtonTypes.Submit}
           variant="rounded"

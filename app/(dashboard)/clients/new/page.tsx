@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import TopBar from '@/components/top-bar/top-bar';
 import '../styles.scss';
 import { appRoutes } from '@/constants/routes/app-routes';
@@ -17,6 +17,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IClient } from '@/types/api/client';
+import { useRouter } from 'next/navigation';
+import { apiRoutes } from '@/constants/routes/api-routes';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { IProduct } from '@/types/api/product';
 
 export default function NewClients() {
   const {
@@ -49,11 +53,14 @@ export default function NewClients() {
       ]
     }
   });
+  const router = useRouter();
+  const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
 
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+  // const { data: client, status } = useApiFetch<IClient[]>({ endpoint: apiRoutes.products.index, method: 'post', data });
 
   const onSubmit = async (data: any) => {
     console.log(data);
+    setBtnIsDisabled(true);
   };
 
   return (
@@ -296,6 +303,7 @@ export default function NewClients() {
           type={ButtonTypes.Button}
           variant="rounded"
           clickHandler={handleSubmit(onSubmit)}
+          isDisabled={isBtnDisabled}
         />
       </div>
     </section>

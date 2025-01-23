@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
 
 .sign-in {
   &__header {
@@ -79,9 +79,6 @@
       transition: all 0.2s ease;
       &:hover {
         background-color: #1b1b1beb;
-      }
-      &.disabled {
-        background-color: #1b1b1b45;
       }
     }
   }

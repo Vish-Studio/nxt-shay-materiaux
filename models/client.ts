@@ -6,7 +6,7 @@ import { Shop } from './shop';
 import { Payment } from './payment';
 
 export const clientSchema = new Schema<IClient>({
-  createDateTime: { type: Number, required: false },
+  createDateTime: { type: String, required: false },
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   nid: { type: String, required: false },

@@ -56,7 +56,10 @@ export async function POST(req: Request) {
     });
     await newClient.save();
 
-    const populatedClient = await Client.findById(newClient._id).populate('');
+    const populatedClient = await Client.findById(newClient._id)
+      .populate('shops')
+      .populate('payments')
+      .exec();
 
     return createHttpResponse('success', 'Product created successfully', populatedClient, 201);
   } catch (error) {
