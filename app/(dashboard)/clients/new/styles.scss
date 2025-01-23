@@ -12,8 +12,20 @@
 
     label {
       margin-bottom: 5px;
+      margin-left: 0;
+      margin-right: 0;
       font-weight: 600;
+      font-size: 18px;
       color: #1d1d1d;
+
+      span {
+        font-family: inherit !important;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        &.Mui-checked {
+          color: #1d1d1d;
+        }
+      }
     }
 
     .header {
@@ -21,7 +33,7 @@
       flex-direction: column;
       margin-bottom: 10px;
       span {
-        font-size: 13px;
+        font-size: 14px;
         color: #7e7e7e;
       }
     }
@@ -31,6 +43,14 @@
       height: 260px;
     }
 
+    .delivery-options {
+      .options-list {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+      }
+    }
+
     .payment-info {
       .header {
         margin-bottom: 5px;
@@ -38,35 +58,30 @@
     }
   }
 
-  .MuiFormControl-root {
-    margin: 0;
+  // .MuiFormControl-root {
+  //   margin: 0;
 
-    .MuiOutlinedInput-root {
-      border-radius: 50px !important;
-      padding: 0px 5px !important;
-      font-family: inherit !important;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .MuiFormGroup-root {
-      .MuiRadio-root.Mui-checked {
-        color: #1d1d1d;
-      }
-      .MuiRadio-root {
-        padding-right: 5px;
-      }
-      .MuiTypography-body1 {
-        font-family: inherit;
-        font-weight: 400;
-        font-size: 14px;
-      }
-    }
+  //   .MuiOutlinedInput-root {
+  //     border-radius: 50px !important;
+  //     padding: 0px 5px !important;
+  //     font-family: inherit !important;
+  //     font-size: 14px;
+  //     font-weight: 500;
+  //   }
+  //   .MuiFormGroup-root {
+  //     .MuiCheckbox-root.Mui-checked {
+  //       color: #1d1d1d !important;
+  //     }
+  //     .MuiRadio-root {
+  //       padding-right: 5px;
+  //     }
+  //   }
 
-    .MuiSvgIcon-root {
-      height: 20px !important;
-      width: 20px !important;
-    }
-  }
+  //   .MuiSvgIcon-root {
+  //     height: 20px !important;
+  //     width: 20px !important;
+  //   }
+  // }
 
   .btn-submit {
     position: fixed;

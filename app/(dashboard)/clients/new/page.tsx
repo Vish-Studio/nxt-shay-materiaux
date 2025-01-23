@@ -8,17 +8,14 @@ import FormInput from '@/components/form-input/form-input';
 import './styles.scss'
 import Button from '@/components/button/button';
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap from '@/components/google-maps/google-map';
-import { LocalizationProvider, DatePicker, DateTimePicker, TimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { InputLabel, Select, MenuItem, FormHelperText, Checkbox, FormGroup, FormLabel } from '@mui/material';
+import { Checkbox, FormGroup } from '@mui/material';
 
 
 export default function NewClients() {
@@ -32,7 +29,7 @@ export default function NewClients() {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
   const onSubmit = async (data: any) => {
-    console.log('');
+    console.log(data);
   };
 
   return (
@@ -157,8 +154,8 @@ export default function NewClients() {
               <span>Add delivery date for reminders.</span>
             </div>
 
-            <FormControl component="fieldset">
-              <FormGroup aria-label="position" row>
+            <FormControl className="delivery-options" component="fieldset">
+              <FormGroup className='options-list' aria-label="position" row>
                 <FormControlLabel
                   value="bottom"
                   control={<Checkbox />}
@@ -239,7 +236,7 @@ export default function NewClients() {
           titleBold={true}
           type={ButtonTypes.Button}
           variant='rounded'
-          clickHandler={onSubmit}
+          clickHandler={() => handleSubmit(onSubmit)}
         />
       </div>
     </section >
