@@ -35,3 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+public/sw.js.map
+public/workbox-4754cb34.js
+public/sw.js
+.gitignore
+.gitignore
+public/workbox-e43f5367.js.map
