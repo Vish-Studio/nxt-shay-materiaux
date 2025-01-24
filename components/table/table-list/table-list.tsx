@@ -6,7 +6,7 @@ import { IClient } from '@/types/api/client';
 import TableFilter, { TabItem } from '../table-filter/table-filter';
 
 interface TableProps {
-  tableData?: IClient[];
+  tableData: IClient[];
   isClient?: boolean;
   clickEvent: (e: IClient) => void;
 }
