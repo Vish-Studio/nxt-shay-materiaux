@@ -18,9 +18,6 @@ import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IAddClientParams, IClient } from '@/types/api/client';
 import { useRouter } from 'next/navigation';
-import { apiRoutes } from '@/constants/routes/api-routes';
-import { useApiFetch } from '@/hooks/use-api-fetch';
-import { IProduct } from '@/types/api/product';
 import { clientApiService } from '@/services/api/client';
 
 export default function NewClients() {
@@ -198,64 +195,72 @@ export default function NewClients() {
                 aria-label="position"
                 row
               >
-                <>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
+                <Controller
+                  rules={{ required: false }}
+                  control={control}
+                  name="deliveryDateTime"
+                  render={({ field }) => (
+                    <>
+                      <FormControlLabel
+                        {...field}
                         name="mon"
+                        value="mon"
+                        control={<Checkbox />}
+                        label="Mon"
+                        labelPlacement="bottom"
                       />
-                    }
-                    label="Mon"
-                    labelPlacement="bottom"
-                  />
 
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
-                        name="tue"
+                      <FormControlLabel
+                        {...field}
+                        name="Tue"
+                        value="Tue"
+                        control={<Checkbox />}
+                        label="Tue"
+                        labelPlacement="bottom"
                       />
-                    }
-                    label="Tue"
-                    labelPlacement="bottom"
-                  />
 
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
-                        name="wed"
+                      <FormControlLabel
+                        name="Wed"
+                        value="Wed"
+                        control={<Checkbox />}
+                        label="Wed"
+                        labelPlacement="bottom"
                       />
-                    }
-                    label="Wed"
-                    labelPlacement="bottom"
-                  />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Thurs"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Thurs"
+                        value="Thurs"
+                        control={<Checkbox />}
+                        label="Thurs"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Fri"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Fri"
+                        value="Fri"
+                        control={<Checkbox />}
+                        label="Fri"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Sat"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Sat"
+                        value="Sat"
+                        control={<Checkbox />}
+                        label="Sat"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Sun"
-                    labelPlacement="bottom"
-                  />
-                </>
+                      <FormControlLabel
+                        name="Sun"
+                        value="Sun"
+                        control={<Checkbox />}
+                        label="Sun"
+                        labelPlacement="bottom"
+                      />
+                    </>
+                  )}
+                />
               </FormGroup>
             </FormControl>
           </div>

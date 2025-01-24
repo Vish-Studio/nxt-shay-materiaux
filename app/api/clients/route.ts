@@ -48,7 +48,6 @@ export async function POST(req: Request) {
       lastName,
       nid,
       brnNumber,
-      phoneNumber,
       mobileNumber,
       shops: [shopId],
       deliveryDateTime,
@@ -56,10 +55,7 @@ export async function POST(req: Request) {
     });
     await newClient.save();
 
-    const populatedClient = await Client.findById(newClient._id)
-      .populate('shops')
-      .populate('payments')
-      .exec();
+    const populatedClient = await Client.findById(newClient._id).populate('payments').exec();
 
     return createHttpResponse('success', 'Client created successfully', populatedClient, 201);
   } catch (error) {
