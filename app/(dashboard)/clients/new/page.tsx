@@ -18,9 +18,6 @@ import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IClient } from '@/types/api/client';
 import { useRouter } from 'next/navigation';
-import { apiRoutes } from '@/constants/routes/api-routes';
-import { useApiFetch } from '@/hooks/use-api-fetch';
-import { IProduct } from '@/types/api/product';
 
 export default function NewClients() {
   const {
@@ -152,9 +149,7 @@ export default function NewClients() {
               <span>Add the current location by clicking the (+) button</span>
             </div>
 
-            <div className="maps">
-              <GoogleMap zoom={17} />
-            </div>
+            <GoogleMap zoom={17} />
           </div>
 
           <div className="business-info vertical-fields">
