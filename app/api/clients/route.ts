@@ -1,6 +1,9 @@
 import { Client } from '@/models/client';
+import { Shop } from '@/models/shop';
+import { IAddClientParams } from '@/types/api/client';
 import { dbConnect } from '@/utils/db-connect';
 import { createHttpResponse } from '@/utils/http';
+import { ObjectId } from 'mongoose';
 
 export async function GET() {
   try {
@@ -19,9 +22,8 @@ export async function POST(req: Request) {
   try {
     await dbConnect();
 
-    const body = await req.json();
+    const body = (await req.json()) as IAddClientParams;
     const {
-      createDateTime,
       firstName,
       lastName,
       nid,
@@ -33,24 +35,22 @@ export async function POST(req: Request) {
       payments
     } = body;
 
-    // if (!name || quantity == null || !price || !buyingPrice || !category) {
-    //   return createHttpResponse(
-    //     'fail',
-    //     'Required fields are missing: name, quantity, price, buyingPrice, and category',
-    //     null,
-    //     400
-    //   );
-    // }
+    let shopId = null;
+    // @todo to check if a required field is needed, consult product route.
+    if (shops) {
+      const newShop = new Shop(shops[0]);
+      shopId = newShop._id;
+      await newShop.save();
+    }
 
     const newClient = new Client({
-      createDateTime,
       firstName,
       lastName,
       nid,
       brnNumber,
       phoneNumber,
       mobileNumber,
-      shops,
+      shops: [shopId],
       deliveryDateTime,
       payments
     });
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       .populate('payments')
       .exec();
 
-    return createHttpResponse('success', 'Product created successfully', populatedClient, 201);
+    return createHttpResponse('success', 'Client created successfully', populatedClient, 201);
   } catch (error) {
     console.error(error);
     return createHttpResponse('error', 'Internal Server Error', null, 500);

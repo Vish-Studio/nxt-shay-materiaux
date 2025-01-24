@@ -6,12 +6,12 @@ import InfoCard from '@/components/info-card/info-card';
 import { useState } from 'react';
 import { SearchContext } from '@/context/SearchContext';
 import { useRouter } from 'next/navigation';
-import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
+
 import TableList from '@/components/table/table-list/table-list';
 import { appRoutes } from '@/constants/routes/app-routes';
 import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
-import { clientsApi } from '@/services/api/client';
+import { clientApiService } from '@/services/api/client';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
@@ -19,14 +19,17 @@ export default function Clients() {
   const [isInfo, setIsInfo] = useState<boolean>(false);
   const router = useRouter();
 
-  const { data: clientsData } = useApiFetch<IClient[]>({ serviceFn: clientsApi.getAllClients });
+  // const { data: clientsData } = useApiFetch<IClient[]>({ serviceFn: clientsApi.getAllClients });
+
+  const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
+    serviceFn: clientApiService.getClients
+  });
 
   const handleTableClick = (data: IClient) => {
     let client: IClient = {
       firstName: data.firstName,
       lastName: data.lastName,
       nid: data.nid,
-      createDateTime: data.createDateTime,
       brnNumber: data.brnNumber,
       phoneNumber: data.phoneNumber,
       deliveryDateTime: data.deliveryDateTime,

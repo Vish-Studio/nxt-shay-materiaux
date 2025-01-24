@@ -16,8 +16,12 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
-import { IClient } from '@/types/api/client';
+import { IAddClientParams, IClient } from '@/types/api/client';
 import { useRouter } from 'next/navigation';
+import { apiRoutes } from '@/constants/routes/api-routes';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { IProduct } from '@/types/api/product';
+import { clientApiService } from '@/services/api/client';
 
 export default function NewClients() {
   const {
@@ -25,7 +29,7 @@ export default function NewClients() {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<IClient>({
+  } = useForm<IAddClientParams>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -46,20 +50,17 @@ export default function NewClients() {
       ],
       deliveryDateTime: undefined,
       payments: [
-        {
-          paymentType: 'cash'
-        }
+        ''
       ]
     }
   });
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
-  // const { data: client, status } = useApiFetch<IClient[]>({ endpoint: apiRoutes.products.index, method: 'post', data });
-
   const onSubmit = async (data: any) => {
     console.log(data);
-    setBtnIsDisabled(true);
+
+    // clientApiService.createClient(data);
   };
 
   const handleAddLoc = (e: TLocation) => {
@@ -269,7 +270,7 @@ export default function NewClients() {
               <Controller
                 rules={{ required: true }}
                 control={control}
-                name="payments.0.paymentType"
+                name="payments.0"
                 render={({ field }) => (
                   <RadioGroup
                     {...field}
