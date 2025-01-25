@@ -4,12 +4,31 @@
   overflow: hidden;
   border-radius: 10px;
 
-  .button-fab {
+  .btn-add-loc,
+  .btn-my-loc {
     position: absolute;
-    bottom: 55px;
     right: 10px;
   }
 
+  .btn-add-loc {
+    bottom: 55px;
+  }
+
+  .btn-my-loc {
+    background-color: #ffffff;
+    color: #1d1d1d;
+    bottom: 10px;
+    &:hover {
+      color: #ffffff;
+      background-color: #1d1d1d;
+    }
+  }
+
+  .yNHHyP-marker-view {
+    span {
+      font-size: 50px;
+    }
+  }
   .gmnoprint {
     display: none;
   }

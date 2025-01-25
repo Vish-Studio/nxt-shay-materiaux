@@ -9,7 +9,7 @@ import './styles.scss';
 import Button from '@/components/button/button';
 
 import { ButtonTypes } from '@/enums/button-types';
-import GoogleMap from '@/components/google-maps/google-map';
+import GoogleMap, { TLocation } from '@/components/google-maps/google-map';
 import dayjs, { Dayjs } from 'dayjs';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -38,7 +38,9 @@ export default function NewClients() {
           shopName: '',
           address: {
             name: '',
-            city: ''
+            city: '',
+            lat: 0,
+            long: 0
           }
         }
       ],
@@ -50,14 +52,18 @@ export default function NewClients() {
       ]
     }
   });
-  const router = useRouter();
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
+  const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
   // const { data: client, status } = useApiFetch<IClient[]>({ endpoint: apiRoutes.products.index, method: 'post', data });
 
   const onSubmit = async (data: any) => {
     console.log(data);
     setBtnIsDisabled(true);
+  };
+
+  const handleAddLoc = (e: TLocation) => {
+    console.log(e);
   };
 
   return (
@@ -149,7 +155,10 @@ export default function NewClients() {
               <span>Add the current location by clicking the (+) button</span>
             </div>
 
-            <GoogleMap zoom={17} />
+            <GoogleMap
+              zoom={17}
+              clickAddLoc={handleAddLoc}
+            />
           </div>
 
           <div className="business-info vertical-fields">
