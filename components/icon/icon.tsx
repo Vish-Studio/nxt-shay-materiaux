@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import IconProps from './type/icon-props';
-import './styles.scss'
+import './styles.scss';
 
-const Icon: FunctionComponent<IconProps> = ({ className, iconName, clickHandler }) => {
+const Icon: FunctionComponent<IconProps> = ({ className, iconName, clickHandler, ...rest }) => {
   const classNames = `icon symbol${className ?? ''}`;
 
   return (
@@ -12,10 +12,20 @@ const Icon: FunctionComponent<IconProps> = ({ className, iconName, clickHandler 
           className="btn-icon"
           onClick={clickHandler}
         >
-          <span className={classNames}>{iconName}</span>
+          <span
+            className={classNames}
+            {...rest}
+          >
+            {iconName}
+          </span>
         </button>
       ) : (
-        <span className={classNames}>{iconName}</span>
+        <span
+          className={classNames}
+          {...rest}
+        >
+          {iconName}
+        </span>
       )}
     </>
   );

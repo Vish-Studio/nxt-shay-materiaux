@@ -1,110 +1,36 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { APIProvider, Map, Marker, Pin } from '@vis.gl/react-google-maps';
+'use client';
+import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import {
+  AdvancedMarker,
+  AdvancedMarkerAnchorPoint,
+  APIProvider,
+  ControlPosition,
+  Map,
+  MapCameraChangedEvent,
+  MapCameraProps,
+  MapControl,
+  useApiIsLoaded
+} from '@vis.gl/react-google-maps';
 import './styles.scss';
 import ButtonFab from '../button-fab/button-fab';
+import Icon from '../icon/icon';
+import marker from '../../public/icons/marker.png';
 
 interface GoogleMapProps {
   zoom: number;
+  clickAddLoc: (e: TLocation) => void;
 }
 
-const silver = {
-  silver: [
-    {
-      elementType: 'geometry',
-      stylers: [{ color: '#f5f5f5' }]
-    },
-    {
-      elementType: 'labels.icon',
-      stylers: [{ visibility: 'off' }]
-    },
-    {
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#616161' }]
-    },
-    {
-      elementType: 'labels.text.stroke',
-      stylers: [{ color: '#f5f5f5' }]
-    },
-    {
-      featureType: 'administrative.land_parcel',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#bdbdbd' }]
-    },
-    {
-      featureType: 'poi',
-      elementType: 'geometry',
-      stylers: [{ color: '#eeeeee' }]
-    },
-    {
-      featureType: 'poi',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#757575' }]
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [{ color: '#e5e5e5' }]
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#9e9e9e' }]
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [{ color: '#ffffff' }]
-    },
-    {
-      featureType: 'road.arterial',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#757575' }]
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry',
-      stylers: [{ color: '#dadada' }]
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#616161' }]
-    },
-    {
-      featureType: 'road.local',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#9e9e9e' }]
-    },
-    {
-      featureType: 'transit.line',
-      elementType: 'geometry',
-      stylers: [{ color: '#e5e5e5' }]
-    },
-    {
-      featureType: 'transit.station',
-      elementType: 'geometry',
-      stylers: [{ color: '#eeeeee' }]
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [{ color: '#c9c9c9' }]
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#9e9e9e' }]
-    }
-  ]
-};
 const googleMapKey: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
+const googleMapID: string = process.env.NEXT_PUBLIC_GOOGLE_MAP_ID as string;
 
-type TLocation = {
+export type TLocation = {
   lat: number;
   lng: number;
 };
 
-const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom }) => {
+const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => {
+  const apiIsLoaded = useApiIsLoaded();
   const [currentLoc, setCurrentLoc] = useState<TLocation>({
     lat: 0,
     lng: 0
@@ -118,24 +44,40 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom }) => {
           lng: position.coords.longitude
         });
       });
-  }, [currentLoc]);
+  }, []);
 
   return (
     <APIProvider apiKey={googleMapKey}>
       <div className="google-maps">
         <Map
+          mapId={googleMapID}
           zoomControl={true}
-          styles={silver.silver}
-          fullscreenControl={true}
+          fullscreenControl={false}
           defaultZoom={zoom}
           defaultCenter={currentLoc}
+          gestureHandling={'greedy'}
         >
-          <Marker position={currentLoc} />
-          <ButtonFab
-            icon="add"
-            type="mini"
-            clickHandler={() => console.log('haha')}
-          />
+          <MapControl position={ControlPosition.BOTTOM_RIGHT}>
+            <ButtonFab
+              className="btn-add-loc"
+              icon="add"
+              type="mini"
+              clickHandler={() => clickAddLoc(currentLoc)}
+            />
+            <ButtonFab
+              className="btn-my-loc"
+              type="mini"
+              icon="my_location"
+              clickHandler={() => {}}
+            />
+          </MapControl>
+          <AdvancedMarker position={currentLoc}>
+            <img
+              src={marker.src}
+              width={45}
+              height={45}
+            />
+          </AdvancedMarker>
         </Map>
       </div>
     </APIProvider>
