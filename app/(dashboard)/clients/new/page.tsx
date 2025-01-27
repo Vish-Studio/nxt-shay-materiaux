@@ -44,7 +44,7 @@ export default function NewClients() {
           }
         }
       ],
-      deliveryDateTime: undefined,
+      deliveryDateTime: 0,
       payments: [
         {
           paymentType: 'cash'
@@ -57,13 +57,17 @@ export default function NewClients() {
 
   // const { data: client, status } = useApiFetch<IClient[]>({ endpoint: apiRoutes.products.index, method: 'post', data });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: IClient) => {
+    // if (location && data.shops && data.shops.length > 0) {
+    //   data.shops[0].address = location;
+    // }
     console.log(data);
+
     setBtnIsDisabled(true);
   };
 
   const handleAddLoc = (e: TLocation) => {
-    console.log(e);
+    setLocation(e);
   };
 
   return (
@@ -199,34 +203,19 @@ export default function NewClients() {
               >
                 <>
                   <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
-                        name="mon"
-                      />
-                    }
+                    control={<Checkbox />}
                     label="Mon"
                     labelPlacement="bottom"
                   />
 
                   <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
-                        name="tue"
-                      />
-                    }
+                    control={<Checkbox />}
                     label="Tue"
                     labelPlacement="bottom"
                   />
 
                   <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={(e) => console.log(e.target.name)}
-                        name="wed"
-                      />
-                    }
+                    control={<Checkbox />}
                     label="Wed"
                     labelPlacement="bottom"
                   />

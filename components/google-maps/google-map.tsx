@@ -32,8 +32,8 @@ export type TLocation = {
 const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => {
   const apiIsLoaded = useApiIsLoaded();
   const [currentLoc, setCurrentLoc] = useState<TLocation>({
-    lat: 0,
-    lng: 0
+    lat: -20.271657,
+    lng: 57.4746666
   });
 
   useEffect(() => {
