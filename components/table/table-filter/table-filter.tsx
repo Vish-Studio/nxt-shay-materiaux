@@ -36,7 +36,7 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest })
           </div>
         </td>
 
-        <td style={{ width: '10%' }}>
+        <td className='tab-buttons'>
           <div className="tab-sort">
             <button>
               <Icon iconName="swap_vert" />

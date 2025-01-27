@@ -1,6 +1,17 @@
 .table-list {
   width: 100%;
 
+  thead {
+    tr {
+      width: 100%;
+
+      tr::nth-child(1) {
+        width: auto;
+        display: flex;
+      }
+    }
+  }
+
   tbody {
     position: relative;
     top: 60px;

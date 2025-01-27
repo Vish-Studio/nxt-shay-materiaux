@@ -55,16 +55,11 @@ const TableList: FunctionComponent<TableProps> = ({
                 </td>
                 <td className="title">
                   <p>{item.firstName + ' ' + item.lastName}</p>
-                  {/* <span>
-                  {item?.shops?.length !== 0 && item?.shops && item?.shops[0].address.name}
-                </span> */}
                 </td>
                 <td className="description">
-                  {/* <p>Phone</p> */}
                   <span>{item.phoneNumber}</span>
                 </td>
                 <td className="date">
-                  {/* <p>Date</p> */}
                   <span>{item.deliveryDateTime || 'Monday'}</span>
                 </td>
               </tr>

@@ -19,6 +19,8 @@ import { Checkbox, FormGroup } from '@mui/material';
 import { IAddClientParams, IClient } from '@/types/api/client';
 import { useRouter } from 'next/navigation';
 import { clientApiService } from '@/services/api/client';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { IPayment } from '@/types/api/payment';
 
 export default function NewClients() {
   const {
@@ -55,14 +57,14 @@ export default function NewClients() {
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
   const onSubmit = async (data: any) => {
+    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] }
+
     console.log(data);
 
-    // clientApiService.createClient(data);
+    clientApiService.createClient(data);
   };
 
-  const handleAddLoc = (e: TLocation) => {
-    console.log(e);
-  };
+  const handleAddLoc = (e: TLocation) => setLocation(e)
 
   return (
     <section className="new-clients-page">
@@ -284,17 +286,17 @@ export default function NewClients() {
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      value="cash"
+                      value="6793ba84790a0829fd04067d"
                       control={<Radio />}
                       label="Cash"
                     />
                     <FormControlLabel
-                      value="juice"
+                      value="671cfd5448a2b25d4edce7f8"
                       control={<Radio />}
                       label="Juice"
                     />
                     <FormControlLabel
-                      value="cheque"
+                      value="6793ba94790a0829fd04067e"
                       control={<Radio />}
                       label="Cheque"
                     />
