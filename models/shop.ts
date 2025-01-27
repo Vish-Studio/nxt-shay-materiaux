@@ -4,11 +4,11 @@ import mongoose, { Schema, model } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export const shopSchema = new Schema<IShop>({
-  shopName: { type: String, required: true },
+  shopName: { type: String, required: false },
   address: {
     name: { type: String },
-    lat: { type: Number, required: true },
-    long: { type: Number, required: true }
+    lat: { type: Number, required: false },
+    long: { type: Number, required: false }
   }
 });
 

@@ -6,7 +6,7 @@ import { IClient } from '@/types/api/client';
 import TableFilter, { TabItem } from '../table-filter/table-filter';
 
 interface TableProps {
-  tableData?: IClient[];
+  tableData: IClient[];
   isClient?: boolean;
   clickEvent: (e: IClient) => void;
 }
@@ -42,33 +42,29 @@ const TableList: FunctionComponent<TableProps> = ({
     >
       <TableFilter tabItems={tabGroup} />
       <tbody>
-        {tableData && tableData?.map((item) => {
-          return (
-            <tr
-              className={currentItem?.nid === item?.nid ? 'selected' : ''}
-              key={item.nid}
-              onClick={() => handleClick(item)}
-            >
-              <td className="status">
-                <TagPayment status="pending" />
-              </td>
-              <td className="title">
-                <p>{item.firstName + ' ' + item.lastName}</p>
-                {/* <span>
-                  {item?.shops?.length !== 0 && item?.shops && item?.shops[0].address.name}
-                </span> */}
-              </td>
-              <td className="description">
-                {/* <p>Phone</p> */}
-                <span>{item.phoneNumber}</span>
-              </td>
-              <td className="date">
-                {/* <p>Date</p> */}
-                <span>{item.createDateTime || 'Monday'}</span>
-              </td>
-            </tr>
-          );
-        })}
+        {tableData &&
+          tableData?.map((item) => {
+            return (
+              <tr
+                className={currentItem?.nid === item?.nid ? 'selected' : ''}
+                key={item.nid}
+                onClick={() => handleClick(item)}
+              >
+                <td className="status">
+                  <TagPayment status="pending" />
+                </td>
+                <td className="title">
+                  <p>{item.firstName + ' ' + item.lastName}</p>
+                </td>
+                <td className="description">
+                  <span>{item.phoneNumber}</span>
+                </td>
+                <td className="date">
+                  <span>{item.deliveryDateTime || 'Monday'}</span>
+                </td>
+              </tr>
+            );
+          })}
       </tbody>
     </table>
   );

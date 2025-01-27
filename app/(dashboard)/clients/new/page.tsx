@@ -16,8 +16,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
-import { IClient } from '@/types/api/client';
+import { IAddClientParams, IClient } from '@/types/api/client';
 import { useRouter } from 'next/navigation';
+import { clientApiService } from '@/services/api/client';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { IPayment } from '@/types/api/payment';
 
 export default function NewClients() {
   const {
@@ -25,7 +28,7 @@ export default function NewClients() {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<IClient>({
+  } = useForm<IAddClientParams>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -44,31 +47,24 @@ export default function NewClients() {
           }
         }
       ],
-      deliveryDateTime: 0,
+      deliveryDateTime: [''],
       payments: [
-        {
-          paymentType: 'cash'
-        }
+        ''
       ]
     }
   });
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
-  // const { data: client, status } = useApiFetch<IClient[]>({ endpoint: apiRoutes.products.index, method: 'post', data });
+  const onSubmit = async (data: any) => {
+    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] }
 
-  const onSubmit = async (data: IClient) => {
-    // if (location && data.shops && data.shops.length > 0) {
-    //   data.shops[0].address = location;
-    // }
     console.log(data);
 
-    setBtnIsDisabled(true);
+    clientApiService.createClient(data);
   };
 
-  const handleAddLoc = (e: TLocation) => {
-    setLocation(e);
-  };
+  const handleAddLoc = (e: TLocation) => setLocation(e)
 
   return (
     <section className="new-clients-page">
@@ -201,52 +197,75 @@ export default function NewClients() {
                 aria-label="position"
                 row
               >
-                <>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Mon"
-                    labelPlacement="bottom"
-                  />
+                <Controller
+                  rules={{ required: false }}
+                  control={control}
+                  name="deliveryDateTime"
+                  render={({ field }) => (
+                    <>
+                      <FormControlLabel
+                        {...field}
+                        name="mon"
+                        value="mon"
+                        control={<Checkbox />}
+                        label="Mon"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Tue"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        {...field}
+                        name="Tue"
+                        value="Tue"
+                        control={<Checkbox />}
+                        label="Tue"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Wed"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Wed"
+                        value="Wed"
+                        control={<Checkbox />}
+                        label="Wed"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Thurs"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Thurs"
+                        value="Thurs"
+                        control={<Checkbox />}
+                        label="Thurs"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Fri"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Fri"
+                        value="Fri"
+                        control={<Checkbox />}
+                        label="Fri"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Sat"
-                    labelPlacement="bottom"
-                  />
+                      <FormControlLabel
+                        name="Sat"
+                        value="Sat"
+                        control={<Checkbox />}
+                        label="Sat"
+                        labelPlacement="bottom"
+                      />
 
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Sun"
-                    labelPlacement="bottom"
-                  />
-                </>
-              </FormGroup>
-            </FormControl>
-          </div>
+                      <FormControlLabel
+                        name="Sun"
+                        value="Sun"
+                        control={<Checkbox />}
+                        label="Sun"
+                        labelPlacement="bottom"
+                      />
+                    </>
+                  )}
+                />
+              </FormGroup >
+            </FormControl >
+          </div >
 
           <div className="payment-info vertical-fields">
             <div className="header">
@@ -258,7 +277,7 @@ export default function NewClients() {
               <Controller
                 rules={{ required: true }}
                 control={control}
-                name="payments.0.paymentType"
+                name="payments.0"
                 render={({ field }) => (
                   <RadioGroup
                     {...field}
@@ -267,17 +286,17 @@ export default function NewClients() {
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      value="cash"
+                      value="6793ba84790a0829fd04067d"
                       control={<Radio />}
                       label="Cash"
                     />
                     <FormControlLabel
-                      value="juice"
+                      value="671cfd5448a2b25d4edce7f8"
                       control={<Radio />}
                       label="Juice"
                     />
                     <FormControlLabel
-                      value="cheque"
+                      value="6793ba94790a0829fd04067e"
                       control={<Radio />}
                       label="Cheque"
                     />
@@ -286,8 +305,8 @@ export default function NewClients() {
               />
             </FormControl>
           </div>
-        </form>
-      </div>
+        </form >
+      </div >
 
       <div className="btn-submit">
         <Button
@@ -299,6 +318,6 @@ export default function NewClients() {
           isDisabled={isBtnDisabled}
         />
       </div>
-    </section>
+    </section >
   );
 }
