@@ -48,23 +48,19 @@ export default function NewClients() {
         }
       ],
       deliveryDateTime: [''],
-      payments: [
-        ''
-      ]
+      payments: ['']
     }
   });
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
   const onSubmit = async (data: any) => {
-    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] }
-
-    console.log(data);
+    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] };
 
     clientApiService.createClient(data);
   };
 
-  const handleAddLoc = (e: TLocation) => setLocation(e)
+  const handleAddLoc = (e: TLocation) => setLocation(e);
 
   return (
     <section className="new-clients-page">
@@ -263,9 +259,9 @@ export default function NewClients() {
                     </>
                   )}
                 />
-              </FormGroup >
-            </FormControl >
-          </div >
+              </FormGroup>
+            </FormControl>
+          </div>
 
           <div className="payment-info vertical-fields">
             <div className="header">
@@ -305,8 +301,8 @@ export default function NewClients() {
               />
             </FormControl>
           </div>
-        </form >
-      </div >
+        </form>
+      </div>
 
       <div className="btn-submit">
         <Button
@@ -318,6 +314,6 @@ export default function NewClients() {
           isDisabled={isBtnDisabled}
         />
       </div>
-    </section >
+    </section>
   );
 }
