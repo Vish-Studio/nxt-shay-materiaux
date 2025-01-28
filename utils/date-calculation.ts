@@ -1,3 +1,3 @@
-export const getDate: string = () => {
-  return '';
+export const getDate: () => string = () => {
+  return 'Date';
 };
