@@ -40,13 +40,15 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => 
 
 
   useEffect(() => {
-    navigator &&
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLoc({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+    if (apiIsLoaded) {
+      navigator &&
+        navigator.geolocation.getCurrentPosition((position) => {
+          setCurrentLoc({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
         });
-      });
+    }
   }, [apiIsLoaded]);
 
 
