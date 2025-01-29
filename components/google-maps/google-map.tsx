@@ -2,19 +2,17 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import {
   AdvancedMarker,
-  AdvancedMarkerAnchorPoint,
   APIProvider,
   ControlPosition,
   Map,
   MapCameraChangedEvent,
   MapCameraProps,
   MapControl,
+  Pin,
   useApiIsLoaded
 } from '@vis.gl/react-google-maps';
 import './styles.scss';
 import ButtonFab from '../button-fab/button-fab';
-import Icon from '../icon/icon';
-import marker from '../../public/icons/marker.png';
 
 interface GoogleMapProps {
   zoom: number;
@@ -32,9 +30,14 @@ export type TLocation = {
 const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => {
   const apiIsLoaded = useApiIsLoaded();
   const [currentLoc, setCurrentLoc] = useState<TLocation>({
-    lat: 0,
-    lng: 0
+    lat: -20.2869789,
+    lng: 57.6196203
   });
+  const [cameraProps, setCameraProps] = useState<MapCameraProps>({ center: { lat: currentLoc.lat, lng: currentLoc.lng }, zoom: zoom });
+  const handleCameraChange = useCallback((ev: MapCameraChangedEvent) =>
+    setCameraProps(ev.detail)
+    , []);
+
 
   useEffect(() => {
     navigator &&
@@ -44,7 +47,8 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => 
           lng: position.coords.longitude
         });
       });
-  }, []);
+  }, [apiIsLoaded]);
+
 
   return (
     <APIProvider apiKey={googleMapKey}>
@@ -56,6 +60,8 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => 
           defaultZoom={zoom}
           defaultCenter={currentLoc}
           gestureHandling={'greedy'}
+          {...cameraProps}
+          onCameraChanged={handleCameraChange}
         >
           <MapControl position={ControlPosition.BOTTOM_RIGHT}>
             <ButtonFab
@@ -68,15 +74,11 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => 
               className="btn-my-loc"
               type="mini"
               icon="my_location"
-              clickHandler={() => {}}
+              clickHandler={() => setCameraProps({ center: { lat: currentLoc.lat, lng: currentLoc.lng }, zoom: zoom })}
             />
           </MapControl>
           <AdvancedMarker position={currentLoc}>
-            <img
-              src={marker.src}
-              width={45}
-              height={45}
-            />
+            <Pin background={'#1d1d1d'} borderColor={'#1d1d1d'} glyphColor="#fff" />
           </AdvancedMarker>
         </Map>
       </div>
