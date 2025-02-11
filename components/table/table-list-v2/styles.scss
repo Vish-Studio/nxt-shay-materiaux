@@ -9,8 +9,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid #dfdfdf;
-    padding: 12px 0;
+    padding: 15px;
   }
 
   .table-header {
@@ -21,20 +20,25 @@
   .table-body {
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
 
   .table-header-cell,
   .table-cell {
     flex: 1;
     text-align: left;
+    &:last-child {
+      text-align: right;
+    }
   }
 
   .table-row {
     transition: background-color 0.3s ease-in-out;
     cursor: pointer;
-
+    border-radius: 10px;
     &.selected {
       border-color: #1d1d1d;
+      background-color: #f8f8f8;
     }
   }
 

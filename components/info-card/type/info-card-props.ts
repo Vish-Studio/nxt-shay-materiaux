@@ -4,6 +4,6 @@ import { InfoContent } from '@/types/info-content';
 export default interface InfoCardProps {
   className?: string;
   isInfo: boolean;
-  infoContents: IClient;
+  infoContents?: IClient;
   type: 'products' | 'clients';
 }

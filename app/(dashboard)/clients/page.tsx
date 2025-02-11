@@ -12,6 +12,12 @@ import { appRoutes } from '@/constants/routes/app-routes';
 import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
+import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
+import TagPayment from '@/components/table/tag-payment/tag-payment';
+import { IProduct } from '@/types/api/product';
+import { TPaymentStatusValues } from '@/types/payment-status';
+import { getDayOfWeek } from '@/utils/date';
+import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
@@ -19,11 +25,47 @@ export default function Clients() {
   const [isInfo, setIsInfo] = useState<boolean>(false);
   const router = useRouter();
 
-  // const { data: clientsData } = useApiFetch<IClient[]>({ serviceFn: clientsApi.getAllClients });
-
   const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
+
+  const columns: IColumn<IClient>[] = [
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      className: 'status',
+      render: (value) => {
+        return <TagPayment status={value?.toString() as TPaymentStatusValues} />;
+      }
+    },
+    {
+      title: 'First Name',
+      dataIndex: 'firstName',
+      className: 'firstName',
+      render: (value) => <span className="text-muted">{value as string}</span>
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      className: 'lastName',
+      render: (value) => <span className="text-muted">{value as string}</span>
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'mobileNumber',
+      className: 'mobileNumber',
+      render: (value) => <span className="text-secondary">{`${value as number}`}</span>
+    },
+    {
+      title: 'Date',
+      dataIndex: 'createdAt',
+      className: 'date',
+      render: (value) => {
+        const dayOfWeek = getDayOfWeek(value as string);
+        return <span className="text-secondary">{dayOfWeek}</span>;
+      }
+    }
+  ];
 
   const handleTableClick = (data: IClient) => {
     let client: IClient = {
@@ -39,6 +81,21 @@ export default function Clients() {
     setIsInfo(!isInfo);
     setSelectedClient(client);
   };
+
+  const tabItem: TabItem[] = [
+    {
+      title: 'All',
+      clickHandle: () => { }
+    },
+    {
+      title: 'Active',
+      clickHandle: () => { }
+    },
+    {
+      title: 'Inactive',
+      clickHandle: () => { }
+    }
+  ]
 
   return (
     <SearchContext.Provider
@@ -62,9 +119,17 @@ export default function Clients() {
         />
 
         <section className="main-content">
-          <TableList
-            tableData={clientsData ?? []}
-            clickEvent={handleTableClick}
+          <TableFilter tabItems={tabItem} />
+
+          <TableListV2
+            columns={columns}
+            data={clientsData ?? []}
+            loading={clientsDataLoading}
+            hideHeader
+            onRowClick={(record) => {
+              console.log('Column clicked', record);
+            }}
+            containerClassName="clients-table-list"
           />
         </section>
 

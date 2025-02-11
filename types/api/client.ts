@@ -3,6 +3,7 @@ import type { IPayment } from './payment';
 import type { IShop } from './shop';
 
 export interface IClient extends IPaymentType {
+  _id: string;
   firstName: string;
   lastName: string;
   nid: string;

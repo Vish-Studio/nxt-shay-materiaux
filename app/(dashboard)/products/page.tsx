@@ -82,19 +82,14 @@ export default function Products() {
         hasSearch={true}
       />
 
-      {/* <section>
+      <section>
         <InfoCard
           type="products"
           isInfo={isInfo}
-          infoContents={}
         />
-      </section> */}
+      </section>
 
       <section className="main-content">
-        {/* <TableList
-          tableData={productsData ?? []}
-          clickEvent={() => {}}
-        /> */}
         <TableListV2
           columns={columns}
           data={productsData ?? []}
