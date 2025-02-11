@@ -46,7 +46,7 @@ const TableList: FunctionComponent<TableProps> = ({
           tableData?.map((item) => {
             return (
               <tr
-                className={currentItem?.objId === item?.objId ? 'selected' : ''}
+                className={currentItem?._id === item?._id ? 'selected' : ''}
                 key={item.nid}
                 onClick={() => handleClick(item)}
               >
