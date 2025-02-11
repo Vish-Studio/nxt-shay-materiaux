@@ -14,6 +14,10 @@ export interface IColumn<T> {
   render?: (value: T[keyof T], record: T) => ReactNode;
 }
 
+interface IRecordWithId {
+  _id: string;
+}
+
 interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
   columns: IColumn<T>[];
   data: T[];
@@ -36,7 +40,7 @@ export const TableListV2 = <T,>({
   headerClassName,
   ...rest
 }: ITableListV2Props<T>) => {
-  const router = useRouter()
+  const router = useRouter();
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
 
   const generateKey = (record: T) => JSON.stringify(record);
@@ -45,7 +49,6 @@ export const TableListV2 = <T,>({
     (record: T) => {
       setSelectedRecord(record);
       onRowClick?.(record);
-      router.push(`/clients/${record?._id}`);
     },
     [onRowClick]
   );
@@ -80,8 +83,9 @@ export const TableListV2 = <T,>({
           return (
             <button
               key={key}
-              className={`table-row ${rowClassName ?? ''} ${record === selectedRecord ? 'selected' : ''
-                }`}
+              className={`table-row ${rowClassName ?? ''} ${
+                record === selectedRecord ? 'selected' : ''
+              }`}
               onClick={() => handleRowClick(record)}
             >
               {columns.map((column) => (

@@ -119,7 +119,7 @@ export default function Clients() {
             loading={clientsDataLoading}
             hideHeader
             onRowClick={(record) => {
-              console.log('Column clicked', record);
+              router.push(`${appRoutes.clients.index}/${record?._id}`);
             }}
             containerClassName="clients-table-list"
           />

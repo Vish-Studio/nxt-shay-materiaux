@@ -23,7 +23,7 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
                 : `${appRoutes.clients.index}`
             }
           >
-            <div className="info-details">
+            {/* <div className="info-details">
               <InfoItem
                 icon="person"
                 title={infoContents?.firstName}
@@ -35,7 +35,7 @@ const InfoCard: FunctionComponent<InfoCardProps> = ({
                 title={infoContents?.lastName}
                 hasMoreBtn={true}
               />
-            </div>
+            </div> */}
           </Link>
 
           <div className={`action-buttons`}>
