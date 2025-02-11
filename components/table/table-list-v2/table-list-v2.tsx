@@ -5,12 +5,17 @@ import { renderValidReactNode } from '@/utils/react';
 import { LinearProgress } from '@/components/linear-progress/linear-progress';
 
 import './styles.scss';
+import { useRouter } from 'next/navigation';
 
 export interface IColumn<T> {
   title: string;
   dataIndex: keyof T;
   className?: string;
   render?: (value: T[keyof T], record: T) => ReactNode;
+}
+
+interface IRecordWithId {
+  _id: string;
 }
 
 interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
@@ -35,6 +40,7 @@ export const TableListV2 = <T,>({
   headerClassName,
   ...rest
 }: ITableListV2Props<T>) => {
+  const router = useRouter();
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
 
   const generateKey = (record: T) => JSON.stringify(record);

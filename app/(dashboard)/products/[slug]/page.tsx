@@ -1,19 +1,31 @@
-'use client'
 
-import TopBar from "@/components/top-bar/top-bar";
+'use client';
 
-import { appRoutes } from "@/constants/routes/app-routes";
-import { useSearchParams } from "next/navigation";
+import TopBar from '@/components/top-bar/top-bar';
+// import './styles.scss';
+import { useRouter } from 'next/navigation';
+import { appRoutes } from '@/constants/routes/app-routes';
+import DetailCardHeader from '@/components/detail-card-header/detail-card-header';
 
-
-export default function ProductSlug() {
-  const searchParams = useSearchParams()
+export default function Product() {
+  const router = useRouter();
 
   return (
-    <main>
-      <TopBar title="Slug" redirectBackLink={appRoutes?.products?.index} />
+    <main className="product-page">
+      <div className="page-product-details">
+        <TopBar
+          leftIcon="arrow_back"
+          redirectBackLink={appRoutes?.products?.index}
+          title="Client detail"
+          hasSearch={false}
+        />
 
-      <h1>{searchParams.get('search')}</h1>
+        <div className="main-content">
+          <section>
+            <DetailCardHeader title={'A Product'} icon="inventory_2" />
+          </section>
+        </div>
+      </div>
     </main>
-  )
+  );
 }

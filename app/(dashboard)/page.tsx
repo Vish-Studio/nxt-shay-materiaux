@@ -85,10 +85,8 @@ export default function Home() {
                   <ButtonCard
                     title="Clients"
                     iconName="account_circle"
-                    numNew="3"
-                    numNewTxt="newly recorded"
                     numTotal="200"
-                    numTotalTxt="total registered"
+                    numTotalTxt="total clients"
                     redirect={appRoutes.clients.index}
                   />
 
@@ -112,10 +110,8 @@ export default function Home() {
                     className="yellow"
                     title="Products"
                     iconName="inventory_2"
-                    numNew="6"
-                    numNewTxt="newly recorded"
                     numTotal="550"
-                    numTotalTxt="product type"
+                    numTotalTxt="total products"
                     redirect={appRoutes.products.index}
                   />
                   <Button

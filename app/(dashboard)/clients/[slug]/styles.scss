@@ -1,2 +1,10 @@
-.client-page {
+.page-client-details {
+  .main-content {
+    position: relative;
+    top: 65px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 50px;
+  }
 }

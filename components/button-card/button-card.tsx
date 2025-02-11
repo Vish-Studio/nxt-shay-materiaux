@@ -14,8 +14,6 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   className,
   title,
   iconName,
-  numNew,
-  numNewTxt,
   numTotal,
   numTotalTxt,
   redirect
@@ -35,7 +33,6 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
         </div>
 
         <div className="button-card-bottom">
-          <p><span>{numNew}</span>{numNewTxt}</p>
           <p><span>{numTotal}</span>{numTotalTxt}</p>
         </div>
       </div>

@@ -1,0 +1,16 @@
+.detail-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  span {
+    font-weight: 600;
+    font-size: 12px;
+    color: #818181;
+  }
+
+  p {
+    font-size: 16px;
+    color: #1b1b1b;
+  }
+}

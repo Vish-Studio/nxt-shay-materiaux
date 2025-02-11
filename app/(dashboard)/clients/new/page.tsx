@@ -17,10 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IAddClientParams, IClient } from '@/types/api/client';
-import { useRouter } from 'next/navigation';
 import { clientApiService } from '@/services/api/client';
-import { useApiFetch } from '@/hooks/use-api-fetch';
-import { IPayment } from '@/types/api/payment';
 
 export default function NewClients() {
   const {
@@ -34,6 +31,7 @@ export default function NewClients() {
       lastName: '',
       nid: '',
       brnNumber: null,
+      email: '',
       mobileNumber: null,
       phoneNumber: null,
       shops: [
@@ -47,7 +45,7 @@ export default function NewClients() {
           }
         }
       ],
-      deliveryDateTime: [''],
+      deliveryDateTime: undefined,
       payments: ['']
     }
   });
@@ -109,19 +107,25 @@ export default function NewClients() {
 
             <div className="horizontal-fields">
               <FormInput
-                {...register('phoneNumber', { required: false })}
-                title="phoneNumber"
-                type="tel"
-                hint="Phone"
-              />
-
-              <FormInput
                 {...register('mobileNumber', { required: false })}
                 title="mobileNumber"
                 type="tel"
                 hint="Mobile"
               />
+              <FormInput
+                {...register('phoneNumber', { required: false })}
+                title="phoneNumber"
+                type="tel"
+                hint="Phone"
+              />
             </div>
+
+            <FormInput
+              {...register('email', { required: false })}
+              title="email"
+              type="email"
+              hint="Email"
+            />
           </div>
 
           <div className="address-info vertical-fields">

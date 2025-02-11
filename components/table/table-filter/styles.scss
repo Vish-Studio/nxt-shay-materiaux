@@ -1,21 +1,15 @@
 .table-filter {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   position: fixed;
   left: 16px;
   right: 16px;
 
-  tr {
-    width: 100%;
+  .actions {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-
-    .tab-buttons {
-      display: flex;
-      align-items: center;
-    }
+    gap: 5px;
   }
 
   .tab-group {
@@ -30,6 +24,8 @@
       background-color: #fff;
       border-radius: 5px;
       font-size: 11px;
+      width: 60px;
+      padding: 9px 10px;
     }
   }
 }
