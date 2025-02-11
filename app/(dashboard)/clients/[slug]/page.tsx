@@ -69,28 +69,30 @@ export default function Client() {
             </DetailCard>
           </section>
 
-          <section>
-            <DetailCard title="Contact">
-              {client.email && (
-                <DetailCardItem
-                  title="Email"
-                  name={client.email || '------'}
-                />
-              )}
-              {client.mobileNumber && (
-                <DetailCardItem
-                  title="Mobile"
-                  name={client.mobileNumber.toString()}
-                />
-              )}
-              {client.phoneNumber && (
-                <DetailCardItem
-                  title="Phone"
-                  name={client.phoneNumber.toString()}
-                />
-              )}
-            </DetailCard>
-          </section>
+          {client?.email || client?.phoneNumber || client?.mobileNumber && (
+            <section>
+              <DetailCard title="Contact">
+                {client.email && (
+                  <DetailCardItem
+                    title="Email"
+                    name={client.email || '------'}
+                  />
+                )}
+                {client.mobileNumber && (
+                  <DetailCardItem
+                    title="Mobile"
+                    name={client.mobileNumber.toString()}
+                  />
+                )}
+                {client.phoneNumber && (
+                  <DetailCardItem
+                    title="Phone"
+                    name={client.phoneNumber.toString()}
+                  />
+                )}
+              </DetailCard>
+            </section>
+          )}
 
           <section>
             <DetailCard title="Company">
