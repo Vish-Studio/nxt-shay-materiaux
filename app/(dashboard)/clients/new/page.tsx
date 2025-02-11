@@ -10,7 +10,7 @@ import Button from '@/components/button/button';
 
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap, { TLocation } from '@/components/google-maps/google-map';
-import dayjs, { Dayjs } from 'dayjs';
+
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
