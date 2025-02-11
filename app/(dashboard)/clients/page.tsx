@@ -77,17 +77,17 @@ export default function Clients() {
   const tabItem: TabItem[] = [
     {
       title: 'All',
-      clickHandle: () => { }
+      clickHandle: () => {}
     },
     {
       title: 'Active',
-      clickHandle: () => { }
+      clickHandle: () => {}
     },
     {
       title: 'Inactive',
-      clickHandle: () => { }
+      clickHandle: () => {}
     }
-  ]
+  ];
 
   return (
     <SearchContext.Provider

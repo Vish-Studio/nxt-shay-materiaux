@@ -6,6 +6,7 @@ export interface IClient extends IPaymentType {
   _id?: string;
   firstName: string;
   lastName: string;
+  email?: string;
   nid: string;
   brnNumber: number | null;
   mobileNumber?: number | null;

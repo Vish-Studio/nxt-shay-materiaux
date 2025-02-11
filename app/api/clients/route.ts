@@ -3,7 +3,6 @@ import { Shop } from '@/models/shop';
 import { IAddClientParams } from '@/types/api/client';
 import { dbConnect } from '@/utils/db-connect';
 import { createHttpResponse } from '@/utils/http';
-import { ObjectId } from 'mongoose';
 
 export async function GET() {
   try {

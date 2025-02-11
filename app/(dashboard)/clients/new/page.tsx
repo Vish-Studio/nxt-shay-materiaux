@@ -17,10 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IAddClientParams, IClient } from '@/types/api/client';
-import { useRouter } from 'next/navigation';
 import { clientApiService } from '@/services/api/client';
-import { useApiFetch } from '@/hooks/use-api-fetch';
-import { IPayment } from '@/types/api/payment';
 
 export default function NewClients() {
   const {
@@ -49,23 +46,21 @@ export default function NewClients() {
         }
       ],
       deliveryDateTime: undefined,
-      payments: [
-        ''
-      ]
+      payments: ['']
     }
   });
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
   const onSubmit = async (data: any) => {
-    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] }
+    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] };
 
     console.log(data);
 
     clientApiService.createClient(data);
   };
 
-  const handleAddLoc = (e: TLocation) => setLocation(e)
+  const handleAddLoc = (e: TLocation) => setLocation(e);
 
   return (
     <section className="new-clients-page">
