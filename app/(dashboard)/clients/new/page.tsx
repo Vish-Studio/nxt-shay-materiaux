@@ -34,6 +34,7 @@ export default function NewClients() {
       lastName: '',
       nid: '',
       brnNumber: null,
+      email: null,
       mobileNumber: null,
       phoneNumber: null,
       shops: [
@@ -113,19 +114,25 @@ export default function NewClients() {
 
             <div className="horizontal-fields">
               <FormInput
-                {...register('phoneNumber', { required: false })}
-                title="phoneNumber"
-                type="tel"
-                hint="Phone"
-              />
-
-              <FormInput
                 {...register('mobileNumber', { required: false })}
                 title="mobileNumber"
                 type="tel"
                 hint="Mobile"
               />
+              <FormInput
+                {...register('phoneNumber', { required: false })}
+                title="phoneNumber"
+                type="tel"
+                hint="Phone"
+              />
             </div>
+
+            <FormInput
+              {...register('email', { required: false })}
+              title="email"
+              type="email"
+              hint="Email"
+            />
           </div>
 
           <div className="address-info vertical-fields">
