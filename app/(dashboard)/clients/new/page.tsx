@@ -31,7 +31,7 @@ export default function NewClients() {
       lastName: '',
       nid: '',
       brnNumber: null,
-      email: null,
+      email: '',
       mobileNumber: null,
       phoneNumber: null,
       shops: [
