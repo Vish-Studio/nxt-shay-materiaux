@@ -19,37 +19,33 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({ tabItems, ...rest })
 
   return (
     <div className="table-filter">
-      <div style={{
-        width: '100%'
-      }}>
-        <div style={{ width: '90%' }}>
-          <div className="tab-group">
-            {tabItems.map((item, key) => {
-              return (
-                <button
-                  className="tab-item"
-                  key={key}
-                >
-                  {item.title}
-                </button>
-              );
-            })}
-          </div>
+      <div style={{ width: '90%' }}>
+        <div className="tab-group">
+          {tabItems.map((item, key) => {
+            return (
+              <button
+                className="tab-item"
+                key={key}
+              >
+                {item.title}
+              </button>
+            );
+          })}
         </div>
+      </div>
 
-        <div className="actions">
-          <ButtonIcon
-            className='btn-sort'
-            icon='swap_vert'
-            onClick={() => { }}
-          />
+      <div className="actions">
+        <ButtonIcon
+          className='btn-sort'
+          icon='swap_vert'
+          onClick={() => { }}
+        />
 
-          <ButtonIcon
-            className='btn-filter'
-            icon='filter_list'
-            onClick={() => { }}
-          />
-        </div>
+        <ButtonIcon
+          className='btn-filter'
+          icon='filter_list'
+          onClick={() => { }}
+        />
       </div>
     </div>
   );

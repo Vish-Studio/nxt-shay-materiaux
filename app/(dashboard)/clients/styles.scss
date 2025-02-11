@@ -9,6 +9,11 @@
   .main-content {
     position: relative;
     top: 270px;
+
+    .table-container {
+      position: relative;
+      top: 60px;
+    }
   }
 
   .button-fab.normal {

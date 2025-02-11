@@ -31,14 +31,6 @@ export default function Clients() {
 
   const columns: IColumn<IClient>[] = [
     {
-      title: 'Status',
-      dataIndex: 'status',
-      className: 'status',
-      render: (value) => {
-        return <TagPayment status={value?.toString() as TPaymentStatusValues} />;
-      }
-    },
-    {
       title: 'First Name',
       dataIndex: 'firstName',
       className: 'firstName',
