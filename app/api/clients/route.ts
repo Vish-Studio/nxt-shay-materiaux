@@ -1,6 +1,6 @@
 import { Client } from '@/models/client';
 import { Shop } from '@/models/shop';
-import { IAddClientParams } from '@/types/api/client';
+import { IAddClientParams, IDeleteClientParams } from '@/types/api/client';
 import { dbConnect } from '@/utils/db-connect';
 import { createHttpResponse } from '@/utils/http';
 
@@ -60,6 +60,30 @@ export async function POST(req: Request) {
       .exec();
 
     return createHttpResponse('success', 'Client created successfully', populatedClient, 201);
+  } catch (error) {
+    console.error(error);
+    return createHttpResponse('error', 'Internal Server Error', null, 500);
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    await dbConnect();
+
+    const body = (await req.json()) as IDeleteClientParams;
+    const { id } = body;
+
+    if (!id) {
+      return createHttpResponse('fail', 'Client id is required', null, 400);
+    }
+
+    const deletedClient = await Client.findByIdAndDelete(id);
+
+    if (!deletedClient) {
+      return createHttpResponse('fail', 'Client not found', null, 404);
+    }
+
+    return createHttpResponse('success', 'Client deleted successfully', null);
   } catch (error) {
     console.error(error);
     return createHttpResponse('error', 'Internal Server Error', null, 500);

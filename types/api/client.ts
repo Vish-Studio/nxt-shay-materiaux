@@ -31,7 +31,7 @@ export interface IAddClientParams {
   email?: string;
   shops?: IShop[];
   deliveryDateTime: string[];
-  payments?: string[];
+  payments?: IPayment[];
 }
 
 export interface IUpdateClientParams extends IBaseClientParams, Partial<IAddClientParams> {}

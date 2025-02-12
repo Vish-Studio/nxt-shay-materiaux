@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
 import { IAddClientParams, IClient } from '@/types/api/client';
 import { clientApiService } from '@/services/api/client';
+import { useRouter } from 'next/navigation';
 
 export default function NewClients() {
   const {
@@ -46,16 +47,26 @@ export default function NewClients() {
         }
       ],
       deliveryDateTime: undefined,
-      payments: ['']
+      payments: [{}]
     }
   });
+  const router = useRouter();
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
   const onSubmit = async (data: any) => {
-    data = { ...data, shops: [{ address: { lat: location.lat, long: location.lng } }] };
+    data = {
+      ...data,
+      shops: [
+        {
+          ...data.shops[0].shopName,
+          address: { ...data.shops[0].address, lat: location.lat, long: location.lng }
+        }
+      ]
+    };
 
-    clientApiService.createClient(data);
+    await clientApiService.createClient(data);
+    await router.push(appRoutes.clients.index);
   };
 
   const handleAddLoc = (e: TLocation) => setLocation(e);
@@ -169,7 +180,7 @@ export default function NewClients() {
 
             <FormInput
               {...register('shops.0.shopName', { required: false })}
-              title="shop.shopName"
+              title="shops.shopName"
               type="text"
               hint="Shop name"
             />

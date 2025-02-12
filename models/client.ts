@@ -13,6 +13,7 @@ export const clientSchema = new Schema<IClient>(
     brnNumber: { type: Number, required: false },
     phoneNumber: { type: Number, required: false },
     mobileNumber: { type: Number, required: false },
+    email: { type: String, required: false },
     shops: [{ type: Schema.Types.ObjectId, ref: Shop.modelName }],
     deliveryDateTime: [{ type: String, required: false }],
     payments: [{ type: Schema.Types.ObjectId, ref: Payment.modelName }]

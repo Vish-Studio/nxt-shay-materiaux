@@ -10,15 +10,19 @@ import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
 import { IClient } from '@/types/api/client';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import Button from '@/components/button/button';
+import { ButtonTypes } from '@/enums/button-types';
 
 export default function Client() {
   const params = useParams();
+  const router = useRouter();
   const { slug } = params;
   const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
   const [client, setClient] = useState<IClient>(Object);
+  const [deleteBtnDisabled, setDeleteBtnDisabled] = useState(false);
 
   useEffect(() => {
     clientsData &&
@@ -29,6 +33,12 @@ export default function Client() {
         }
       });
   }, [slug, clientsData]);
+
+  const deleteClient = async () => {
+    setDeleteBtnDisabled(true);
+    await clientApiService.deleteClient({ id: slug as string });
+    await router.push(appRoutes.clients.index);
+  };
 
   return (
     <main className="client-page">
@@ -64,35 +74,29 @@ export default function Client() {
               />
               <DetailCardItem
                 title="Address"
-                name={client?.shops?.[0]?.address.name || '------'}
+                name={client?.shops?.[0]?.address?.name || '------'}
               />
             </DetailCard>
           </section>
 
-          {client?.email || client?.phoneNumber || client?.mobileNumber && (
-            <section>
-              <DetailCard title="Contact">
-                {client.email && (
-                  <DetailCardItem
-                    title="Email"
-                    name={client.email || '------'}
-                  />
-                )}
-                {client.mobileNumber && (
-                  <DetailCardItem
-                    title="Mobile"
-                    name={client.mobileNumber.toString()}
-                  />
-                )}
-                {client.phoneNumber && (
-                  <DetailCardItem
-                    title="Phone"
-                    name={client.phoneNumber.toString()}
-                  />
-                )}
-              </DetailCard>
-            </section>
-          )}
+          <section>
+            <DetailCard title="Contact">
+              <DetailCardItem
+                title="Email"
+                name={(client.email && client?.email) || '------'}
+              />
+
+              <DetailCardItem
+                title="Mobile"
+                name={(client.mobileNumber && client?.mobileNumber.toString()) || '------'}
+              />
+
+              <DetailCardItem
+                title="Phone"
+                name={(client.phoneNumber && client?.phoneNumber.toString()) || '------'}
+              />
+            </DetailCard>
+          </section>
 
           <section>
             <DetailCard title="Company">
@@ -106,10 +110,19 @@ export default function Client() {
               />
               <DetailCardItem
                 title="Payment"
-                name={client.paymentType || '------'}
+                name={(client.payments && client?.payments[0]?.type) || '------'}
               />
             </DetailCard>
           </section>
+
+          <Button
+            className="btn-delete"
+            title="Delete"
+            type={ButtonTypes.Submit}
+            variant="rounded"
+            isDisabled={false}
+            onClick={deleteClient}
+          />
         </div>
       </div>
     </main>
