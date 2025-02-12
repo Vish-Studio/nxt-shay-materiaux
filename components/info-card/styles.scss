@@ -9,6 +9,7 @@
   align-items: flex-start;
   gap: 10px;
   position: relative;
+  z-index: 1;
   &.clients {
     background-color: #ff2d55;
   }

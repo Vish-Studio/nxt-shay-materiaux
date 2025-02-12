@@ -59,21 +59,6 @@ export default function Clients() {
     }
   ];
 
-  const handleTableClick = (data: IClient) => {
-    let client: IClient = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      nid: data.nid,
-      brnNumber: data.brnNumber,
-      phoneNumber: data.phoneNumber,
-      deliveryDateTime: data.deliveryDateTime,
-      paymentType: 'cash'
-    };
-
-    setIsInfo(!isInfo);
-    setSelectedClient(client);
-  };
-
   const tabItem: TabItem[] = [
     {
       title: 'All',
