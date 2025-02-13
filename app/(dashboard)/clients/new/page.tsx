@@ -33,8 +33,8 @@ export default function NewClients() {
       nid: '',
       brnNumber: null,
       email: '',
-      mobileNumber: null,
-      phoneNumber: null,
+      mobileNumber: '',
+      phoneNumber: '',
       shops: [
         {
           shopName: '',
@@ -59,14 +59,23 @@ export default function NewClients() {
       ...data,
       shops: [
         {
-          ...data.shops[0].shopName,
-          address: { ...data.shops[0].address, lat: location.lat, long: location.lng }
+          ...data.shops[0],
+          address: {
+            ...data.shops[0].address,
+            lat: location.lat,
+            long: location.lng
+          }
         }
       ]
     };
 
-    await clientApiService.createClient(data);
-    await router.push(appRoutes.clients.index);
+    const { status } = await clientApiService.createClient(data);
+
+    if (status === 'success') {
+      router.push(appRoutes.clients.index);
+    } else {
+      alert('error');
+    }
   };
 
   const handleAddLoc = (e: TLocation) => setLocation(e);
@@ -288,7 +297,7 @@ export default function NewClients() {
               <Controller
                 rules={{ required: true }}
                 control={control}
-                name="payments.0"
+                name="payments.0.paymentType"
                 render={({ field }) => (
                   <RadioGroup
                     {...field}

@@ -29,6 +29,7 @@ export async function POST(req: Request) {
       brnNumber,
       phoneNumber,
       mobileNumber,
+      email,
       shops,
       deliveryDateTime,
       payments
@@ -48,6 +49,8 @@ export async function POST(req: Request) {
       nid,
       brnNumber,
       mobileNumber,
+      phoneNumber,
+      email,
       shops: [shopId],
       deliveryDateTime,
       payments

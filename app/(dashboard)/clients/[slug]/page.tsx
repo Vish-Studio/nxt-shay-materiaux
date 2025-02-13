@@ -36,8 +36,13 @@ export default function Client() {
 
   const deleteClient = async () => {
     setDeleteBtnDisabled(true);
-    await clientApiService.deleteClient({ id: slug as string });
-    await router.push(appRoutes.clients.index);
+    const { status } = await clientApiService.deleteClient({ id: slug as string });
+
+    if (status === 'success') {
+      router.push(appRoutes.clients.index);
+    } else {
+      alert('error');
+    }
   };
 
   return (
@@ -110,13 +115,14 @@ export default function Client() {
               />
               <DetailCardItem
                 title="Payment"
-                name={(client.payments && client?.payments[0]?.type) || '------'}
+                name={(client.payments && client?.payments[0]?.paymentType) || '------'}
               />
             </DetailCard>
           </section>
 
           <Button
             className="btn-delete"
+            iconName="delete"
             title="Delete"
             type={ButtonTypes.Submit}
             variant="rounded"
