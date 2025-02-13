@@ -47,7 +47,7 @@ export default function NewClients() {
         }
       ],
       deliveryDateTime: undefined,
-      payments: [{}]
+      payments: ['']
     }
   });
   const router = useRouter();
@@ -57,6 +57,7 @@ export default function NewClients() {
   const onSubmit = async (data: any) => {
     data = {
       ...data,
+      payments: [data.payments],
       shops: [
         {
           ...data.shops[0],
@@ -297,7 +298,7 @@ export default function NewClients() {
               <Controller
                 rules={{ required: true }}
                 control={control}
-                name="payments.0.paymentType"
+                name="payments"
                 render={({ field }) => (
                   <RadioGroup
                     {...field}
