@@ -32,6 +32,7 @@ export default function Client() {
           setClient(client);
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, clientsData]);
 
   const deleteClient = async () => {
@@ -115,7 +116,7 @@ export default function Client() {
               />
               <DetailCardItem
                 title="Payment"
-                name={(client.payments && client?.payments[0]?.paymentType) || '------'}
+                name={client?.payments?.[0]?.value || '------'}
               />
             </DetailCard>
           </section>

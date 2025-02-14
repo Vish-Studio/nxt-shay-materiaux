@@ -1,7 +1,8 @@
-import { apiRoutes } from '@/constants/routes/api-routes';
 import { api } from '../base/base-api';
-import { IApiResponse } from '@/types/api/base';
-import {
+
+import { apiRoutes } from '@/constants/routes/api-routes';
+import type { IApiResponse } from '@/types/api/base';
+import type {
   IAddClientParams,
   IDeleteClientParams,
   IClient,

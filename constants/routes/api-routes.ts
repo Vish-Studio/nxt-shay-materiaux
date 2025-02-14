@@ -17,5 +17,8 @@ export const apiRoutes = {
   },
   products: {
     index: '/products'
+  },
+  payments: {
+    index: '/payments'
   }
 };

@@ -4,7 +4,7 @@ import mongoose, { Schema, model } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export const paymentSchema = new Schema<IPayment>({
-  paymentType: { type: String, required: false }
+  value: { type: String, required: false }
 });
 
 export const Payment: Model<IPayment> =

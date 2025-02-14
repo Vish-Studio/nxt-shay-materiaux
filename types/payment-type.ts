@@ -1,3 +1,3 @@
 export interface IPaymentType {
-  paymentType: 'juice' | 'cash' | 'cheque';
+  value: 'Juice' | 'Cash' | 'Cheque';
 }

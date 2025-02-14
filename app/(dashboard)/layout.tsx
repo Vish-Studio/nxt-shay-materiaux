@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthGuard } from '@/components/authentication/auth-card/auth-guard';
+import { AppDataProvider } from '@/context/AppDataContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { UserProvider } from '@/context/UserContext';
 
@@ -13,7 +14,9 @@ export default function DashboardLayout({
     <AuthProvider>
       <AuthGuard>
         <UserProvider>
-          <main className="dashboard-page">{children}</main>
+          <AppDataProvider>
+            <main className="dashboard-page">{children}</main>
+          </AppDataProvider>
         </UserProvider>
       </AuthGuard>
     </AuthProvider>

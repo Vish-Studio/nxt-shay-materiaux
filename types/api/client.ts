@@ -31,7 +31,7 @@ export interface IAddClientParams {
   email?: string;
   shops?: IShop[];
   deliveryDateTime: string[];
-  payments?: IPayment[];
+  payments?: string[]; // Should accept a list of Object Ids instead of actual payments objects
 }
 
 export interface IUpdateClientParams extends IBaseClientParams, Partial<IAddClientParams> {}
