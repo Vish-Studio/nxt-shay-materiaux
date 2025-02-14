@@ -8,7 +8,7 @@ export interface IClient extends IPaymentType {
   lastName: string;
   email?: string;
   nid: string;
-  brnNumber: number | null;
+  brnNumber: string | null;
   mobileNumber?: string | null;
   phoneNumber: string | null;
   shops?: IShop[];
@@ -25,7 +25,7 @@ export interface IAddClientParams {
   firstName: string;
   lastName: string;
   nid: string;
-  brnNumber: number | null;
+  brnNumber: string | null;
   mobileNumber?: string | null;
   phoneNumber: string | null;
   email?: string;

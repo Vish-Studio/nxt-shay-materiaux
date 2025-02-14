@@ -10,7 +10,7 @@ export const clientSchema = new Schema<IClient>(
     firstName: { type: String, required: false },
     lastName: { type: String, required: false },
     nid: { type: String, required: false },
-    brnNumber: { type: Number, required: false },
+    brnNumber: { type: String, required: false },
     phoneNumber: { type: String, required: false },
     mobileNumber: { type: String, required: false },
     email: { type: String, required: false },

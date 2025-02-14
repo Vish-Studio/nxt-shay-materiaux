@@ -34,7 +34,7 @@ export default function NewClients() {
       firstName: '',
       lastName: '',
       nid: '',
-      brnNumber: null,
+      brnNumber: '',
       email: '',
       mobileNumber: '',
       phoneNumber: '',

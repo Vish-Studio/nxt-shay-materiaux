@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
+import Modal from '@/components/modal/modal';
 
 export default function Client() {
   const params = useParams();
@@ -22,7 +23,7 @@ export default function Client() {
     serviceFn: clientApiService.getClients
   });
   const [client, setClient] = useState<IClient>(Object);
-  const [deleteBtnDisabled, setDeleteBtnDisabled] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
 
   useEffect(() => {
     clientsData &&
@@ -35,14 +36,12 @@ export default function Client() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, clientsData]);
 
-  const deleteClient = async () => {
-    setDeleteBtnDisabled(true);
+  const submitDeleteClient = async () => {
     const { status } = await clientApiService.deleteClient({ id: slug as string });
-
     if (status === 'success') {
       router.push(appRoutes.clients.index);
     } else {
-      alert('error');
+      setErrorModalOpen(true);
     }
   };
 
@@ -57,7 +56,7 @@ export default function Client() {
         />
 
         <div className="main-content">
-          <section>
+          <section className="client-details-header">
             <DetailCardHeader
               title={`${client.firstName} ${client.lastName}`}
               icon="account_circle"
@@ -112,7 +111,7 @@ export default function Client() {
               />
               <DetailCardItem
                 title="Business Registration Number"
-                name={client.brnNumber?.toString() || '------'}
+                name={client.brnNumber || '------'}
               />
               <DetailCardItem
                 title="Payment"
@@ -128,10 +127,19 @@ export default function Client() {
             type={ButtonTypes.Submit}
             variant="rounded"
             isDisabled={false}
-            onClick={deleteClient}
+            onClick={() => setErrorModalOpen(true)}
           />
         </div>
       </div>
+
+      <Modal
+        title="Error"
+        description="An error occured while deleting this user.."
+        isOpen={errorModalOpen}
+        primaryClick={submitDeleteClient}
+      >
+        <p>test</p>
+      </Modal>
     </main>
   );
 }
