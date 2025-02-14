@@ -1,24 +1,27 @@
 'use client';
+
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+
 import TopBar from '@/components/top-bar/top-bar';
-import '../styles.scss';
 import { appRoutes } from '@/constants/routes/app-routes';
 import FormInput from '@/components/form-input/form-input';
-import './styles.scss';
 import Button from '@/components/button/button';
-
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap, { TLocation } from '@/components/google-maps/google-map';
+import { useAppDataContext } from '@/context/AppDataContext';
+import { IAddClientParams } from '@/types/api/client';
+import { clientApiService } from '@/services/api/client';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
-import { IAddClientParams, IClient } from '@/types/api/client';
-import { clientApiService } from '@/services/api/client';
 import { useRouter } from 'next/navigation';
+
+import './styles.scss';
+import '../styles.scss';
 
 export default function NewClients() {
   const {
@@ -50,7 +53,10 @@ export default function NewClients() {
       payments: ['']
     }
   });
+
   const router = useRouter();
+  const { payments } = useAppDataContext();
+
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
 
@@ -306,21 +312,14 @@ export default function NewClients() {
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
                   >
-                    <FormControlLabel
-                      value="6793ba84790a0829fd04067d"
-                      control={<Radio />}
-                      label="Cash"
-                    />
-                    <FormControlLabel
-                      value="671cfd5448a2b25d4edce7f8"
-                      control={<Radio />}
-                      label="Juice"
-                    />
-                    <FormControlLabel
-                      value="6793ba94790a0829fd04067e"
-                      control={<Radio />}
-                      label="Cheque"
-                    />
+                    {payments?.map((payment) => (
+                      <FormControlLabel
+                        key={payment._id}
+                        value={payment._id}
+                        control={<Radio />}
+                        label={payment.value}
+                      />
+                    ))}
                   </RadioGroup>
                 )}
               />
