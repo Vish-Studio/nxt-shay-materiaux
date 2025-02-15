@@ -1,11 +1,11 @@
 {
-  "name": "SME - Inventory App",
-  "short_name": "SME - Inventory",
-  "description": "PWA application with Next 14",
+  "name": "Shayin",
+  "short_name": "Shayin",
+  "description": "Manage your SME business with Shayin app. Keep track of your inventory, sales, and expenses.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1d1d1d",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
