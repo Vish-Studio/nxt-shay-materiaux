@@ -153,7 +153,7 @@ export default function Client() {
         <ButtonFab
           icon={'phone'}
           type={'normal'}
-          clickHandler={() => window.open('tel:' + (client.mobileNumber || client.phoneNumber))}
+          clickHandler={() => window.open('tel:' + (client.mobileNumber || client.phoneNumber), '_self')}
         />
       )}
 
