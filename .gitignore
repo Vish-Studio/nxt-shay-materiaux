@@ -41,3 +41,12 @@ public/sw.js
 .gitignore
 .gitignore
 public/workbox-e43f5367.js.map
+
+
+# PWA
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map
