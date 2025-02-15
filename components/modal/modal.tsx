@@ -4,9 +4,11 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import Button from '../button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import './styles.scss';
+import Icon from '../icon/icon';
 
 interface ModalProps {
   className?: string;
+  icon?: string;
   title?: string;
   description?: string;
   isOpen: boolean;
@@ -20,6 +22,7 @@ interface ModalProps {
 
 const Modal: FunctionComponent<ModalProps> = ({
   className,
+  icon,
   title,
   description,
   isOpen,
@@ -36,7 +39,8 @@ const Modal: FunctionComponent<ModalProps> = ({
     <div className="modal-wrapper">
       <div className={`modal ${className ? className : ''} ${placement ? placement : ''}`}>
         <div className="modal-header">
-          <div className="title">
+          <div className={`title ${icon ? 'icon' : ''}`}>
+            {icon && <Icon iconName={icon} />}
             <h2>{title}</h2>
           </div>
           <div className="description">

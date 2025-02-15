@@ -24,12 +24,23 @@
     align-items: stretch;
     gap: 15px;
 
+    &.warning {
+      span.icon {
+        color: #ffc825;
+      }
+    }
+
     .modal-header {
       margin-bottom: 16px;
       .title {
         margin-bottom: 20px;
         h2 {
           font-size: 20px;
+        }
+
+        &.icon {
+          display: flex;
+          gap: 10px;
         }
       }
 

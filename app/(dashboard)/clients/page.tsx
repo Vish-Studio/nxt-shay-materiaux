@@ -4,7 +4,7 @@ import ButtonFab from '@/components/button-fab/button-fab';
 import TopBar from '@/components/top-bar/top-bar';
 import './styles.scss';
 import InfoCard from '@/components/info-card/info-card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchContext } from '@/context/SearchContext';
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +13,6 @@ import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
-import TagPayment from '@/components/table/tag-payment/tag-payment';
 import { getDayOfWeek } from '@/utils/date';
 import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 
@@ -21,11 +20,27 @@ export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
   const [selectedClient, setSelectedClient] = useState<IClient>(Object);
   const [isInfo, setIsInfo] = useState<boolean>(false);
+  const [filteredClients, setFilteredClients] = useState<IClient[] | null>(null);
   const router = useRouter();
 
   const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
+
+  useEffect(() => {
+    setFilteredClients(clientsData);
+  }, [clientsData]);
+
+  useEffect(() => {
+    if (searchResults) {
+      const filtered = clientsData?.filter((client) =>
+        client.firstName.toLowerCase().includes(searchResults.toLowerCase())
+      );
+      setFilteredClients(filtered ?? null);
+    } else {
+      setFilteredClients(clientsData);
+    }
+  }, [searchResults, clientsData]);
 
   const columns: IColumn<IClient>[] = [
     {
@@ -44,7 +59,7 @@ export default function Clients() {
       title: 'Phone',
       dataIndex: 'mobileNumber',
       className: 'mobileNumber',
-      render: (value) => <span className="text-secondary">{`${value as number}`}</span>
+      render: (value) => <span className="text-secondary">{`${value as string}`}</span>
     },
     {
       title: 'Date',
@@ -98,7 +113,7 @@ export default function Clients() {
 
           <TableListV2
             columns={columns}
-            data={clientsData ?? []}
+            data={filteredClients ?? []}
             loading={clientsDataLoading}
             hideHeader
             onRowClick={(record) => {

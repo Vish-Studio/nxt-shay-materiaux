@@ -114,7 +114,7 @@ export default function Client() {
 
               <DetailCardItem
                 title="Phone"
-                name={(client.phoneNumber && client?.phoneNumber.toString()) || '------'}
+                name={(client.phoneNumber && client?.phoneNumber) || '------'}
               />
             </DetailCard>
           </section>

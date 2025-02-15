@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 
 import './styles.scss';
 import '../styles.scss';
+import Modal from '@/components/modal/modal';
 
 export default function NewClients() {
   const {
@@ -36,8 +37,8 @@ export default function NewClients() {
       nid: '',
       brnNumber: '',
       email: '',
-      mobileNumber: null,
-      phoneNumber: null,
+      mobileNumber: '',
+      phoneNumber: '',
       shops: [
         {
           shopName: '',
@@ -59,8 +60,11 @@ export default function NewClients() {
 
   const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
+  const [errorModalOpen, setErrorModalOpen] = useState<boolean>(false);
+
 
   const onSubmit = async (data: any) => {
+    setBtnIsDisabled(true);
     data = {
       ...data,
       payments: [data.payments],
@@ -79,9 +83,10 @@ export default function NewClients() {
     const { status } = await clientApiService.createClient(data);
 
     if (status === 'success') {
+      setBtnIsDisabled(false);
       router.push(appRoutes.clients.index);
     } else {
-      alert('error');
+      setErrorModalOpen(true);
     }
   };
 
@@ -338,6 +343,16 @@ export default function NewClients() {
           isDisabled={isBtnDisabled}
         />
       </div>
+
+      <Modal
+        className="warning"
+        icon="error"
+        title="Error"
+        description="An error occurred while trying to create a new client. Please try again or verify the values you are inputting."
+        isOpen={errorModalOpen}
+        primaryText='Try again'
+        primaryClick={() => setErrorModalOpen(false)}
+      />
     </section>
   );
 }

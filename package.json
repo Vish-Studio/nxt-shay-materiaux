@@ -26,6 +26,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "react-loading-indicators": "^1.0.0",
+    "rsuite": "^5.77.1",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {
