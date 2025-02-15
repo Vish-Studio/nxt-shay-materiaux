@@ -10,9 +10,11 @@ interface ModalProps {
   title?: string;
   description?: string;
   isOpen: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   placement?: 'center' | 'top' | 'bottom';
-  primaryClick?: () => void; // action for main button clicks ex: submit, ok, continue
+  primaryText: string;
+  secondaryText?: string;
+  primaryClick: () => void; // action for main button clicks ex: submit, ok, continue
   secondaryClick?: () => void; // action for secondary button clicks ex: cancel, close, back
 }
 
@@ -23,6 +25,8 @@ const Modal: FunctionComponent<ModalProps> = ({
   isOpen,
   children,
   placement,
+  primaryText,
+  secondaryText,
   primaryClick,
   secondaryClick
 }) => {
@@ -40,12 +44,25 @@ const Modal: FunctionComponent<ModalProps> = ({
           </div>
         </div>
 
-        <div className="modal-content">{children}</div>
+        {children && (
+          <div className="modal-content">{children}</div>
+        )}
 
         <div className="modal-actions">
+          {secondaryClick && (
+            <Button
+              className="btn-secondary"
+              title={secondaryText as string}
+              type={ButtonTypes.Submit}
+              variant="normal"
+              isDisabled={false}
+              onClick={secondaryClick}
+            />
+          )}
+
           <Button
             className="btn-primary"
-            title="Continue"
+            title={primaryText}
             type={ButtonTypes.Submit}
             variant="normal"
             isDisabled={false}

@@ -36,8 +36,8 @@ export default function NewClients() {
       nid: '',
       brnNumber: '',
       email: '',
-      mobileNumber: '',
-      phoneNumber: '',
+      mobileNumber: null,
+      phoneNumber: null,
       shops: [
         {
           shopName: '',

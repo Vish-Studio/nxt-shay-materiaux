@@ -17,6 +17,8 @@ import ButtonFab from '../button-fab/button-fab';
 interface GoogleMapProps {
   zoom: number;
   clickAddLoc: (e: TLocation) => void;
+  lat?: number;
+  lng?: number;
 }
 
 const googleMapKey: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
@@ -27,7 +29,7 @@ export type TLocation = {
   lng: number;
 };
 
-const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc }) => {
+const GoogleMap: FunctionComponent<GoogleMapProps> = ({ zoom, clickAddLoc, lat, lng }) => {
   const apiIsLoaded = useApiIsLoaded();
   const [currentLoc, setCurrentLoc] = useState<TLocation>({
     lat: -20.271657,

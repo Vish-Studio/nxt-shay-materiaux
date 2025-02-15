@@ -1,4 +1,5 @@
 'use client';
+
 import ButtonFab from '@/components/button-fab/button-fab';
 import TopBar from '@/components/top-bar/top-bar';
 import './styles.scss';
@@ -7,15 +8,12 @@ import { useState } from 'react';
 import { SearchContext } from '@/context/SearchContext';
 import { useRouter } from 'next/navigation';
 
-import TableList from '@/components/table/table-list/table-list';
 import { appRoutes } from '@/constants/routes/app-routes';
 import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
 import TagPayment from '@/components/table/tag-payment/tag-payment';
-import { IProduct } from '@/types/api/product';
-import { TPaymentStatusValues } from '@/types/payment-status';
 import { getDayOfWeek } from '@/utils/date';
 import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 
@@ -62,15 +60,15 @@ export default function Clients() {
   const tabItem: TabItem[] = [
     {
       title: 'All',
-      clickHandle: () => {}
+      clickHandle: () => { }
     },
     {
       title: 'Active',
-      clickHandle: () => {}
+      clickHandle: () => { }
     },
     {
       title: 'Inactive',
-      clickHandle: () => {}
+      clickHandle: () => { }
     }
   ];
 

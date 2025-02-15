@@ -14,6 +14,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
+import GoogleMap from '@/components/google-maps/google-map';
 
 export default function Client() {
   const params = useParams();
@@ -77,10 +78,25 @@ export default function Client() {
                 title="Last name"
                 name={client.lastName || '------'}
               />
+            </DetailCard>
+          </section>
+
+          <section className='address'>
+            <DetailCard title="Location">
               <DetailCardItem
                 title="Address"
                 name={client?.shops?.[0]?.address?.name || '------'}
               />
+
+              <DetailCardItem
+                title="City"
+                name={client?.shops?.[0]?.address?.city || '------'} />
+
+              <GoogleMap
+                zoom={15}
+                lat={client?.shops?.[0].address.lat}
+                lng={client?.shops?.[0].address.long}
+                clickAddLoc={() => { }} />
             </DetailCard>
           </section>
 
@@ -133,13 +149,14 @@ export default function Client() {
       </div>
 
       <Modal
-        title="Error"
-        description="An error occured while deleting this user.."
+        title="Delete Client"
+        description="Are you sure you want to delete this client?"
         isOpen={errorModalOpen}
+        primaryText='Confirm'
+        secondaryText='Cancel'
         primaryClick={submitDeleteClient}
-      >
-        <p>test</p>
-      </Modal>
+        secondaryClick={() => setErrorModalOpen(false)}
+      />
     </main>
   );
 }

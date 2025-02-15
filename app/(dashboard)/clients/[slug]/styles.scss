@@ -10,5 +10,12 @@
     .btn-delete {
       background-color: #de0400;
     }
+
+    section.address {
+      .google-maps {
+        height: 100px;
+        border-radius: 5px;
+      }
+    }
   }
 }
