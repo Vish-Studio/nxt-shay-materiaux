@@ -15,6 +15,7 @@ import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
 import GoogleMap from '@/components/google-maps/google-map';
+import ButtonFab from '@/components/button-fab/button-fab';
 
 export default function Client() {
   const params = useParams();
@@ -147,6 +148,14 @@ export default function Client() {
           />
         </div>
       </div>
+
+      {(client.mobileNumber || client.phoneNumber) && (
+        <ButtonFab
+          icon={'phone'}
+          type={'normal'}
+          clickHandler={() => window.open('tel:' + (client.mobileNumber || client.phoneNumber))}
+        />
+      )}
 
       <Modal
         title="Delete Client"
