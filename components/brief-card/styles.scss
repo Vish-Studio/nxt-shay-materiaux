@@ -1,4 +1,4 @@
-.info-card {
+.brief-card {
   height: 190px;
   padding: 24px 16px;
   border-radius: 20px;
@@ -17,12 +17,4 @@
   &.products {
     background-color: #ffcc00;
   }
-}
-
-.info-card .action-buttons {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  display: flex;
-  gap: 8px;
 }

@@ -1,5 +1,5 @@
 .page-products {
-  .info-card {
+  .brief-card {
     position: fixed;
     top: 80px;
     right: 16px;
@@ -9,6 +9,11 @@
   .main-content {
     position: relative;
     top: 255px;
+
+    .table-container {
+      position: relative;
+      top: 60px;
+    }
   }
 
   .button-fab.normal {
