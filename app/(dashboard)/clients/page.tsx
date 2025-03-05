@@ -3,7 +3,6 @@
 import ButtonFab from '@/components/button-fab/button-fab';
 import TopBar from '@/components/top-bar/top-bar';
 import './styles.scss';
-import InfoCard from '@/components/info-card/info-card';
 import { useEffect, useState } from 'react';
 import { SearchContext } from '@/context/SearchContext';
 import { useRouter } from 'next/navigation';
@@ -15,17 +14,18 @@ import { clientApiService } from '@/services/api/client';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
 import { getDayOfWeek } from '@/utils/date';
 import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
+import BriefCard from '@/components/brief-card/brief-card';
+import BriefItem from '@/components/brief-card/brief-item/brief-item';
 
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
-  const [selectedClient, setSelectedClient] = useState<IClient>(Object);
-  const [isInfo, setIsInfo] = useState<boolean>(false);
   const [filteredClients, setFilteredClients] = useState<IClient[] | null>(null);
   const router = useRouter();
 
   const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
+
 
   useEffect(() => {
     setFilteredClients(clientsData);
@@ -40,7 +40,8 @@ export default function Clients() {
     } else {
       setFilteredClients(clientsData);
     }
-  }, [searchResults, clientsData]);
+  }, [searchResults]);
+
 
   const columns: IColumn<IClient>[] = [
     {
@@ -87,6 +88,7 @@ export default function Clients() {
     }
   ];
 
+
   return (
     <SearchContext.Provider
       value={{
@@ -102,11 +104,14 @@ export default function Clients() {
           hasSearch={true}
         />
 
-        <InfoCard
-          type="clients"
-          infoContents={selectedClient}
-          isInfo={isInfo}
-        />
+        <section className="overview">
+          <BriefCard type='clients'>
+            <BriefItem title="added today" value={filteredClients?.length || 0} />
+            <BriefItem title="total registered" value={filteredClients?.length || 0} />
+            <BriefItem title="remaining payment" value={filteredClients?.length || 0} />
+            <BriefItem title="total payment" value={filteredClients?.length || 0} />
+          </BriefCard>
+        </section>
 
         <section className="main-content">
           <TableFilter tabItems={tabItem} />

@@ -3,10 +3,8 @@
 import { useState } from 'react';
 
 import ButtonFab from '@/components/button-fab/button-fab';
-import InfoCard from '@/components/info-card/info-card';
 import TopBar from '@/components/top-bar/top-bar';
-import TableFilter from '@/components/table/table-filter/table-filter';
-import TableList from '@/components/table/table-list/table-list';
+import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import type { IProduct } from '@/types/api/product';
 import { type IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
@@ -16,6 +14,8 @@ import { productApiService } from '@/services/api/product';
 import { getDayOfWeek } from '@/utils/date';
 
 import './styles.scss';
+import BriefCard from '@/components/brief-card/brief-card';
+import BriefItem from '@/components/brief-card/brief-item/brief-item';
 
 export default function Products() {
   const [slug, setSlug] = useState<string>('plasticbags');
@@ -73,6 +73,23 @@ export default function Products() {
     return <button onClick={testAdd}>Add Product TEST</button>;
   };
 
+
+  const tabItem: TabItem[] = [
+    {
+      title: 'All',
+      clickHandle: () => { }
+    },
+    {
+      title: 'Active',
+      clickHandle: () => { }
+    },
+    {
+      title: 'Inactive',
+      clickHandle: () => { }
+    }
+  ];
+
+
   return (
     <main className="page-products">
       <TopBar
@@ -82,14 +99,18 @@ export default function Products() {
         hasSearch={true}
       />
 
-      <section>
-        <InfoCard
-          type="products"
-          isInfo={isInfo}
-        />
+      <section className='overview'>
+        <BriefCard type='products'>
+          <BriefItem title="added today" value={productsData?.length || 0} />
+          <BriefItem title="total registered" value={productsData?.length || 0} />
+          <BriefItem title="remaining payment" value={productsData?.length || 0} />
+          <BriefItem title="total payment" value={productsData?.length || 0} />
+        </BriefCard>
       </section>
 
       <section className="main-content">
+        <TableFilter tabItems={tabItem} />
+
         <TableListV2
           columns={columns}
           data={productsData ?? []}
