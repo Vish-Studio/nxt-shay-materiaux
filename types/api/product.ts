@@ -5,11 +5,19 @@ import type { ICategory } from './category';
 export interface IProduct extends IBase, IPaymentStatus {
   _id: string;
   name: string;
+  description: string;
+  color?: string;
+  image?: string;
   quantity: number;
   category: ICategory;
-  price: number;
+  price: IPrice;
   buyingPrice: number;
   moreInfo?: string;
+}
+
+export interface IPrice {
+  selling: number;
+  buying: number;
 }
 
 export interface IBaseProductParams {
