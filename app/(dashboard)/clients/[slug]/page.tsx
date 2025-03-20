@@ -4,7 +4,7 @@ import TopBar from '@/components/top-bar/top-bar';
 import './styles.scss';
 import { appRoutes } from '@/constants/routes/app-routes';
 import DetailCardHeader from '@/components/detail-card-header/detail-card-header';
-import DetailCard from '@/components/detail-card-wrapper/detail-card-wrapper';
+import DetailCard from '@/components/detail-card/detail-card-wrapper';
 import DetailCardItem from '@/components/detail-card-item/detail-card-item';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';

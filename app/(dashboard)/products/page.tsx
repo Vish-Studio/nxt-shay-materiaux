@@ -16,9 +16,11 @@ import { getDayOfWeek } from '@/utils/date';
 import './styles.scss';
 import BriefCard from '@/components/brief-card/brief-card';
 import BriefItem from '@/components/brief-card/brief-item/brief-item';
+import { appRoutes } from '@/constants/routes/app-routes';
+import { useRouter } from 'next/navigation';
 
 export default function Products() {
-  const [slug, setSlug] = useState<string>('plasticbags');
+  const router = useRouter();
   const [isInfo, setIsInfo] = useState<boolean>(false);
 
   const { data: productsData, loading: productsDataLoading } = useApiFetch<IProduct[]>({
@@ -116,9 +118,7 @@ export default function Products() {
           data={productsData ?? []}
           loading={productsDataLoading}
           hideHeader
-          onRowClick={(record) => {
-            console.log('Column clicked', record);
-          }}
+          onRowClick={(record) => router.push(`${appRoutes.products.index}/${record?._id}`)}
           containerClassName="products-table-list"
         />
 
