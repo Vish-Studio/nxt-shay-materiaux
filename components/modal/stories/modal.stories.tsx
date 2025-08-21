@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Modal from './modal';
+import Modal from '../modal';
 import { useState } from 'react';
 
 const ModalWrapper = (props: any) => {

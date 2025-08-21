@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { forwardRef } from 'react';
-import FormInput from './form-input';
+import FormInput from '../form-input';
 
 // Create a wrapper component to handle the ref properly
 const FormInputWrapper = forwardRef<HTMLInputElement, any>((props, ref) => {

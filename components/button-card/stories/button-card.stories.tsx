@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ButtonCard from './button-card';
+import ButtonCard from '../button-card';
 
 const meta = {
   title: 'Components/ButtonCard',

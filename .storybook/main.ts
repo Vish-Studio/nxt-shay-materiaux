@@ -2,7 +2,10 @@ import type { StorybookConfig } from '@storybook/nextjs';
 import path from 'path';
 
 const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: [
+    '../components/**/stories/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../components/**/*.stories.@(js|jsx|mjs|ts|tsx)' // Fallback for any stories not in stories folders
+  ],
   addons: [
     '@storybook/addon-onboarding',
     '@storybook/addon-essentials',
@@ -30,8 +33,24 @@ const config: StorybookConfig = {
         '@': path.resolve(__dirname, '../')
       };
     }
+
+    // Ensure proper font loading in webpack
+    if (config.module && config.module.rules) {
+      config.module.rules.push({
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource'
+      });
+    }
+
     return config;
-  }
+  },
+
+  // Enable font preloading for better performance
+  previewHead: (head) => `
+    ${head}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  `
 };
 
 export default config;

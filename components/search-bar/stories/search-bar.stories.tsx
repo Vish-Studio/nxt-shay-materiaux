@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import SearchBar from './search-bar';
+import SearchBar from '../search-bar';
 import { SearchContext } from '@/context/SearchContext';
 import { useState } from 'react';
 
