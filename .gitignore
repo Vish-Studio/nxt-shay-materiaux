@@ -50,3 +50,8 @@ public/workbox-e43f5367.js.map
 **/public/sw.js.map
 **/public/workbox-*.js.map
 **/public/worker-*.js.map
+*storybook.log
+storybook-static
+
+# Storybook
+storybook-static
