@@ -1,3 +1,23 @@
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .table-container {
   display: flex;
   flex-direction: column;
@@ -39,9 +59,101 @@
     transition: background-color 0.3s ease-in-out;
     cursor: pointer;
     border-radius: 10px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+
     &.selected {
       border-color: #1d1d1d;
       background-color: #f8f8f8;
+    }
+
+    // Staggered animation delay for each row
+    &:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    &:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+    &:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+    &:nth-child(6) {
+      animation-delay: 0.6s;
+    }
+    &:nth-child(7) {
+      animation-delay: 0.7s;
+    }
+    &:nth-child(8) {
+      animation-delay: 0.8s;
+    }
+    &:nth-child(9) {
+      animation-delay: 0.9s;
+    }
+    &:nth-child(10) {
+      animation-delay: 1s;
+    }
+    // Continue for more rows if needed
+    &:nth-child(n + 11) {
+      animation-delay: 1.1s;
+    }
+  }
+
+  .table-row.loading-skeleton {
+    opacity: 1;
+    padding: 0;
+    // animation: fadeIn 0.6s ease-out forwards; // Use fadeIn instead of fadeInUp
+
+    .table-cell {
+      position: relative;
+      color: transparent;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 80%;
+        height: 12px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 4px;
+      }
+
+      // Different widths for different cells to simulate text
+      &:nth-child(1)::before {
+        width: 60%; // Shorter for first column
+      }
+      &:nth-child(2)::before {
+        width: 85%; // Medium for second column
+      }
+      &:nth-child(3)::before {
+        width: 45%; // Short for third column
+      }
+      &:nth-child(4)::before {
+        width: 70%; // Medium for fourth column
+      }
+      &:last-child::before {
+        width: 50%; // Short for last column
+        left: auto;
+        right: 0; // Align to right for last column
+      }
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
     }
   }
 

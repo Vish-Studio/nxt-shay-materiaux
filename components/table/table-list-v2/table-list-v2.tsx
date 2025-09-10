@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import type { ReactNode, HTMLAttributes } from 'react';
 
 import { renderValidReactNode } from '@/utils/react';
@@ -42,6 +42,18 @@ export const TableListV2 = <T,>({
   ...rest
 }: ITableListV2Props<T>) => {
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
+  const [showSkeleton, setShowSkeleton] = useState(loading);
+
+  useEffect(() => {
+    if (loading) {
+      setShowSkeleton(true);
+    }
+    else {
+      // Delay hiding skeleton to allow for smooth transition
+      const timer = setTimeout(() => setShowSkeleton(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   const generateKey = (record: T) => JSON.stringify(record);
 
@@ -53,17 +65,32 @@ export const TableListV2 = <T,>({
     [onRowClick]
   );
 
+  // Create skeleton rows for loading state
+  const createSkeletonRows = () => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <div
+        key={`skeleton-${index}`}
+        className={`table-row loading-skeleton ${rowClassName ?? ''}`}
+        style={{ animationDelay: `${index * 0.1}s` }}
+      >
+        <TagPayment status={'unpaid'} style={{ marginRight: '8px', opacity: 0.7 }} />
+        {columns.map((column) => (
+          <div
+            key={`skeleton-cell-${column.dataIndex as string}`}
+            className={`table-cell ${column.className ?? ''}`}
+          >
+            Placeholder text
+          </div>
+        ))}
+      </div>
+    ));
+  };
+
   return (
     <div
       className={`table-container ${containerClassName ?? ''}`}
       {...rest}
     >
-      {loading && (
-        <LinearProgress
-          isIndeterminate
-          position="relative"
-        />
-      )}
       {!hideHeader && (
         <div className={`table-header ${headerClassName ?? ''}`}>
           {columns.map((column) => (
@@ -77,38 +104,45 @@ export const TableListV2 = <T,>({
         </div>
       )}
       <div className="table-body">
-        {data.map((record, _) => {
-          const key = generateKey(record);
+        {loading && showSkeleton ? (
+          createSkeletonRows()
+        ) : (
+          <>
+            {data.map((record, index) => {
+              const key = generateKey(record);
 
-          return (
-            <button
-              key={key}
-              className={`table-row ${rowClassName ?? ''} ${record === selectedRecord ? 'selected' : ''
-                }`}
-              onClick={() => handleRowClick(record)}
-            >
-              <TagPayment status={'pending'} style={{ marginRight: '8px' }} />
-
-              {columns.map((column) => (
-                <div
-                  key={column.dataIndex as string}
-                  className={`table-cell ${column.className ?? ''}`}
+              return (
+                <button
+                  key={key}
+                  className={`table-row table-row-animated ${rowClassName ?? ''} ${record === selectedRecord ? 'selected' : ''
+                    }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => handleRowClick(record)}
                 >
-                  {column.render
-                    ? column.render(record[column.dataIndex], record)
-                    : renderValidReactNode(record[column.dataIndex])}
-                </div>
-              ))}
-            </button>
-          );
-        })}
+                  <TagPayment status={'pending'} style={{ marginRight: '8px' }} />
 
-        <div style={{
-          textAlign: 'center', marginTop: '1rem', opacity: '0.3',
-          fontSize: '12px'
-        }}>
-          {data.length} total clients
-        </div>
+                  {columns.map((column) => (
+                    <div
+                      key={column.dataIndex as string}
+                      className={`table-cell ${column.className ?? ''}`}
+                    >
+                      {column.render
+                        ? column.render(record[column.dataIndex], record)
+                        : renderValidReactNode(record[column.dataIndex])}
+                    </div>
+                  ))}
+                </button>
+              );
+            })}
+
+            <div style={{
+              textAlign: 'center', marginTop: '1rem', opacity: '0.3',
+              fontSize: '12px'
+            }}>
+              {data.length} total clients
+            </div>
+          </>
+        )}
       </div>
     </div >
   );
