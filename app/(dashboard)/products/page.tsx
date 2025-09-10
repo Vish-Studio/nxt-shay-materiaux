@@ -128,7 +128,7 @@ export default function Products() {
       <ButtonFab
         icon={'add'}
         type={'normal'}
-        clickHandler={() => setIsInfo(!isInfo)}
+        clickHandler={() => router.push(appRoutes.products.new)}
       />
     </main>
   );

@@ -8,8 +8,12 @@ interface TagPaymentProps {
   status: TPaymentStatusValues;
 }
 
-const TagPayment: FunctionComponent<TagPaymentProps> = ({ classname, status }) => {
-  return <div className={`tag-payment ${classname} ${status}`}></div>;
+const TagPayment: FunctionComponent<TagPaymentProps & React.HTMLAttributes<HTMLDivElement>> = ({ classname, status, ...rest }) => {
+  return (
+    <div className={`tag-payment ${classname} ${status}`} {...rest}></div>
+  );
 };
+
+TagPayment.displayName = 'TagPayment';
 
 export default TagPayment;

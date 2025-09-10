@@ -92,12 +92,6 @@ export default function Client() {
               <DetailCardItem
                 title="City"
                 name={client?.shops?.[0]?.address?.city || '------'} />
-
-              <GoogleMap
-                zoom={15}
-                lat={client?.shops?.[0].address.lat}
-                lng={client?.shops?.[0].address.long}
-                clickAddLoc={() => { }} />
             </DetailCard>
           </section>
 
@@ -137,15 +131,27 @@ export default function Client() {
             </DetailCard>
           </section>
 
-          <Button
-            className="btn-delete"
-            iconName="delete"
-            title="Delete"
-            type={ButtonTypes.Submit}
-            variant="rounded"
-            isDisabled={false}
-            onClick={() => setErrorModalOpen(true)}
-          />
+          <div className="action-buttons">
+            <Button
+              className="btn-edit"
+              iconName="edit"
+              title="Edit"
+              type={ButtonTypes.Button}
+              variant="rounded"
+              isDisabled={false}
+              clickHandler={() => router.push(appRoutes.clients.edit(slug as string))}
+            />
+
+            <Button
+              className="btn-delete"
+              iconName="delete"
+              title="Delete"
+              type={ButtonTypes.Submit}
+              variant="rounded"
+              isDisabled={false}
+              clickHandler={() => setErrorModalOpen(true)}
+            />
+          </div>
         </div>
       </div>
 

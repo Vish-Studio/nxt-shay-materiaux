@@ -88,6 +88,7 @@ export default function Home() {
                     numTotal="200"
                     numTotalTxt="total clients"
                     redirect={appRoutes.clients.index}
+                    fabRedirect={appRoutes.clients.new}
                   />
 
                   <Button
@@ -113,6 +114,7 @@ export default function Home() {
                     numTotal="550"
                     numTotalTxt="total products"
                     redirect={appRoutes.products.index}
+                    fabRedirect={appRoutes.products.new}
                   />
                   <Button
                     title="Invoices"

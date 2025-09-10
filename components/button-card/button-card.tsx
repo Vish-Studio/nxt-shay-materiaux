@@ -16,7 +16,8 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   iconName,
   numTotal,
   numTotalTxt,
-  redirect
+  redirect,
+  fabRedirect
 }) => {
   const router = useRouter()
   return (
@@ -38,7 +39,7 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
       </div>
 
       <ButtonFab
-        clickHandler={() => router.push(appRoutes.clients.new)}
+        clickHandler={() => router.push(fabRedirect)}
         icon="add"
         type="mini" />
     </div>

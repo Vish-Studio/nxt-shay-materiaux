@@ -6,6 +6,7 @@ import { LinearProgress } from '@/components/linear-progress/linear-progress';
 
 import './styles.scss';
 import { useRouter } from 'next/navigation';
+import TagPayment from '../tag-payment/tag-payment';
 
 export interface IColumn<T> {
   title: string;
@@ -40,7 +41,6 @@ export const TableListV2 = <T,>({
   headerClassName,
   ...rest
 }: ITableListV2Props<T>) => {
-  const router = useRouter();
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
 
   const generateKey = (record: T) => JSON.stringify(record);
@@ -83,11 +83,12 @@ export const TableListV2 = <T,>({
           return (
             <button
               key={key}
-              className={`table-row ${rowClassName ?? ''} ${
-                record === selectedRecord ? 'selected' : ''
-              }`}
+              className={`table-row ${rowClassName ?? ''} ${record === selectedRecord ? 'selected' : ''
+                }`}
               onClick={() => handleRowClick(record)}
             >
+              <TagPayment status={'pending'} style={{ marginRight: '8px' }} />
+
               {columns.map((column) => (
                 <div
                   key={column.dataIndex as string}
@@ -101,7 +102,14 @@ export const TableListV2 = <T,>({
             </button>
           );
         })}
+
+        <div style={{
+          textAlign: 'center', marginTop: '1rem', opacity: '0.3',
+          fontSize: '12px'
+        }}>
+          {data.length} total clients
+        </div>
       </div>
-    </div>
+    </div >
   );
 };

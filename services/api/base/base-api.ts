@@ -8,6 +8,7 @@ interface IApiService {
   post<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>>;
   get<T>(endpoint: string): Promise<IApiResponse<T>>;
   put<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>>;
+  patch<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>>;
   delete<T, U = TBody>(endpoint: string, body?: U): Promise<IApiResponse<T>>;
 }
 
@@ -72,6 +73,10 @@ class ApiService implements IApiService {
 
   public put<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>> {
     return this.request<T, U>('put', endpoint, body);
+  }
+
+  public patch<T, U = TBody>(endpoint: string, body: U): Promise<IApiResponse<T>> {
+    return this.request<T, U>('patch', endpoint, body);
   }
 
   public delete<T, U = TBody>(endpoint: string, body?: U): Promise<IApiResponse<T>> {

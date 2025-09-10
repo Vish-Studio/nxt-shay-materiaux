@@ -6,7 +6,7 @@ export type TError = {
   message: string;
 };
 
-export type TFetchMethod = 'get' | 'post' | 'put' | 'delete';
+export type TFetchMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export type TResponseStatus = 'success' | 'fail' | 'error' | 'pending';
 

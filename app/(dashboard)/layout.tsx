@@ -15,7 +15,7 @@ export default function DashboardLayout({
       <AuthGuard>
         <UserProvider>
           <AppDataProvider>
-            <main className="dashboard-page">{children}</main>
+            {children}
           </AppDataProvider>
         </UserProvider>
       </AuthGuard>

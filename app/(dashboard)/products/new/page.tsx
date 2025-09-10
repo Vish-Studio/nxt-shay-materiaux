@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import TopBar from '@/components/top-bar/top-bar';
@@ -24,19 +24,13 @@ import './styles.scss';
 import '../styles.scss';
 import Modal from '@/components/modal/modal';
 
-// Form interface - payments is a single string for the radio group
-interface INewClientFormData extends Omit<IAddClientParams, 'payments'> {
-  payments: string;
-}
-
 export default function NewClients() {
   const {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors }
-  } = useForm<INewClientFormData>({
+  } = useForm<IAddClientParams>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -57,7 +51,7 @@ export default function NewClients() {
         }
       ],
       deliveryDateTime: undefined,
-      payments: ''
+      payments: ['']
     }
   });
 
@@ -68,59 +62,42 @@ export default function NewClients() {
   const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
   const [errorModalOpen, setErrorModalOpen] = useState<boolean>(false);
 
-  // Set "Juice" as default payment when payments data is loaded
-  useEffect(() => {
-    if (payments && payments.length > 0) {
-      const juicePayment = payments.find(payment => payment.value === 'Juice');
-      if (juicePayment) {
-        setValue('payments', juicePayment._id);
-      }
-    }
-  }, [payments, setValue]);
-
 
   const onSubmit = async (data: any) => {
     setBtnIsDisabled(true);
-
-    try {
-      data = {
-        ...data,
-        payments: [data.payments],
-        shops: [
-          {
-            ...data.shops[0],
-            address: {
-              ...data.shops[0].address,
-              lat: location.lat,
-              long: location.lng
-            }
+    data = {
+      ...data,
+      payments: [data.payments],
+      shops: [
+        {
+          ...data.shops[0],
+          address: {
+            ...data.shops[0].address,
+            lat: location.lat,
+            long: location.lng
           }
-        ]
-      };
+        }
+      ]
+    };
 
-      const { status } = await clientApiService.createClient(data);
+    const { status } = await clientApiService.createClient(data);
 
-      if (status === 'success') {
-        router.push(appRoutes.clients.index);
-      } else {
-        setBtnIsDisabled(false);
-        setErrorModalOpen(true);
-      }
-    } catch (error) {
+    if (status === 'success') {
       setBtnIsDisabled(false);
+      router.push(appRoutes.clients.index);
+    } else {
       setErrorModalOpen(true);
-      console.error('Error creating client:', error);
     }
   };
 
   const handleAddLoc = (e: TLocation) => setLocation(e);
 
   return (
-    <section className="new-clients-page">
+    <main className="new-products-page">
       <TopBar
         leftIcon="arrow_back"
         redirectBackLink={appRoutes.clients.index}
-        title="Add client"
+        title="Add product"
       />
 
       <div className="content">
@@ -204,6 +181,17 @@ export default function NewClients() {
             />
           </div>
 
+          <div className="address-map vertical-fields">
+            <div className="header">
+              <label htmlFor="maps">Pin Point</label>
+              <span>Add the current location by clicking the (+) button</span>
+            </div>
+
+            <GoogleMap
+              zoom={17}
+              clickAddLoc={handleAddLoc}
+            />
+          </div>
 
           <div className="business-info vertical-fields">
             <div className="header">
@@ -343,15 +331,6 @@ export default function NewClients() {
             </FormControl>
           </div>
         </form>
-
-        <div className="map-section">
-          <GoogleMap
-            zoom={13}
-            lat={location.lat}
-            lng={location.lng}
-            clickAddLoc={handleAddLoc}
-          />
-        </div>
       </div>
 
       <div className="btn-submit">
@@ -372,11 +351,8 @@ export default function NewClients() {
         description="An error occurred while trying to create a new client. Please try again or verify the values you are inputting."
         isOpen={errorModalOpen}
         primaryText='Try again'
-        primaryClick={() => {
-          setErrorModalOpen(false);
-          setBtnIsDisabled(false);
-        }}
+        primaryClick={() => setErrorModalOpen(false)}
       />
-    </section>
+    </main>
   );
 }

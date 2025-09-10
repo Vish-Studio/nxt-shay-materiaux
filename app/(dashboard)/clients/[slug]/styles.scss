@@ -7,8 +7,22 @@
     gap: 15px;
     padding-bottom: 50px;
 
-    .btn-delete {
-      background-color: #de0400;
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+
+      .btn-edit {
+        border: 1px solid #1b1b1b;
+        background-color: #fff;
+        color: #1b1b1b;
+        flex: 1;
+      }
+
+      .btn-delete {
+        background-color: #de0400;
+        flex: 1;
+      }
     }
 
     section.address {

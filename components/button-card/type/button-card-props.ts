@@ -5,4 +5,5 @@ export default interface ButtonCardProps {
   numTotal: string;
   numTotalTxt: string;
   redirect: string;
+  fabRedirect: string;
 }

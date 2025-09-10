@@ -10,33 +10,44 @@ import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import GoogleMap, { TLocation } from '@/components/google-maps/google-map';
 import { useAppDataContext } from '@/context/AppDataContext';
-import { IAddClientParams } from '@/types/api/client';
+import { IUpdateClientParams, IClient } from '@/types/api/client';
 import { clientApiService } from '@/services/api/client';
+import { useApiFetch } from '@/hooks/use-api-fetch';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Checkbox, FormGroup } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
-import './styles.scss';
-import '../styles.scss';
+import '../../new/styles.scss';
+import '../../styles.scss';
 import Modal from '@/components/modal/modal';
 
-// Form interface - payments is a single string for the radio group
-interface INewClientFormData extends Omit<IAddClientParams, 'payments'> {
-  payments: string;
-}
+export default function EditClient() {
+  const params = useParams();
+  const router = useRouter();
+  const { slug } = params;
 
-export default function NewClients() {
+  const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
+    serviceFn: clientApiService.getClients
+  });
+
+  const { payments } = useAppDataContext();
+  const [client, setClient] = useState<IClient | null>(null);
+  const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
+  const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
+  const [errorModalOpen, setErrorModalOpen] = useState<boolean>(false);
+  const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
     control,
-    setValue,
+    reset,
     formState: { errors }
-  } = useForm<INewClientFormData>({
+  } = useForm<IUpdateClientParams>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -56,52 +67,80 @@ export default function NewClients() {
           }
         }
       ],
-      deliveryDateTime: undefined,
-      payments: ''
+      deliveryDateTime: [],
+      payments: ['']
     }
   });
 
-  const router = useRouter();
-  const { payments } = useAppDataContext();
-
-  const [isBtnDisabled, setBtnIsDisabled] = useState<boolean>(false);
-  const [location, setLocation] = useState<TLocation>({ lat: 0, lng: 0 });
-  const [errorModalOpen, setErrorModalOpen] = useState<boolean>(false);
-
-  // Set "Juice" as default payment when payments data is loaded
+  // Find and set the client data when component loads
   useEffect(() => {
-    if (payments && payments.length > 0) {
-      const juicePayment = payments.find(payment => payment.value === 'Juice');
-      if (juicePayment) {
-        setValue('payments', juicePayment._id);
+    if (clientsData && !clientsDataLoading && slug) {
+      const foundClient = clientsData.find((client) => client._id === slug);
+      if (foundClient) {
+        setClient(foundClient);
+
+        // Set location from client data
+        if (foundClient.shops?.[0]?.address?.lat && foundClient.shops?.[0]?.address?.long) {
+          setLocation({
+            lat: foundClient.shops[0].address.lat,
+            lng: foundClient.shops[0].address.long
+          });
+        }
+
+        // Reset form with client data
+        reset({
+          firstName: foundClient.firstName || '',
+          lastName: foundClient.lastName || '',
+          nid: foundClient.nid || '',
+          brnNumber: foundClient.brnNumber || '',
+          email: foundClient.email || '',
+          mobileNumber: foundClient.mobileNumber || '',
+          phoneNumber: foundClient.phoneNumber || '',
+          shops: [
+            {
+              shopName: foundClient.shops?.[0]?.shopName || '',
+              address: {
+                name: foundClient.shops?.[0]?.address?.name || '',
+                city: foundClient.shops?.[0]?.address?.city || '',
+                lat: foundClient.shops?.[0]?.address?.lat || 0,
+                long: foundClient.shops?.[0]?.address?.long || 0
+              }
+            }
+          ],
+          deliveryDateTime: foundClient.deliveryDateTime || [],
+          payments: foundClient.payments?.map(p => p._id) || ['']
+        });
       }
     }
-  }, [payments, setValue]);
-
+  }, [slug, clientsData, clientsDataLoading, reset]);
 
   const onSubmit = async (data: any) => {
+    if (!client?._id) return;
+
     setBtnIsDisabled(true);
 
-    try {
-      data = {
-        ...data,
-        payments: [data.payments],
-        shops: [
-          {
-            ...data.shops[0],
-            address: {
-              ...data.shops[0].address,
-              lat: location.lat,
-              long: location.lng
-            }
+    const updateData = {
+      id: client._id,
+      ...data,
+      payments: [data.payments],
+      shops: [
+        {
+          ...data.shops[0],
+          address: {
+            ...data.shops[0].address,
+            lat: location.lat,
+            long: location.lng
           }
-        ]
-      };
+        }
+      ]
+    };
 
-      const { status } = await clientApiService.createClient(data);
+    try {
+      const { status } = await clientApiService.updateClient(updateData);
 
       if (status === 'success') {
-        router.push(appRoutes.clients.index);
+        setBtnIsDisabled(false);
+        setSuccessModalOpen(true);
       } else {
         setBtnIsDisabled(false);
         setErrorModalOpen(true);
@@ -109,18 +148,52 @@ export default function NewClients() {
     } catch (error) {
       setBtnIsDisabled(false);
       setErrorModalOpen(true);
-      console.error('Error creating client:', error);
     }
   };
 
   const handleAddLoc = (e: TLocation) => setLocation(e);
 
+  const handleSuccessClose = () => {
+    setSuccessModalOpen(false);
+    router.push(appRoutes.clients.index + `/${slug}`);
+  };
+
+  if (clientsDataLoading) {
+    return (
+      <section className="new-clients-page">
+        <TopBar
+          leftIcon="arrow_back"
+          redirectBackLink={appRoutes.clients.index + `/${slug}`}
+          title="Edit client"
+        />
+        <div className="content">
+          <p>Loading...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!client) {
+    return (
+      <section className="new-clients-page">
+        <TopBar
+          leftIcon="arrow_back"
+          redirectBackLink={appRoutes.clients.index}
+          title="Edit client"
+        />
+        <div className="content">
+          <p>Client not found</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="new-clients-page">
       <TopBar
         leftIcon="arrow_back"
-        redirectBackLink={appRoutes.clients.index}
-        title="Add client"
+        redirectBackLink={appRoutes.clients.index + `/${slug}`}
+        title="Edit client"
       />
 
       <div className="content">
@@ -128,7 +201,7 @@ export default function NewClients() {
           <div className="general-info vertical-fields">
             <div className="header">
               <label htmlFor="firstName">General info</label>
-              <span>Fill in the required basic info.</span>
+              <span>Update the basic info.</span>
             </div>
 
             <div className="horizontal-fields">
@@ -186,14 +259,14 @@ export default function NewClients() {
           <div className="address-info vertical-fields">
             <div className="header">
               <label htmlFor="address">Address</label>
-              <span>Fill in required address or add from the map below.</span>
+              <span>Update address or add from the map below.</span>
             </div>
 
             <FormInput
               {...register('shops.0.address.name', { required: false })}
               title="shops.address.name"
               type="text"
-              hint="Addresse"
+              hint="Address"
             />
 
             <FormInput
@@ -204,11 +277,10 @@ export default function NewClients() {
             />
           </div>
 
-
           <div className="business-info vertical-fields">
             <div className="header">
               <label htmlFor="shops.shopName">Company</label>
-              <span>Details about the company of the client.</span>
+              <span>Update company details.</span>
             </div>
 
             <FormInput
@@ -229,7 +301,7 @@ export default function NewClients() {
           <div className="delivery-info vertical-fields">
             <div className="header">
               <label htmlFor="deliveryDateTime">Delivery</label>
-              <span>Add delivery date for reminders.</span>
+              <span>Update delivery dates for reminders.</span>
             </div>
 
             <FormControl
@@ -314,7 +386,7 @@ export default function NewClients() {
           <div className="payment-info vertical-fields">
             <div className="header">
               <label htmlFor="deliveryDateTime">Payment Type</label>
-              <span>Select the payment type of this client.</span>
+              <span>Update the payment type of this client.</span>
             </div>
 
             <FormControl>
@@ -356,7 +428,7 @@ export default function NewClients() {
 
       <div className="btn-submit">
         <Button
-          title="Submit"
+          title="Update"
           titleBold={true}
           type={ButtonTypes.Button}
           variant="rounded"
@@ -369,13 +441,23 @@ export default function NewClients() {
         className="warning"
         icon="error"
         title="Error"
-        description="An error occurred while trying to create a new client. Please try again or verify the values you are inputting."
+        description="An error occurred while trying to update the client. Please try again or verify the values you are inputting."
         isOpen={errorModalOpen}
         primaryText='Try again'
         primaryClick={() => {
           setErrorModalOpen(false);
           setBtnIsDisabled(false);
         }}
+      />
+
+      <Modal
+        className="success"
+        icon="check_circle"
+        title="Success"
+        description="Client has been updated successfully!"
+        isOpen={successModalOpen}
+        primaryText='OK'
+        primaryClick={handleSuccessClose}
       />
     </section>
   );

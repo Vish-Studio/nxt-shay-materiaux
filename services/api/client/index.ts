@@ -26,7 +26,7 @@ class ClientApiService implements IClientApiService {
   }
 
   public async updateClient(client: IUpdateClientParams): Promise<IApiResponse<IClient>> {
-    return await api.put<IClient, IUpdateClientParams>(apiRoutes.clients.index, client);
+    return await api.patch<IClient, IUpdateClientParams>(apiRoutes.clients.index, client);
   }
 
   public async deleteClient(client: IDeleteClientParams): Promise<IApiResponse<null>> {

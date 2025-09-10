@@ -2,7 +2,8 @@ export const appRoutes = {
   index: '/',
   clients: {
     index: '/clients',
-    new: '/clients/new'
+    new: '/clients/new',
+    edit: (id: string) => `/clients/${id}/edit`
   },
   calendar: {
     index: '/calendar',
