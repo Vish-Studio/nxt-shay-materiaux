@@ -21,24 +21,28 @@ type Story = StoryObj<typeof meta>;
 
 const sampleItems: SearchItem[] = [
   {
+    id: '1',
     icon: 'person',
     title: 'John Doe',
     subTitle: 'Client from New York',
     type: 'clients',
   },
   {
+    id: '2',
     icon: 'business',
     title: 'ABC Corporation',
     subTitle: 'Corporate client',
     type: 'clients',
   },
   {
+    id: '3',
     icon: 'inventory_2',
     title: 'Laptop Computer',
     subTitle: 'Electronics - $999',
     type: 'products',
   },
   {
+    id: '4',
     icon: 'phone_iphone',
     title: 'Smartphone',
     subTitle: 'Mobile devices - $599',

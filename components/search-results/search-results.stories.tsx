@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 const sampleItems: SearchItem[] = [
   {
+    id: '1',
     icon: 'person',
     title: 'John Doe',
     subTitle: 'Client from New York',
