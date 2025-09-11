@@ -11,6 +11,14 @@
   gap: 10px;
   width: 100%;
   padding: 9px 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 9px 8px;
+  }
 
   .icon {
     color: #444444;

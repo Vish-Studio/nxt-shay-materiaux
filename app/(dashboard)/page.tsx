@@ -10,9 +10,14 @@ import Sidebar from '@/components/sidebar/sidebar';
 import { SearchItem } from '@/components/search-results/type/search-results-props';
 import { appRoutes } from '@/constants/routes/app-routes';
 import { SearchContext } from '@/context/SearchContext';
+import { useApiFetch } from '@/hooks/use-api-fetch';
+import { clientApiService } from '@/services/api/client';
+import { productApiService } from '@/services/api/product';
+import { IClient } from '@/types/api/client';
+import { IProduct } from '@/types/api/product';
 import vish from '@/public/vish.jpg';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import './styles.scss';
 
@@ -24,6 +29,15 @@ export default function Home() {
   const [searchResults, setSearchResults] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Fetch clients and products data
+  const { data: clientsData } = useApiFetch<IClient[]>({
+    serviceFn: clientApiService.getClients
+  });
+
+  const { data: productsData } = useApiFetch<IProduct[]>({
+    serviceFn: productApiService.getProducts
+  });
+
   const getDate = () => {
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -32,18 +46,48 @@ export default function Home() {
     return { day, month };
   };
 
-  let items: SearchItem[] = [
-    { title: 'John Bennette', subTitle: '+230 5123 4567', type: 'clients', icon: 'account_circle' },
-    { title: 'Cat featured plates', subTitle: '2 pieces', type: 'products', icon: 'inventory_2' },
-    { title: 'Tim Cooked', subTitle: '+230 5123 4567', type: 'clients', icon: 'account_circle' },
-    { title: 'Steve Rock', subTitle: '+230 5123 4567', type: 'clients', icon: 'account_circle' },
-    { title: 'Ceramic coating', subTitle: '43 pieces', type: 'products', icon: 'inventory_2' }
-  ];
+  // Transform API data into SearchItem format
+  const searchItems: SearchItem[] = useMemo(() => {
+    const items: SearchItem[] = [];
 
-  let data = items.filter(
-    (item) =>
-      item?.title.toLowerCase().includes(searchResults) ||
-      item?.subTitle.toLowerCase().includes(searchResults)
+    // Add clients to search items
+    if (clientsData) {
+      clientsData.forEach(client => {
+        items.push({
+          id: client._id || '',
+          title: `${client.firstName} ${client.lastName}`,
+          subTitle: client.mobileNumber || client.phoneNumber || 'No phone',
+          type: 'clients',
+          icon: 'account_circle'
+        });
+      });
+    }
+
+    // Add products to search items
+    if (productsData) {
+      productsData.forEach(product => {
+        items.push({
+          id: product._id,
+          title: product.name,
+          subTitle: `${product.quantity} pieces`,
+          type: 'products',
+          icon: 'inventory_2'
+        });
+      });
+    }
+
+    return items;
+  }, [clientsData, productsData]);
+
+  const data = searchItems.filter(
+    (item) => {
+      const searchTerm = searchResults.toLowerCase().trim();
+      return (
+        item?.title.toLowerCase().includes(searchTerm) ||
+        item?.subTitle.toLowerCase().includes(searchTerm) ||
+        item?.type.toLowerCase().includes(searchTerm)
+      );
+    }
   );
 
   return (
@@ -88,7 +132,7 @@ export default function Home() {
                   <ButtonCard
                     title="Clients"
                     iconName="account_circle"
-                    numTotal="200"
+                    numTotal={clientsData?.length?.toString() || "0"}
                     numTotalTxt="total clients"
                     redirect={appRoutes.clients.index}
                     fabRedirect={appRoutes.clients.new}
@@ -114,7 +158,7 @@ export default function Home() {
                     className="yellow"
                     title="Products"
                     iconName="inventory_2"
-                    numTotal="550"
+                    numTotal={productsData?.length?.toString() || "0"}
                     numTotalTxt="total products"
                     redirect={appRoutes.products.index}
                     fabRedirect={appRoutes.products.new}

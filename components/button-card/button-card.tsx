@@ -8,6 +8,7 @@ import ButtonFab from "../button-fab/button-fab";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { appRoutes } from "@/constants/routes/app-routes";
+import { useAnimatedCounter } from "@/hooks/use-animated-counter";
 
 
 const ButtonCard: FunctionComponent<ButtonCardProps> = ({
@@ -19,9 +20,15 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   redirect,
   fabRedirect
 }) => {
-  const router = useRouter()
-  return (
+  const router = useRouter();
+  const targetNumber = parseInt(numTotal) || 0;
+  const animatedValue = useAnimatedCounter({
+    targetValue: targetNumber,
+    duration: 1500,
+    startValue: 0
+  });
 
+  return (
     <div className="button-card-container">
       <div className={`button-card ${className}`} onClick={() => router.push(redirect)}>
         <div className="button-card-top">
@@ -34,7 +41,7 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
         </div>
 
         <div className="button-card-bottom">
-          <p><span>{numTotal}</span>{numTotalTxt}</p>
+          <p><span className="animated-number">{animatedValue}</span>{numTotalTxt}</p>
         </div>
       </div>
 
@@ -43,7 +50,6 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
         icon="add"
         type="mini" />
     </div>
-
   )
 }
 

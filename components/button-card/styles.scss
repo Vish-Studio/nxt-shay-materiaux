@@ -55,9 +55,15 @@
       align-items: self-start;
       font-size: 15px;
 
-      span {
+      .animated-number {
         font-weight: 700;
         font-size: 30px;
+        transition: transform 0.3s ease-out;
+        display: inline-block;
+
+        &:hover {
+          transform: scale(1.05);
+        }
       }
     }
   }

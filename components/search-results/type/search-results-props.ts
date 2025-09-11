@@ -5,6 +5,7 @@ export default interface SearchResultsProps {
 }
 
 export type SearchItem = {
+  id: string;
   icon?: string;
   title: string;
   subTitle: string;
