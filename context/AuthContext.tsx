@@ -3,6 +3,7 @@ import { authApi } from '@/services/api/auth';
 import type { IApiResponse } from '@/types/api/base';
 import type { IUser } from '@/types/api/user';
 import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import CircularProgress from '@/components/circular-progress/circular-progress';
 
 export interface AuthContextState {
   user: IUser | null;
@@ -69,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 
   // Show loading state until we determine authentication status
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <CircularProgress />;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

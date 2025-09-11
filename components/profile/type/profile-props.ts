@@ -1,8 +1,10 @@
-import { StaticImageData } from "next/image";
+import { StaticImageData } from 'next/image';
 
 export default interface ProfileProps {
   className?: string;
   variant?: 'normal' | 'large';
   name: string;
   imgUrl: string | StaticImageData;
+  onClick?: () => void;
+  disableClick?: boolean;
 }

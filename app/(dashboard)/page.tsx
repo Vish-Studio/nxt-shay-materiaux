@@ -6,6 +6,7 @@ import ButtonCalendar from '@/components/calendar/button-calendar';
 import Profile from '@/components/profile/profile';
 import SearchBar from '@/components/search-bar/search-bar';
 import SearchResults from '@/components/search-results/search-results';
+import Sidebar from '@/components/sidebar/sidebar';
 import { SearchItem } from '@/components/search-results/type/search-results-props';
 import { appRoutes } from '@/constants/routes/app-routes';
 import { SearchContext } from '@/context/SearchContext';
@@ -21,6 +22,7 @@ export default function Home() {
   // 3: add data to different card elements.
   // 4: search - on edit text, hide card buttons and show search results.
   const [searchResults, setSearchResults] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getDate = () => {
     const today = new Date();
@@ -59,6 +61,7 @@ export default function Home() {
             <Profile
               name="Vishroy"
               imgUrl={vish}
+              onClick={() => setSidebarOpen(true)}
             />
           </div>
           <div>
@@ -127,6 +130,11 @@ export default function Home() {
             </>
           )}
         </div>
+
+        <Sidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
       </section>
     </SearchContext.Provider>
   );

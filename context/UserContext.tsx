@@ -35,33 +35,33 @@ export const useUser = (): UserContextType => {
 };
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children, initialUser = null }) => {
-  const { currentUser, loading: loadingCurrentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const [user, setUser] = useState<IUser | null>(initialUser);
-  const [loading, setLoading] = useState<boolean>(!initialUser);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchUser = useCallback(async () => {
-    if (user) return;
+    if (user || !currentUser) return;
 
-    if (currentUser) {
-      try {
-        const apiBody = { id: currentUser._id };
-        const response = await authApi.me(apiBody);
-        setUser(response.data ?? null);
-      } catch (err) {
-        setError('Failed to fetch user data');
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const apiBody = { id: currentUser._id };
+      const response = await authApi.me(apiBody);
+      setUser(response.data ?? null);
+      setError(null);
+    } catch (err) {
+      setError('Failed to fetch user data');
+      console.error('Failed to fetch user data:', err);
+    } finally {
+      setLoading(false);
     }
   }, [user, currentUser]);
 
   useEffect(() => {
-    if (!loadingCurrentUser) {
+    if (currentUser && !user) {
       fetchUser();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, loadingCurrentUser, fetchUser]);
+  }, [currentUser, user, fetchUser]);
 
   const contextValue = useMemo(
     () => ({
@@ -72,11 +72,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children, initialUse
     }),
     [user, loading, error, fetchUser]
   );
-
-  // Show a loading indicator while waiting for user data
-  if (loadingCurrentUser || loading) {
-    return <div>Loading...</div>;
-  }
 
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };

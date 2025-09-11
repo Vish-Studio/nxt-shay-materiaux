@@ -12,14 +12,26 @@ const Profile: FunctionComponent<ProfileProps> = ({
   className = '',
   variant = 'normal',
   name,
-  imgUrl
+  imgUrl,
+  onClick,
+  disableClick = false
 }) => {
   const route = useRouter();
   const imgSize: number = variant === 'large' ? 135 : 40;
+
+  const handleClick = () => {
+    if (disableClick) return;
+    if (onClick) {
+      onClick();
+    } else {
+      route.push(appRoutes.userProfile.index);
+    }
+  };
+
   return (
     <div
-      className={`profile ${className} ${variant}`}
-      onClick={() => route.push(appRoutes.userProfile.index)}
+      className={`profile ${className} ${variant} ${disableClick ? 'disabled' : ''}`}
+      onClick={handleClick}
     >
       <Image
         src={imgUrl}

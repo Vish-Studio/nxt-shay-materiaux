@@ -1,17 +1,11 @@
+import { useAuth } from '@/context/AuthContext';
 import { IUser } from '@/types/api/user';
-import { useEffect, useState } from 'react';
 
 export const useCurrentUser = (): { currentUser: IUser | null; loading: boolean } => {
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
-  }, []);
-
-  return { currentUser, loading };
+  return {
+    currentUser: user,
+    loading: false // Auth loading is handled at AuthContext level
+  };
 };
