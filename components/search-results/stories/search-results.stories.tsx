@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import SearchResults from '../search-results';
-import { SearchItem } from './type/search-results-props';
+import { SearchItem } from '../type/search-results-props';
 
 const meta: Meta<typeof SearchResults> = {
   title: 'Components/SearchResults',

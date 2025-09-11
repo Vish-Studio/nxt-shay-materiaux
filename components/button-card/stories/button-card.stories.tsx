@@ -25,6 +25,7 @@ export const Clients: Story = {
     numTotal: '200',
     numTotalTxt: 'total clients',
     redirect: '/clients',
+    fabRedirect: '/clients/new',
   },
 };
 
@@ -35,6 +36,7 @@ export const Products: Story = {
     numTotal: '550',
     numTotalTxt: 'total products',
     redirect: '/products',
+    fabRedirect: '/products/new',
     className: 'yellow',
   },
 };
@@ -46,6 +48,7 @@ export const Orders: Story = {
     numTotal: '125',
     numTotalTxt: 'pending orders',
     redirect: '/orders',
+    fabRedirect: '/orders/new',
     className: 'green',
   },
 };

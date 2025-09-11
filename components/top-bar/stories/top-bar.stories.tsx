@@ -32,7 +32,7 @@ export const WithRightAction: Story = {
   args: {
     leftIcon: 'arrow_back',
     title: 'Edit Profile',
-    rightIcon: 'save',
     redirectBackLink: '/profile',
+    hasSearch: true,
   },
 };

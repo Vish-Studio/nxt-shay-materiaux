@@ -39,7 +39,7 @@ export default function Product() {
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug, productsData]);
+  }, [slug, productsData, productsLoading]);
 
 
   const submitDeleteproduct = async () => {

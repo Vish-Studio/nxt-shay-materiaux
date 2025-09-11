@@ -40,7 +40,7 @@ export default function Clients() {
     } else {
       setFilteredClients(clientsData);
     }
-  }, [searchResults]);
+  }, [searchResults, clientsData]);
 
 
   const columns: IColumn<IClient>[] = [
