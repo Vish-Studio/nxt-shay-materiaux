@@ -22,4 +22,71 @@
     right: 16px;
     bottom: 16px;
   }
+
+  // Loading state styles
+  &.loading-page {
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    // Brief card skeleton with white shimmer for red background
+    .brief-card.clients {
+      .brief-item {
+        span {
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.3) 25%,
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0.3) 75%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 4px;
+          color: transparent;
+        }
+
+        .title {
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.3) 25%,
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0.3) 75%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 4px;
+          color: transparent;
+          width: 100px;
+        }
+      }
+    }
+
+    // Table filter skeleton
+    .table-filter {
+      .tab-group {
+        .tab-item {
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 5px;
+          color: transparent;
+        }
+      }
+
+      .actions {
+        .button-icon .material-symbols-outlined {
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 50%;
+          color: transparent;
+        }
+      }
+    }
+  }
 }

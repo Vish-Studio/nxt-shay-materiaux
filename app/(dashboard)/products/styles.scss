@@ -37,4 +37,60 @@
       }
     }
   }
+
+  // Loading state styles
+  &.loading-page {
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    // Brief card skeleton with dark shimmer for yellow background
+    .brief-card.products {
+      .brief-item {
+        span {
+          background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 25%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 4px;
+          color: transparent;
+        }
+
+        .title {
+          background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 25%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 4px;
+          color: transparent;
+        }
+      }
+    }
+
+    // Table filter skeleton
+    .table-filter {
+      .tab-group {
+        .tab-item {
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 20px;
+          color: transparent;
+        }
+      }
+
+      .actions {
+        .button-icon .material-symbols-outlined {
+          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s infinite;
+          border-radius: 50%;
+          color: transparent;
+        }
+      }
+    }
+  }
 }

@@ -15,6 +15,7 @@ import DetailCard from '@/components/detail-card/detail-card-wrapper';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
+import Image from 'next/image';
 
 export default function Product() {
   const params = useParams();
@@ -53,28 +54,37 @@ export default function Product() {
 
   return (
     <main className="product-page">
-      <div className="page-product-details">
+      <div className={`page-product-details ${productsLoading ? 'loading-page' : ''}`}>
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink={appRoutes.products.index}
-          title="product detail"
+          title="Product detail"
           hasSearch={false}
         />
 
         <div className="main-content">
           <section className="product-details-header">
             <DetailCardHeader
-              title={product.name}
+              title={productsLoading ? "Loading product name..." : (product.name || "Product")}
               icon="inventory_2"
-
             />
           </section>
 
-          {product.image && (
+          {(product.image || productsLoading) && (
             <section className='image'>
               <DetailCard title="Image">
                 <></>
-                <img src={product?.image} alt={`Product ${product.name} image`} />
+                {productsLoading ? (
+                  <div>Loading image...</div>
+                ) : (
+                  <Image
+                    src={product?.image || ''}
+                    alt={`Product ${product.name} image`}
+                    width={300}
+                    height={200}
+                    style={{ objectFit: 'cover', borderRadius: '8px' }}
+                  />
+                )}
               </DetailCard>
             </section>
           )}
@@ -83,64 +93,72 @@ export default function Product() {
             <DetailCard title="General">
               <DetailCardItem
                 title="Name"
-                name={product.name || '------'}
+                name={productsLoading ? "Loading name..." : (product.name || '------')}
               />
               <DetailCardItem
                 title="Description"
-                name={product?.description || '------'}
+                name={productsLoading ? "Loading description..." : (product?.description || '------')}
               />
             </DetailCard>
           </section>
-
 
           <section className='color'>
             <DetailCard title="Color">
               <DetailCardItem
                 title="Name"
-                name={product.color || '------'}
+                name={productsLoading ? "Loading color..." : (product.color || '------')}
               />
             </DetailCard>
           </section>
-
 
           <section className='categpry'>
             <DetailCard title="Category">
               <DetailCardItem
                 title="Type"
-                name={product?.category?.name || '------'}
+                name={productsLoading ? "Loading category..." : (product?.category?.name || '------')}
               />
             </DetailCard>
           </section>
 
-
           {
-            product.price && (
+            (product.price || productsLoading) && (
               <section className='price'>
                 <DetailCard title="Price">
                   <DetailCardItem
                     title="Selling price"
-                    name={`Rs ${product?.price?.selling}` || '------'}
+                    name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price?.selling}` || '------')}
                   />
 
                   <DetailCardItem
                     title="Buying price"
-                    name={`Rs ${product?.price?.buying}` || '------'}
+                    name={productsLoading ? "Loading buying price..." : (`Rs ${product?.price?.buying}` || '------')}
                   />
                 </DetailCard>
               </section>
             )
           }
 
+          <div className="action-buttons">
+            <Button
+              className="btn-edit"
+              iconName="edit"
+              title={productsLoading ? "Loading..." : "Edit"}
+              type={ButtonTypes.Button}
+              variant="rounded"
+              isDisabled={productsLoading}
+              clickHandler={() => router.push(appRoutes.products.edit(slug as string))}
+            />
 
-          <Button
-            className="btn-delete"
-            iconName="delete"
-            title="Delete"
-            type={ButtonTypes.Submit}
-            variant="rounded"
-            isDisabled={false}
-            onClick={() => setErrorModalOpen(true)}
-          />
+            <Button
+              className="btn-delete"
+              iconName="delete"
+              title={productsLoading ? "Loading..." : "Delete"}
+              type={ButtonTypes.Submit}
+              variant="rounded"
+              isDisabled={productsLoading}
+              clickHandler={() => setErrorModalOpen(true)}
+            />
+          </div>
         </div>
       </div>
 

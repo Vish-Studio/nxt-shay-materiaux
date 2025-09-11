@@ -15,7 +15,7 @@ const BriefCard: FunctionComponent<BriefCardProps> = ({
   children
 }) => {
   return (
-    <div className={`brief-card ${className && className || ''} ${type}`}>
+    <div className={`brief-card ${className && className} ${type}`}>
       {children}
     </div>
   )

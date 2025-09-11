@@ -93,7 +93,7 @@ export default function Products() {
 
 
   return (
-    <main className="page-products">
+    <main className={`page-products ${productsDataLoading ? 'loading-page' : ''}`}>
       <TopBar
         leftIcon="arrow_back"
         redirectBackLink="/"
@@ -103,10 +103,21 @@ export default function Products() {
 
       <section className='overview'>
         <BriefCard type='products'>
-          <BriefItem title="added today" value={productsData?.length || 0} />
-          <BriefItem title="total registered" value={productsData?.length || 0} />
-          <BriefItem title="remaining payment" value={productsData?.length || 0} />
-          <BriefItem title="total payment" value={productsData?.length || 0} />
+          {productsDataLoading ? (
+            <>
+              <BriefItem title="loading..." value="---" />
+              <BriefItem title="loading..." value="---" />
+              <BriefItem title="loading..." value="---" />
+              <BriefItem title="loading..." value="---" />
+            </>
+          ) : (
+            <>
+              <BriefItem title="added today" value={productsData?.length || 0} />
+              <BriefItem title="total registered" value={productsData?.length || 0} />
+              <BriefItem title="remaining payment" value={productsData?.length || 0} />
+              <BriefItem title="total payment" value={productsData?.length || 0} />
+            </>
+          )}
         </BriefCard>
       </section>
 

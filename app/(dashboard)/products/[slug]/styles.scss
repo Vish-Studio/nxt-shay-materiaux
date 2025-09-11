@@ -7,14 +7,98 @@
     gap: 15px;
     padding-bottom: 50px;
 
-    .btn-delete {
-      background-color: #de0400;
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+
+      .btn-edit {
+        border: 1px solid #1b1b1b;
+        background-color: #fff;
+        color: #1b1b1b;
+        flex: 1;
+      }
+
+      .btn-delete {
+        background-color: #de0400;
+        flex: 1;
+      }
     }
 
     section.address {
       .google-maps {
         height: 100px;
         border-radius: 5px;
+      }
+    }
+  }
+
+  // Loading state styles
+  &.loading-page {
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    // Detail card header skeleton
+    .detail-card-header {
+      .detail-card-header__title p {
+        background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 4px;
+        color: transparent;
+        width: 180px;
+        height: 24px;
+      }
+
+      .detail-card-header__icon .material-symbols-outlined {
+        background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 50%;
+        color: transparent;
+      }
+    }
+
+    // Detail card item skeleton
+    .detail-card-item {
+      p {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 4px;
+        color: transparent;
+        height: 20px;
+
+        &:nth-child(odd) {
+          width: 140px;
+        }
+
+        &:nth-child(even) {
+          width: 120px;
+        }
+      }
+    }
+
+    // Action buttons skeleton
+    .action-buttons {
+      .btn-edit,
+      .btn-delete {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+        background-size: 200% 100% !important;
+        animation: shimmer 2.5s infinite;
+        border-radius: 25px;
+        color: transparent !important;
+        border: none !important;
+
+        .material-symbols-outlined {
+          color: transparent;
+        }
       }
     }
   }

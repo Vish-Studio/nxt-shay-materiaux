@@ -32,6 +32,76 @@
       }
     }
   }
+
+  // Loading state styles
+  &.loading-page {
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    // Detail card header skeleton
+    .detail-card-header {
+      .detail-card-header__title p {
+        background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 4px;
+        color: transparent;
+        width: 180px;
+        height: 24px;
+      }
+
+      .detail-card-header__icon .material-symbols-outlined {
+        background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 50%;
+        color: transparent;
+      }
+    }
+
+    // Detail card item skeleton
+    .detail-card-item {
+      p {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2.5s infinite;
+        border-radius: 4px;
+        color: transparent;
+        height: 20px;
+
+        &:nth-child(odd) {
+          width: 140px;
+        }
+
+        &:nth-child(even) {
+          width: 120px;
+        }
+      }
+    }
+
+    // Action buttons skeleton
+    .action-buttons {
+      .btn-edit,
+      .btn-delete {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+        background-size: 200% 100% !important;
+        animation: shimmer 2.5s infinite;
+        border-radius: 25px;
+        color: transparent !important;
+        border: none !important;
+
+        .material-symbols-outlined {
+          color: transparent;
+        }
+      }
+    }
+  }
 }
 
 .button-fab {

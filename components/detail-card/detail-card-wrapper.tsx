@@ -23,8 +23,6 @@ const DetailCardWrapper = ({
     >
       <div className="detail-card-title">
         <p>{title}</p>
-
-        <Icon iconName="mode_edit" />
       </div>
 
       <div className="detail-card-content">{children}</div>

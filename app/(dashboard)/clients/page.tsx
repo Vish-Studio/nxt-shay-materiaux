@@ -96,7 +96,7 @@ export default function Clients() {
         setSearchResults
       }}
     >
-      <div className="page-clients">
+      <div className={`page-clients ${clientsDataLoading ? 'loading-page' : ''}`}>
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink={'/'}
@@ -106,10 +106,21 @@ export default function Clients() {
 
         <section className="overview">
           <BriefCard type='clients'>
-            <BriefItem title="added today" value={filteredClients?.length || 0} />
-            <BriefItem title="total registered" value={filteredClients?.length || 0} />
-            <BriefItem title="remaining payment" value={filteredClients?.length || 0} />
-            <BriefItem title="total payment" value={filteredClients?.length || 0} />
+            {clientsDataLoading ? (
+              <>
+                <BriefItem title="loading..." value="---" />
+                <BriefItem title="loading..." value="---" />
+                <BriefItem title="loading..." value="---" />
+                <BriefItem title="loading..." value="---" />
+              </>
+            ) : (
+              <>
+                <BriefItem title="added today" value={filteredClients?.length || 0} />
+                <BriefItem title="total registered" value={filteredClients?.length || 0} />
+                <BriefItem title="remaining payment" value={filteredClients?.length || 0} />
+                <BriefItem title="total payment" value={filteredClients?.length || 0} />
+              </>
+            )}
           </BriefCard>
         </section>
 

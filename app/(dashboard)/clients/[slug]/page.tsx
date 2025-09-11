@@ -49,7 +49,7 @@ export default function Client() {
 
   return (
     <main className="client-page">
-      <div className="page-client-details">
+      <div className={`page-client-details ${clientsDataLoading ? 'loading-page' : ''}`}>
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink={appRoutes.clients.index}
@@ -60,7 +60,7 @@ export default function Client() {
         <div className="main-content">
           <section className="client-details-header">
             <DetailCardHeader
-              title={`${client.firstName} ${client.lastName}`}
+              title={clientsDataLoading ? "Loading client name..." : `${client.firstName} ${client.lastName}`}
               icon="account_circle"
             />
           </section>
@@ -69,15 +69,15 @@ export default function Client() {
             <DetailCard title="General">
               <DetailCardItem
                 title="ID Number"
-                name={client.nid || '------'}
+                name={clientsDataLoading ? "Loading ID..." : (client.nid || '------')}
               />
               <DetailCardItem
                 title="First name"
-                name={client.firstName || '------'}
+                name={clientsDataLoading ? "Loading first name..." : (client.firstName || '------')}
               />
               <DetailCardItem
                 title="Last name"
-                name={client.lastName || '------'}
+                name={clientsDataLoading ? "Loading last name..." : (client.lastName || '------')}
               />
             </DetailCard>
           </section>
@@ -86,12 +86,12 @@ export default function Client() {
             <DetailCard title="Location">
               <DetailCardItem
                 title="Address"
-                name={client?.shops?.[0]?.address?.name || '------'}
+                name={clientsDataLoading ? "Loading address..." : (client?.shops?.[0]?.address?.name || '------')}
               />
 
               <DetailCardItem
                 title="City"
-                name={client?.shops?.[0]?.address?.city || '------'} />
+                name={clientsDataLoading ? "Loading city..." : (client?.shops?.[0]?.address?.city || '------')} />
             </DetailCard>
           </section>
 
@@ -99,17 +99,17 @@ export default function Client() {
             <DetailCard title="Contact">
               <DetailCardItem
                 title="Email"
-                name={(client.email && client?.email) || '------'}
+                name={clientsDataLoading ? "Loading email..." : ((client.email && client?.email) || '------')}
               />
 
               <DetailCardItem
                 title="Mobile"
-                name={(client.mobileNumber && client?.mobileNumber.toString()) || '------'}
+                name={clientsDataLoading ? "Loading mobile..." : ((client.mobileNumber && client?.mobileNumber.toString()) || '------')}
               />
 
               <DetailCardItem
                 title="Phone"
-                name={(client.phoneNumber && client?.phoneNumber) || '------'}
+                name={clientsDataLoading ? "Loading phone..." : ((client.phoneNumber && client?.phoneNumber) || '------')}
               />
             </DetailCard>
           </section>
@@ -118,15 +118,15 @@ export default function Client() {
             <DetailCard title="Company">
               <DetailCardItem
                 title="Shop"
-                name={client?.shops?.[0]?.shopName || '------'}
+                name={clientsDataLoading ? "Loading shop..." : (client?.shops?.[0]?.shopName || '------')}
               />
               <DetailCardItem
                 title="Business Registration Number"
-                name={client.brnNumber || '------'}
+                name={clientsDataLoading ? "Loading BRN..." : (client.brnNumber || '------')}
               />
               <DetailCardItem
                 title="Payment"
-                name={client?.payments?.[0]?.value || '------'}
+                name={clientsDataLoading ? "Loading payment..." : (client?.payments?.[0]?.value || '------')}
               />
             </DetailCard>
           </section>
@@ -135,20 +135,20 @@ export default function Client() {
             <Button
               className="btn-edit"
               iconName="edit"
-              title="Edit"
+              title={clientsDataLoading ? "Loading..." : "Edit"}
               type={ButtonTypes.Button}
               variant="rounded"
-              isDisabled={false}
+              isDisabled={clientsDataLoading}
               clickHandler={() => router.push(appRoutes.clients.edit(slug as string))}
             />
 
             <Button
               className="btn-delete"
               iconName="delete"
-              title="Delete"
+              title={clientsDataLoading ? "Loading..." : "Delete"}
               type={ButtonTypes.Submit}
               variant="rounded"
-              isDisabled={false}
+              isDisabled={clientsDataLoading}
               clickHandler={() => setErrorModalOpen(true)}
             />
           </div>

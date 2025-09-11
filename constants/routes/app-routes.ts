@@ -11,7 +11,8 @@ export const appRoutes = {
   },
   products: {
     index: '/products',
-    new: '/products/new'
+    new: '/products/new',
+    edit: (id: string) => `/products/${id}/edit`
   },
   signIn: {
     index: '/sign-in'
