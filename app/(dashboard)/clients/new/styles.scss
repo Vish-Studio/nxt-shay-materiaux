@@ -56,6 +56,32 @@
         margin-bottom: 5px;
       }
     }
+
+    .credit-info {
+      background: #fbfbfb;
+      padding: 17px;
+      border-radius: 13px;
+
+      .credit-amount-wrapper {
+        .form-input {
+          .input-field {
+            position: relative;
+
+            .currency-prefix {
+              position: absolute;
+              left: 18px;
+              top: 46%;
+              transform: translateY(-50%);
+              font-size: 14px;
+              font-weight: 500;
+              color: rgba(0, 0, 0, 0.6);
+              z-index: 1;
+              pointer-events: none;
+            }
+          }
+        }
+      }
+    }
   }
 
   .btn-submit {

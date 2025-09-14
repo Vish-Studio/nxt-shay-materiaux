@@ -14,6 +14,11 @@ export interface IClient extends IPaymentType {
   shops?: IShop[];
   deliveryDateTime: string[];
   payments?: IPayment[];
+  credit?: {
+    amount?: number;
+    note?: string;
+    dueDateTime?: string;
+  };
   createdAt?: string;
 }
 
@@ -32,6 +37,11 @@ export interface IAddClientParams {
   shops?: IShop[];
   deliveryDateTime: string[];
   payments?: string[]; // Should accept a list of Object Ids instead of actual payments objects
+  credit?: {
+    amount?: number;
+    note?: string;
+    dueDateTime?: string;
+  };
 }
 
 export interface IUpdateClientParams extends IBaseClientParams, Partial<IAddClientParams> {}

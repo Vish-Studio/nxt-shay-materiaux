@@ -32,7 +32,8 @@ export async function POST(req: Request) {
       email,
       shops,
       deliveryDateTime,
-      payments
+      payments,
+      credit
     } = body;
 
     let shopId = null;
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
       await newShop.save();
     }
 
-    const newClient = new Client({
+    const clientData = {
       firstName,
       lastName,
       nid,
@@ -53,8 +54,11 @@ export async function POST(req: Request) {
       email,
       shops: [shopId],
       deliveryDateTime,
-      payments
-    });
+      payments,
+      credit
+    };
+
+    const newClient = new Client(clientData);
     await newClient.save();
 
     const populatedClient = await Client.findById(newClient._id)
@@ -64,11 +68,10 @@ export async function POST(req: Request) {
 
     return createHttpResponse('success', 'Client created successfully', populatedClient, 201);
   } catch (error) {
-    console.error(error);
+    console.error('Error creating client:', error);
     return createHttpResponse('error', 'Internal Server Error', null, 500);
   }
 }
-
 export async function PATCH(req: Request) {
   try {
     await dbConnect();
