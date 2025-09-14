@@ -74,6 +74,7 @@ export const TableListV2 = <T,>({
         style={{ animationDelay: `${index * 0.1}s` }}
       >
         <TagPayment status={'unpaid'} style={{ marginRight: '8px', opacity: 0.7 }} />
+
         {columns.map((column) => (
           <div
             key={`skeleton-cell-${column.dataIndex as string}`}
@@ -119,7 +120,10 @@ export const TableListV2 = <T,>({
                   style={{ animationDelay: `${index * 0.1}s` }}
                   onClick={() => handleRowClick(record)}
                 >
-                  <TagPayment status={'pending'} style={{ marginRight: '8px' }} />
+                  <TagPayment
+                    status={(record as any)?.credit ? 'unpaid' : 'paid'}
+                    style={{ marginRight: '8px' }}
+                  />
 
                   {columns.map((column) => (
                     <div

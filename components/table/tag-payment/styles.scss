@@ -1,6 +1,6 @@
 .tag-payment {
-  width: 11px;
-  height: 11px;
+  width: 8px;
+  height: 8px;
   border-radius: 50px;
 
   &.paid {
@@ -12,6 +12,6 @@
   }
 
   &.unpaid {
-    background-color: #d0d0d0;
+    background-color: #f13c3c;
   }
 }
