@@ -126,12 +126,12 @@ export default function Product() {
                 <DetailCard title="Price">
                   <DetailCardItem
                     title="Selling price"
-                    name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price?.selling}` || '------')}
+                    name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price}` || '------')}
                   />
 
                   <DetailCardItem
                     title="Buying price"
-                    name={productsLoading ? "Loading buying price..." : (`Rs ${product?.price?.buying}` || '------')}
+                    name={productsLoading ? "Loading buying price..." : (`Rs ${product?.buyingPrice}` || '------')}
                   />
                 </DetailCard>
               </section>

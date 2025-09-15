@@ -25,7 +25,18 @@ export async function POST(req: Request) {
     await dbConnect();
 
     const body = (await req.json()) as IAddProductParams;
-    const { name, quantity, category, price, buyingPrice, paymentStatus, moreInfo } = body;
+    const {
+      name,
+      description,
+      quantity,
+      category,
+      price,
+      buyingPrice,
+      color,
+      deliveryDate,
+      image,
+      paymentStatus
+    } = body;
 
     if (!name || quantity == null || !price || !buyingPrice || !category || !paymentStatus) {
       return createHttpResponse(
@@ -38,12 +49,15 @@ export async function POST(req: Request) {
 
     const newProduct = new Product({
       name,
+      description,
       quantity,
       category,
       price,
       buyingPrice,
-      paymentStatus,
-      moreInfo
+      color,
+      deliveryDate,
+      image,
+      paymentStatus
     });
     await newProduct.save();
 

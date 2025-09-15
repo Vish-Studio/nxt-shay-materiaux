@@ -26,7 +26,7 @@ class ProductApiService implements IProductApiService {
   }
 
   public async updateProduct(product: IUpdateProductParams): Promise<IApiResponse<IProduct>> {
-    return await api.put<IProduct, IUpdateProductParams>(apiRoutes.products.index, product);
+    return await api.patch<IProduct, IUpdateProductParams>(apiRoutes.products.index, product);
   }
 
   public async deleteProduct(product: IDeleteProductParams): Promise<IApiResponse<null>> {

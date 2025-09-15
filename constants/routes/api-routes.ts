@@ -15,6 +15,9 @@ export const apiRoutes = {
   categories: {
     index: '/categories'
   },
+  colors: {
+    index: '/colors'
+  },
   products: {
     index: '/products'
   },

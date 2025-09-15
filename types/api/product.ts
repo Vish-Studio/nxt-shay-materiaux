@@ -1,23 +1,19 @@
-import type { IPaymentStatus, TPaymentStatusValues } from '../payment-status';
+import type { TPaymentStatusValues } from '../payment-status';
 import { IBase } from './base';
 import type { ICategory } from './category';
 
-export interface IProduct extends IBase, IPaymentStatus {
+export interface IProduct extends IBase {
   _id: string;
   name: string;
-  description: string;
+  description?: string;
   color?: string;
   image?: string;
   quantity: number;
   category: ICategory;
-  price: IPrice;
+  price: number;
   buyingPrice: number;
-  moreInfo?: string;
-}
-
-export interface IPrice {
-  selling: number;
-  buying: number;
+  deliveryDate?: string;
+  paymentStatus: TPaymentStatusValues;
 }
 
 export interface IBaseProductParams {
@@ -26,12 +22,15 @@ export interface IBaseProductParams {
 
 export interface IAddProductParams {
   name: string;
+  description?: string;
   quantity: number;
   category: string;
   price: number;
   buyingPrice: number;
+  color?: string;
+  deliveryDate?: string;
+  image?: string;
   paymentStatus: TPaymentStatusValues;
-  moreInfo?: string; // Potentially this should not be optional, need to confirm
 }
 
 export interface IUpdateProductParams extends IBaseProductParams, Partial<IAddProductParams> {}

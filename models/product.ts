@@ -14,11 +14,14 @@ if (!mongoose.models.Category) {
 export const productSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true },
+    description: { type: String },
     quantity: { type: Number, required: true },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     price: { type: Number, required: true },
     buyingPrice: { type: Number, required: true },
-    moreInfo: { type: String },
+    color: { type: String },
+    deliveryDate: { type: String },
+    image: { type: String },
     paymentStatus: {
       type: String,
       enum: Object.keys(PaymentStatus).map((key) => key.toLowerCase()),

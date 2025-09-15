@@ -10,7 +10,9 @@ import { ButtonTypes } from '@/enums/button-types';
 import { useAppDataContext } from '@/context/AppDataContext';
 import { IAddProductParams, IProduct } from '@/types/api/product';
 import { ICategory } from '@/types/api/category';
+import { IColor } from '@/types/api/color';
 import { categoryApiService } from '@/services/api/category';
+import { colorApiService } from '@/services/api/color';
 import Icon from '@/components/icon/icon';
 import Modal from '@/components/modal/modal';
 import ButtonFab from '@/components/button-fab/button-fab';
@@ -24,8 +26,13 @@ import dayjs from 'dayjs';
 import './styles.scss';
 
 // Extended form interface to match the design
-interface IProductFormData extends Omit<IAddProductParams, 'moreInfo'> {
+interface IProductFormData {
+  name: string;
   description?: string;
+  quantity: number;
+  category: string;
+  price: number;
+  buyingPrice: number;
   color?: string;
   deliveryDate?: dayjs.Dayjs | null;
   image?: File | null;
@@ -38,24 +45,7 @@ interface IProductFormProps {
   loading?: boolean;
 }
 
-// Helper function to get CSS color from color name
-const getColorValue = (colorName: string): string => {
-  const colorMap: Record<string, string> = {
-    'Red': '#ef4444',
-    'Blue': '#3b82f6',
-    'Green': '#22c55e',
-    'Black': '#1f2937',
-    'White': '#ffffff',
-    'Yellow': '#eab308',
-    'Orange': '#f97316',
-    'Purple': '#a855f7',
-    'Pink': '#ec4899',
-    'Gray': '#6b7280',
-    'Brown': '#a3652f'
-  };
 
-  return colorMap[colorName] || '#6b7280'; // Default to gray if color not found
-};
 
 export default function ProductForm({
   initialData,
@@ -98,6 +88,8 @@ export default function ProductForm({
   const [newColorHex, setNewColorHex] = useState<string>('#000000');
   const [localCategories, setLocalCategories] = useState<ICategory[]>([]);
   const [pendingCategories, setPendingCategories] = useState<string[]>([]);
+  const [localColors, setLocalColors] = useState<IColor[]>([]);
+  const [pendingColors, setPendingColors] = useState<Array<{ name: string; hexValue: string }>>([]);
 
   // Combine existing categories with local ones
   const allCategories = useMemo(() => {
@@ -106,6 +98,60 @@ export default function ProductForm({
     const pending = pendingCategories.map(name => ({ _id: `temp-${name}`, name }));
     return [...existing, ...local, ...pending];
   }, [statuses, localCategories, pendingCategories]);
+
+  // Combine existing colors with local ones
+  const allColors = useMemo(() => {
+    const local = localColors;
+    const pending = pendingColors.map(color => ({ _id: `temp-${color.name}`, name: color.name, hexValue: color.hexValue }));
+    return [...local, ...pending];
+  }, [localColors, pendingColors]);
+
+  // Fetch colors on component mount
+  useEffect(() => {
+    const fetchColors = async () => {
+      try {
+        const response = await colorApiService.getAllColors();
+        if (response.data) {
+          setLocalColors(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch colors:', error);
+      }
+    };
+
+    fetchColors();
+  }, []);
+
+  // Helper function to get CSS color from color name
+  const getColorValue = (colorName: string) => {
+    // Look for the color in allColors first
+    const foundColor = allColors.find((color: IColor) => color.name === colorName);
+    if (foundColor) {
+      return foundColor.hexValue;
+    }
+
+    // Fallback to hardcoded values if not found in database
+    const hardcodedColors: Record<string, string> = {
+      'Rouge': '#FF0000',
+      'Red': '#FF0000',
+      'Bleu': '#0000FF',
+      'Blue': '#0000FF',
+      'Vert': '#008000',
+      'Green': '#008000',
+      'Jaune': '#FFFF00',
+      'Noir': '#000000',
+      'Black': '#000000',
+      'Blanc': '#FFFFFF',
+      'White': '#FFFFFF',
+      'Orange': '#FFA500',
+      'Violet': '#800080',
+      'Rose': '#FFC0CB',
+      'Gris': '#808080',
+      'Marron': '#A52A2A',
+    };
+
+    return hardcodedColors[colorName] || '#CCCCCC';
+  };
 
   const watchQuantity = watch('quantity');
 
@@ -116,11 +162,11 @@ export default function ProductForm({
         name: initialData.name || '',
         description: initialData.description || '',
         category: initialData.category?._id || '',
-        price: initialData.price?.selling || 0,
-        buyingPrice: initialData.price?.buying || initialData.buyingPrice || 0,
+        price: initialData.price || 0,
+        buyingPrice: initialData.buyingPrice || 0,
         quantity: initialData.quantity || 0,
         color: initialData.color || '',
-        deliveryDate: null, // You might want to add this field to the backend
+        deliveryDate: initialData.deliveryDate ? dayjs(initialData.deliveryDate) : null,
         image: null
       });
     }
@@ -177,15 +223,32 @@ export default function ProductForm({
     setNewColorHex('#000000');
   };
 
-  const handleColorModalAdd = () => {
+  const handleColorModalAdd = async () => {
     if (newColorName.trim()) {
-      // Here you would typically call an API to add the new color
-      // For now, we'll just close the modal
-      console.log('Adding new color:', newColorName, 'with hex:', newColorHex);
-      setAddColorModalOpen(false);
-      setNewColorName('');
-      setNewColorHex('#000000');
-      // TODO: Implement API call to add color and refresh the colors list
+      try {
+        // Add the new color to pending list first for immediate UI update
+        setPendingColors(prev => [...prev, { name: newColorName, hexValue: newColorHex }]);
+
+        // Call API to add the new color to the database
+        const response = await colorApiService.createColor({
+          name: newColorName,
+          hexValue: newColorHex
+        });
+
+        if (response.data) {
+          // Add to local colors and remove from pending
+          setLocalColors(prev => [...prev, response.data!]);
+          setPendingColors(prev => prev.filter(c => c.name !== newColorName));
+        }
+
+        setAddColorModalOpen(false);
+        setNewColorName('');
+        setNewColorHex('#000000');
+      } catch (error) {
+        console.error('Failed to create color:', error);
+        // Remove from pending on error
+        setPendingColors(prev => prev.filter(c => c.name !== newColorName));
+      }
     }
   };
 
@@ -219,12 +282,15 @@ export default function ProductForm({
       // Convert form data to API format
       const submitData = {
         name: data.name,
+        description: data.description || '',
         quantity: data.quantity,
         category: finalCategoryId,
         price: data.price,
         buyingPrice: data.buyingPrice,
-        paymentStatus: 'unpaid', // Set default for now
-        moreInfo: data.description || ''
+        color: data.color || '',
+        deliveryDate: data.deliveryDate ? data.deliveryDate.format('YYYY-MM-DD') : '',
+        image: data.image ? data.image.name : '', // For now, just store filename
+        paymentStatus: 'unpaid' as const
       };
 
       await onSubmit(submitData);
@@ -391,51 +457,20 @@ export default function ProductForm({
                           );
                         }}
                       >
-                        <MenuItem value="Red">
-                          <div className="color-menu-item">
-                            <div
-                              className="color-circle"
-                              style={{ backgroundColor: getColorValue('Red') }}
-                            ></div>
-                            <span>Red</span>
-                          </div>
-                        </MenuItem>
-                        <MenuItem value="Blue">
-                          <div className="color-menu-item">
-                            <div
-                              className="color-circle"
-                              style={{ backgroundColor: getColorValue('Blue') }}
-                            ></div>
-                            <span>Blue</span>
-                          </div>
-                        </MenuItem>
-                        <MenuItem value="Green">
-                          <div className="color-menu-item">
-                            <div
-                              className="color-circle"
-                              style={{ backgroundColor: getColorValue('Green') }}
-                            ></div>
-                            <span>Green</span>
-                          </div>
-                        </MenuItem>
-                        <MenuItem value="Black">
-                          <div className="color-menu-item">
-                            <div
-                              className="color-circle"
-                              style={{ backgroundColor: getColorValue('Black') }}
-                            ></div>
-                            <span>Black</span>
-                          </div>
-                        </MenuItem>
-                        <MenuItem value="White">
-                          <div className="color-menu-item">
-                            <div
-                              className="color-circle"
-                              style={{ backgroundColor: getColorValue('White'), border: '1px solid #e5e7eb' }}
-                            ></div>
-                            <span>White</span>
-                          </div>
-                        </MenuItem>
+                        {allColors.map((color) => (
+                          <MenuItem key={color._id} value={color.name}>
+                            <div className="color-menu-item">
+                              <div
+                                className="color-circle"
+                                style={{
+                                  backgroundColor: color.hexValue,
+                                  border: color.hexValue === '#FFFFFF' ? '1px solid #e5e7eb' : 'none'
+                                }}
+                              ></div>
+                              <span>{color.name}</span>
+                            </div>
+                          </MenuItem>
+                        ))}
                       </Select>
                     )}
                   />
