@@ -53,18 +53,18 @@ export default function ProductForm({
   onSubmit,
   loading = false
 }: IProductFormProps) {
-  // Memoize form default values
+  // Memoize form default values with initialData
   const defaultFormValues = useMemo(() => ({
-    name: '',
-    description: '',
-    category: '',
-    price: 0,
-    buyingPrice: 0,
-    quantity: 0,
-    color: '',
-    deliveryDate: null,
+    name: initialData?.name || '',
+    description: initialData?.description || '',
+    category: initialData?.category?._id || '',
+    price: initialData?.price || 0,
+    buyingPrice: initialData?.buyingPrice || 0,
+    quantity: initialData?.quantity || 0,
+    color: initialData?.color || '',
+    deliveryDate: initialData?.deliveryDate ? dayjs(initialData.deliveryDate) : null,
     image: null
-  }), []);
+  }), [initialData]);
 
   const {
     register,
@@ -154,23 +154,6 @@ export default function ProductForm({
   };
 
   const watchQuantity = watch('quantity');
-
-  // Set initial data when editing
-  useEffect(() => {
-    if (initialData) {
-      reset({
-        name: initialData.name || '',
-        description: initialData.description || '',
-        category: initialData.category?._id || '',
-        price: initialData.price || 0,
-        buyingPrice: initialData.buyingPrice || 0,
-        quantity: initialData.quantity || 0,
-        color: initialData.color || '',
-        deliveryDate: initialData.deliveryDate ? dayjs(initialData.deliveryDate) : null,
-        image: null
-      });
-    }
-  }, [initialData, reset]);
 
   const handleQuantityChange = (increment: boolean) => {
     const currentValue = watchQuantity || 0;

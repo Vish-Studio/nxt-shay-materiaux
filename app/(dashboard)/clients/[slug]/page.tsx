@@ -48,6 +48,62 @@ export default function Client() {
     }
   };
 
+  // Helper function to format date
+  const formatDate = (date: string | Date | undefined) => {
+    if (!date) return null;
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // Helper function to format time
+  const formatTime = (date: string | Date | undefined) => {
+    if (!date) return null;
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  // Helper function to format day of week
+  const formatDayOfWeek = (date: string | Date | undefined) => {
+    if (!date) return null;
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('en-GB', {
+      weekday: 'long'
+    });
+  };
+
+  // Helper functions to check if sections have data
+  const hasGeneralData = () => {
+    return !clientsDataLoading && (client.nid || client.firstName || client.lastName);
+  };
+
+  const hasLocationData = () => {
+    return !clientsDataLoading && (client?.shops?.[0]?.address?.name || client?.shops?.[0]?.address?.city);
+  };
+
+  const hasContactData = () => {
+    return !clientsDataLoading && (client.email || client.mobileNumber || client.phoneNumber);
+  };
+
+  const hasCompanyData = () => {
+    return !clientsDataLoading && (client?.shops?.[0]?.shopName || client.brnNumber || client?.payments?.[0]?.value);
+  };
+
+  const hasCreditData = () => {
+    return !clientsDataLoading && client.credit && (client?.credit?.amount || client?.credit?.dueDateTime || client?.credit?.note);
+  };
+
+  const hasCreatedData = () => {
+    return !clientsDataLoading && client.createdAt;
+  };
+
   return (
     <main className="client-page">
       <div className={`page-client-details ${clientsDataLoading ? 'loading-page' : ''}`}>
@@ -66,92 +122,118 @@ export default function Client() {
             />
           </section>
 
-          <section>
-            <DetailCard title="General">
-              <DetailCardItem
-                title="ID Number"
-                name={clientsDataLoading ? "Loading ID..." : (client.nid || '------')}
-              />
-              <DetailCardItem
-                title="First name"
-                name={clientsDataLoading ? "Loading first name..." : (client.firstName || '------')}
-              />
-              <DetailCardItem
-                title="Last name"
-                name={clientsDataLoading ? "Loading last name..." : (client.lastName || '------')}
-              />
-            </DetailCard>
-          </section>
+          {(hasGeneralData() || clientsDataLoading) && (
+            <section>
+              <DetailCard title="General">
+                <DetailCardItem
+                  title="ID Number"
+                  name={clientsDataLoading ? "Loading ID..." : client.nid}
+                />
+                <DetailCardItem
+                  title="First name"
+                  name={clientsDataLoading ? "Loading first name..." : client.firstName}
+                />
+                <DetailCardItem
+                  title="Last name"
+                  name={clientsDataLoading ? "Loading last name..." : client.lastName}
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          <section className='address'>
-            <DetailCard title="Location">
-              <DetailCardItem
-                title="Address"
-                name={clientsDataLoading ? "Loading address..." : (client?.shops?.[0]?.address?.name || '------')}
-              />
+          {(hasLocationData() || clientsDataLoading) && (
+            <section className='address'>
+              <DetailCard title="Location">
+                <DetailCardItem
+                  title="Address"
+                  name={clientsDataLoading ? "Loading address..." : client?.shops?.[0]?.address?.name}
+                />
 
-              <DetailCardItem
-                title="City"
-                name={clientsDataLoading ? "Loading city..." : (client?.shops?.[0]?.address?.city || '------')} />
-            </DetailCard>
-          </section>
+                <DetailCardItem
+                  title="City"
+                  name={clientsDataLoading ? "Loading city..." : client?.shops?.[0]?.address?.city} />
+              </DetailCard>
+            </section>
+          )}
 
-          <section>
-            <DetailCard title="Contact">
-              <DetailCardItem
-                title="Email"
-                name={clientsDataLoading ? "Loading email..." : ((client.email && client?.email) || '------')}
-              />
+          {(hasContactData() || clientsDataLoading) && (
+            <section>
+              <DetailCard title="Contact">
+                <DetailCardItem
+                  title="Email"
+                  name={clientsDataLoading ? "Loading email..." : client.email}
+                />
 
-              <DetailCardItem
-                title="Mobile"
-                name={clientsDataLoading ? "Loading mobile..." : ((client.mobileNumber && client?.mobileNumber.toString()) || '------')}
-              />
+                <DetailCardItem
+                  title="Mobile"
+                  name={clientsDataLoading ? "Loading mobile..." : (client.mobileNumber ? client.mobileNumber.toString() : null)}
+                />
 
-              <DetailCardItem
-                title="Phone"
-                name={clientsDataLoading ? "Loading phone..." : ((client.phoneNumber && client?.phoneNumber) || '------')}
-              />
-            </DetailCard>
-          </section>
+                <DetailCardItem
+                  title="Phone"
+                  name={clientsDataLoading ? "Loading phone..." : client.phoneNumber}
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          <section>
-            <DetailCard title="Company">
-              <DetailCardItem
-                title="Shop"
-                name={clientsDataLoading ? "Loading shop..." : (client?.shops?.[0]?.shopName || '------')}
-              />
-              <DetailCardItem
-                title="Business Registration Number"
-                name={clientsDataLoading ? "Loading BRN..." : (client.brnNumber || '------')}
-              />
-              <DetailCardItem
-                title="Payment"
-                name={clientsDataLoading ? "Loading payment..." : (client?.payments?.[0]?.value || '------')}
-              />
-            </DetailCard>
-          </section>
+          {(hasCompanyData() || clientsDataLoading) && (
+            <section>
+              <DetailCard title="Company">
+                <DetailCardItem
+                  title="Shop"
+                  name={clientsDataLoading ? "Loading shop..." : client?.shops?.[0]?.shopName}
+                />
+                <DetailCardItem
+                  title="Business Registration Number"
+                  name={clientsDataLoading ? "Loading BRN..." : client.brnNumber}
+                />
+                <DetailCardItem
+                  title="Payment"
+                  name={clientsDataLoading ? "Loading payment..." : client?.payments?.[0]?.value}
+                />
+              </DetailCard>
+            </section>
+          )}
 
 
-          {client.credit && (
+          {(hasCreditData() || clientsDataLoading) && (
             <section className='credit'>
               <DetailCard title="Credit">
                 <DetailCardItem
                   title="Credit"
-                  name={clientsDataLoading ? "Loading credit amount..." : 'Rs ' + (client?.credit?.amount?.toString() || '------')}
+                  name={clientsDataLoading ? "Loading credit amount..." : (client?.credit?.amount ? `Rs ${client.credit.amount.toString()}` : null)}
                 />
                 <DetailCardItem
                   title="Repayment date"
-                  name={clientsDataLoading ? "Loading repayment date..." : (client?.credit?.dueDateTime ? dayjs(client.credit.dueDateTime).format('DD-MM-YYYY') : '------')}
+                  name={clientsDataLoading ? "Loading repayment date..." : (client?.credit?.dueDateTime ? dayjs(client.credit.dueDateTime).format('DD-MM-YYYY') : null)}
                 />
                 <DetailCardItem
                   title="Note"
-                  name={clientsDataLoading ? "Loading note..." : (client?.credit?.note || '------')}
+                  name={clientsDataLoading ? "Loading note..." : client?.credit?.note}
                 />
               </DetailCard>
             </section>
-          )
-          }
+          )}
+
+          {(hasCreatedData() || clientsDataLoading) && (
+            <section>
+              <DetailCard title="Created">
+                <DetailCardItem
+                  title="Date"
+                  name={clientsDataLoading ? "Loading date..." : formatDate(client.createdAt)}
+                />
+                <DetailCardItem
+                  title="Time"
+                  name={clientsDataLoading ? "Loading time..." : formatTime(client.createdAt)}
+                />
+                <DetailCardItem
+                  title="Day"
+                  name={clientsDataLoading ? "Loading day..." : formatDayOfWeek(client.createdAt)}
+                />
+              </DetailCard>
+            </section>
+          )}
 
           <div className="action-buttons">
             <Button

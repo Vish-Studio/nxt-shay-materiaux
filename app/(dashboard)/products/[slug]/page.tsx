@@ -64,7 +64,7 @@ export default function Product() {
 
   // Helper function to format date
   const formatDate = (date: string | Date | undefined) => {
-    if (!date) return '------';
+    if (!date) return null;
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     return dateObj.toLocaleDateString('en-GB', {
       day: '2-digit',
@@ -75,7 +75,7 @@ export default function Product() {
 
   // Helper function to format time
   const formatTime = (date: string | Date | undefined) => {
-    if (!date) return '------';
+    if (!date) return null;
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     return dateObj.toLocaleTimeString('en-GB', {
       hour: '2-digit',
@@ -86,11 +86,37 @@ export default function Product() {
 
   // Helper function to format day of week
   const formatDayOfWeek = (date: string | Date | undefined) => {
-    if (!date) return '------';
+    if (!date) return null;
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     return dateObj.toLocaleDateString('en-GB', {
       weekday: 'long'
     });
+  };
+
+  // Helper functions to check if sections have data
+  const hasGeneralData = () => {
+    return !productsLoading && (product.name || product?.description);
+  };
+
+  const hasColorData = () => {
+    return !productsLoading && product.color;
+  };
+
+  const hasCategoryData = () => {
+    return !productsLoading && product?.category?.name;
+  };
+
+  const hasPriceData = () => {
+    return !productsLoading && (product?.price !== null && product?.price !== undefined ||
+      product?.buyingPrice !== null && product?.buyingPrice !== undefined);
+  };
+
+  const hasQuantityData = () => {
+    return !productsLoading && (product?.quantity !== null && product?.quantity !== undefined);
+  };
+
+  const hasCreatedData = () => {
+    return !productsLoading && product.createdAt;
   };
 
   // Calculate remaining quantity (for now, assume 80% remaining as example)
@@ -135,89 +161,98 @@ export default function Product() {
             </section>
           )}
 
-          <section>
-            <DetailCard title="General">
-              <DetailCardItem
-                title="Name"
-                name={productsLoading ? "Loading name..." : (product.name || '------')}
-              />
-              <DetailCardItem
-                title="Description"
-                name={productsLoading ? "Loading description..." : (product?.description || '------')}
-              />
-            </DetailCard>
-          </section>
+          {(hasGeneralData() || productsLoading) && (
+            <section>
+              <DetailCard title="General">
+                <DetailCardItem
+                  title="Name"
+                  name={productsLoading ? "Loading name..." : product.name}
+                />
+                <DetailCardItem
+                  title="Description"
+                  name={productsLoading ? "Loading description..." : product?.description}
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          <section>
-            <DetailCard title="Color">
-              <div className="color-display-item">
-                <div className="color-info">
-                  <span className="color-label">Name</span>
-                  <span className="color-name">
-                    {productsLoading ? "Loading color..." : (product.color || '------')}
-                  </span>
+          {(hasColorData() || productsLoading) && (
+            <section>
+              <DetailCard title="Color">
+                <div className="color-display-item">
+                  <div className="color-info">
+                    <span className="color-label">Name</span>
+                    <span className="color-name">
+                      {productsLoading ? "Loading color..." : (product.color || null)}
+                    </span>
+                  </div>
+                  {!productsLoading && product.color && (
+                    <div
+                      className="color-circle"
+                      style={{
+                        backgroundColor: getColorHex(product.color),
+                      }}
+                    ></div>
+                  )}
                 </div>
-                {!productsLoading && product.color && (
-                  <div
-                    className="color-circle"
-                    style={{
-                      backgroundColor: getColorHex(product.color),
-                      border: getColorHex(product.color) === '#FFFFFF' ? '1px solid #e5e7eb' : 'none'
-                    }}
-                  ></div>
-                )}
-              </div>
-            </DetailCard>
-          </section>
+              </DetailCard>
+            </section>
+          )}
 
-          <section>
-            <DetailCard title="Category">
-              <DetailCardItem
-                title="Type"
-                name={productsLoading ? "Loading category..." : (product?.category?.name || '------')}
-              />
-              <DetailCardItem
-                title="Type"
-                name="Can"
-              />
-              <DetailCardItem
-                title="Type"
-                name="Sports"
-              />
-            </DetailCard>
-          </section>
+          {(hasCategoryData() || productsLoading) && (
+            <section>
+              <DetailCard title="Category">
+                <DetailCardItem
+                  title="Type"
+                  name={productsLoading ? "Loading category..." : product?.category?.name}
+                />
+                <DetailCardItem
+                  title="Type"
+                  name="Can"
+                />
+                <DetailCardItem
+                  title="Type"
+                  name="Sports"
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          <section className='price'>
-            <DetailCard title="Price">
-              <DetailCardItem
-                title="Selling Price"
-                name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price}` || '------')}
-              />
-              <DetailCardItem
-                title="Buying Price"
-                name={productsLoading ? "Loading buying price..." : (`Rs ${product?.buyingPrice}` || '------')}
-              />
-            </DetailCard>
-          </section>
+          {(hasPriceData() || productsLoading) && (
+            <section>
+              <DetailCard title="Price">
+                <DetailCardItem
+                  title="Selling Price"
+                  name={productsLoading ? "Loading selling price..." : (product?.price ? `Rs ${product.price}` : null)}
+                />
+                <DetailCardItem
+                  title="Buying Price"
+                  name={productsLoading ? "Loading buying price..." : (product?.buyingPrice ? `Rs ${product.buyingPrice}` : null)}
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          <section>
-            <DetailCard title="Quantity">
-              <DetailCardItem
-                title="Total"
-                name={productsLoading ? "Loading total..." : (`${product?.quantity || 0} pieces`)}
-              />
-              <DetailCardItem
-                title="Sold"
-                name={productsLoading ? "Loading sold..." : (`${soldQuantity} Pieces`)}
-              />
-              <DetailCardItem
-                title="Remaining"
-                name={productsLoading ? "Loading remaining..." : (`${remainingQuantity} Pieces`)}
-              />
-            </DetailCard>
-          </section>
+          {(hasQuantityData() || productsLoading) && (
+            <section>
+              <DetailCard title="Quantity">
+                <DetailCardItem
+                  title="Total"
+                  name={productsLoading ? "Loading total..." : (product?.quantity !== null && product?.quantity !== undefined ? `${product.quantity} pieces` : null)}
+                />
+                <DetailCardItem
+                  title="Sold"
+                  name={productsLoading ? "Loading sold..." : (product?.quantity !== null && product?.quantity !== undefined ? `${soldQuantity} Pieces` : null)}
+                />
+                <DetailCardItem
+                  title="Remaining"
+                  name={productsLoading ? "Loading remaining..." : (product?.quantity !== null && product?.quantity !== undefined ? `${remainingQuantity} Pieces` : null)}
+                />
+              </DetailCard>
+            </section>
+          )}
 
-          {product.deliveryDate && (
+          {(product.deliveryDate || productsLoading) && (
             <section>
               <DetailCard title="Delivery">
                 <DetailCardItem
@@ -236,22 +271,24 @@ export default function Product() {
             </section>
           )}
 
-          <section>
-            <DetailCard title="Created">
-              <DetailCardItem
-                title="Date"
-                name={productsLoading ? "Loading date..." : formatDate(product.createdAt)}
-              />
-              <DetailCardItem
-                title="Time"
-                name={productsLoading ? "Loading time..." : formatTime(product.createdAt)}
-              />
-              <DetailCardItem
-                title="Day"
-                name={productsLoading ? "Loading day..." : formatDayOfWeek(product.createdAt)}
-              />
-            </DetailCard>
-          </section>
+          {(hasCreatedData() || productsLoading) && (
+            <section>
+              <DetailCard title="Created">
+                <DetailCardItem
+                  title="Date"
+                  name={productsLoading ? "Loading date..." : formatDate(product.createdAt)}
+                />
+                <DetailCardItem
+                  title="Time"
+                  name={productsLoading ? "Loading time..." : formatTime(product.createdAt)}
+                />
+                <DetailCardItem
+                  title="Day"
+                  name={productsLoading ? "Loading day..." : formatDayOfWeek(product.createdAt)}
+                />
+              </DetailCard>
+            </section>
+          )}
 
           <div className="action-buttons">
             <Button

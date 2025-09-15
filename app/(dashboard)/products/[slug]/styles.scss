@@ -7,10 +7,8 @@
     gap: 15px;
     padding-bottom: 50px;
 
-    // Header section with blue border (as shown in mockup)
     .product-details-header {
       .detail-card-header {
-        border: 2px solid #007bff;
         border-radius: 8px;
         background-color: #1a1a1a;
       }
@@ -69,15 +67,9 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        border: 1px solid #e5e7eb;
+        border: 1.5px solid #1b1b1b;
         flex-shrink: 0;
       }
-    }
-
-    // Price section styling (matching client design)
-    section.price .detail-card {
-      border: 2px dashed #007bff;
-      background-color: #f8f9fa;
     }
 
     // Action buttons (same as client detail page)
