@@ -13,7 +13,7 @@ import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
 import { getDayOfWeek, isToday } from '@/utils/date';
-import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
+import TableFilter, { TabItem, SortOption } from '@/components/table/table-filter/table-filter';
 import BriefCard from '@/components/brief-card/brief-card';
 import BriefItem from '@/components/brief-card/brief-item/brief-item';
 
@@ -136,6 +136,13 @@ export default function Clients() {
     }
   ];
 
+  const clientSortOptions: SortOption[] = [
+    { label: 'Name Asc', value: 'firstName_asc', icon: 'arrow_downward' },
+    { label: 'Name Desc', value: 'firstName_desc', icon: 'arrow_upward' },
+    { label: 'Newly created', value: 'createdAt_desc', icon: 'arrow_downward' },
+    { label: 'Oldest created', value: 'createdAt_asc', icon: 'arrow_upward' },
+  ];
+
 
   return (
     <SearchContext.Provider
@@ -179,6 +186,7 @@ export default function Clients() {
             onSort={handleSort}
             currentSortField={sortField}
             currentSortDirection={sortDirection}
+            sortOptions={clientSortOptions}
           />
 
           <TableListV2

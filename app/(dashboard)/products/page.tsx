@@ -16,7 +16,7 @@ import StatusTag from '@/components/status-tag/status-tag';
 import type { TPaymentStatusValues } from '@/types/payment-status';
 import { productApiService } from '@/services/api/product';
 import { getDayOfWeek, isToday } from '@/utils/date';
-import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
+import TableFilter, { TabItem, SortOption } from '@/components/table/table-filter/table-filter';
 import BriefCard from '@/components/brief-card/brief-card';
 import BriefItem from '@/components/brief-card/brief-item/brief-item';
 
@@ -135,6 +135,15 @@ export default function Products() {
     }
   ];
 
+  const productSortOptions: SortOption[] = [
+    { label: 'Name Asc', value: 'name_asc', icon: 'arrow_downward' },
+    { label: 'Name Desc', value: 'name_desc', icon: 'arrow_upward' },
+    { label: 'Quantity Low to High', value: 'quantity_asc', icon: 'arrow_downward' },
+    { label: 'Quantity High to Low', value: 'quantity_desc', icon: 'arrow_upward' },
+    { label: 'Newly created', value: 'createdAt_desc', icon: 'arrow_downward' },
+    { label: 'Oldest created', value: 'createdAt_asc', icon: 'arrow_upward' },
+  ];
+
 
   return (
     <SearchContext.Provider
@@ -178,6 +187,7 @@ export default function Products() {
             onSort={handleSort}
             currentSortField={sortField}
             currentSortDirection={sortDirection}
+            sortOptions={productSortOptions}
           />
 
           <TableListV2

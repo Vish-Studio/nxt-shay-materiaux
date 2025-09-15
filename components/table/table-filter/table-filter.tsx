@@ -20,6 +20,7 @@ interface TableFilterProps {
   onSort?: (sortBy: string, direction: 'asc' | 'desc') => void;
   currentSortField?: string;
   currentSortDirection?: 'asc' | 'desc';
+  sortOptions?: SortOption[]; // Make sort options configurable
 }
 
 const TableFilter: FunctionComponent<TableFilterProps> = ({
@@ -28,6 +29,7 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
   onSort,
   currentSortField = 'createdAt',
   currentSortDirection = 'desc',
+  sortOptions, // Accept custom sort options
   ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
@@ -38,12 +40,16 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
   });
   const sortOverlayRef = useRef<HTMLDivElement>(null);
 
-  const sortOptions: SortOption[] = [
+  // Default sort options for clients (fallback)
+  const defaultSortOptions: SortOption[] = [
     { label: 'Name Asc', value: 'firstName_asc', icon: 'arrow_downward' },
     { label: 'Name Desc', value: 'firstName_desc', icon: 'arrow_upward' },
     { label: 'Newly created', value: 'createdAt_desc', icon: 'clock_arrow_down' },
     { label: 'Oldest created', value: 'createdAt_asc', icon: 'clock_arrow_up' },
   ];
+
+  // Use provided sort options or fall back to default
+  const activeSortOptions = sortOptions || defaultSortOptions;
 
   // Update local state when props change
   useEffect(() => {
@@ -90,7 +96,7 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
   };
 
   const getCurrentSortLabel = () => {
-    const currentOption = sortOptions.find(opt => opt.value === `${currentSort.field}_${currentSort.direction}`);
+    const currentOption = activeSortOptions.find(opt => opt.value === `${currentSort.field}_${currentSort.direction}`);
     return currentOption?.label || 'Sort';
   };
 
@@ -125,7 +131,7 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
               <div className="sort-header">
                 <span>Sort by</span>
               </div>
-              {sortOptions.map((option, index) => (
+              {activeSortOptions.map((option, index) => (
                 <button
                   key={index}
                   className={`sort-option ${`${currentSort.field}_${currentSort.direction}` === option.value ? 'active' : ''}`}
