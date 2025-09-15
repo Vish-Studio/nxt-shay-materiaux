@@ -12,7 +12,7 @@ import { IClient } from '@/types/api/client';
 import { useApiFetch } from '@/hooks/use-api-fetch';
 import { clientApiService } from '@/services/api/client';
 import { IColumn, TableListV2 } from '@/components/table/table-list-v2/table-list-v2';
-import { getDayOfWeek } from '@/utils/date';
+import { getDayOfWeek, isToday } from '@/utils/date';
 import TableFilter, { TabItem } from '@/components/table/table-filter/table-filter';
 import BriefCard from '@/components/brief-card/brief-card';
 import BriefItem from '@/components/brief-card/brief-item/brief-item';
@@ -89,7 +89,7 @@ export default function Clients() {
   const totalClients = clientsData?.length || 0;
   const paidClients = clientsData?.filter((client: IClient) => !client.credit)?.length || 0;
   const unpaidClients = clientsData?.filter((client: IClient) => client.credit)?.length || 0;
-  const addedToday = filteredClients?.length || 0; // This could be enhanced to actually check today's date
+  const addedToday = clientsData?.filter((client: IClient) => isToday(client.createdAt))?.length || 0;
 
   const columns: IColumn<IClient>[] = [
     {
@@ -163,10 +163,10 @@ export default function Clients() {
               </>
             ) : (
               <>
-                <BriefItem title="added today" value={addedToday} />
-                <BriefItem title="total registered" value={totalClients} />
-                <BriefItem title="remaining payment" value={unpaidClients} />
-                <BriefItem title="total payment" value={paidClients} />
+                <BriefItem title="Created today" value={addedToday} />
+                <BriefItem title="Total registered" value={totalClients} />
+                <BriefItem title="Remaining payment" value={unpaidClients} />
+                <BriefItem title="Total payment" value={paidClients} />
               </>
             )}
           </BriefCard>

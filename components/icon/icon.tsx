@@ -3,7 +3,7 @@ import IconProps from './type/icon-props';
 import './styles.scss';
 
 const Icon: FunctionComponent<IconProps> = ({ className, iconName, clickHandler, ...rest }) => {
-  const classNames = `icon symbol${className ?? ''}`;
+  const classNames = `icon symbol ${className ?? ''}`;
 
   return (
     <>

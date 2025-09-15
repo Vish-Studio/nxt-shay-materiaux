@@ -1,0 +1,431 @@
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 0 75px 0;
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .error-text {
+      color: #dc2626;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    // Basic input styling
+    .input-wrapper {
+      .form-input {
+        width: 100%;
+        padding: 16px 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 50px;
+        background-color: white;
+        font-size: 16px;
+        color: #1f2937;
+        outline: none;
+        font-family: inherit;
+
+        &::placeholder {
+          color: #9ca3af;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        &:focus {
+          border-color: #1f2937;
+          background-color: white;
+        }
+      }
+
+      .form-textarea {
+        width: 100%;
+        padding: 16px 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        background-color: white;
+        font-size: 16px;
+        color: #1f2937;
+        outline: none;
+        resize: vertical;
+        font-family: inherit;
+
+        &::placeholder {
+          color: #9ca3af;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        &:focus {
+          border-color: #1f2937;
+          background-color: white;
+        }
+      }
+    }
+
+    // Category field with Add button
+    .category-with-add,
+    .color-with-add {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      .category-select,
+      .color-select {
+        flex: 3; // Take up 3/4 of the space
+
+        .MuiFormControl-root {
+          .MuiOutlinedInput-root {
+            border-radius: 50px;
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            font-size: 16px;
+
+            .MuiSelect-select {
+              padding: 16px 18px;
+              color: #6b7280;
+              font-family: inherit;
+
+              .placeholder {
+                color: #9ca3af;
+                font-size: 14px;
+                font-weight: 500;
+              }
+            }
+
+            .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+
+            .MuiSelect-icon {
+              color: #6b7280;
+            }
+          }
+        }
+      }
+
+      .add-category-btn,
+      .add-color-btn {
+        flex: 1; // Take up 1/4 of the space
+        min-width: 50px !important;
+        max-width: 70px !important;
+        height: 48px !important;
+        border-radius: 24px !important;
+        background-color: #1f2937 !important;
+        color: white !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        text-transform: none !important;
+        padding: 0 8px !important;
+        box-shadow: none !important;
+
+        &:hover {
+          background-color: #374151 !important;
+        }
+
+        &:focus {
+          box-shadow: none !important;
+        }
+      }
+    }
+
+    // Price fields
+    .price-fields {
+      display: flex;
+      gap: 16px;
+
+      .price-field {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        label {
+          font-size: 16px;
+          font-weight: 500;
+          color: #1f2937;
+        }
+
+        .price-input {
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          .currency {
+            position: absolute;
+            left: 18px;
+            color: #6b7280;
+            font-weight: 500;
+            z-index: 1;
+          }
+
+          input {
+            width: 100%;
+            padding: 16px 18px 16px 42px;
+            border: 1px solid #e5e7eb;
+            border-radius: 50px;
+            background-color: white;
+            font-size: 16px;
+            color: #1f2937;
+            outline: none;
+            font-family: inherit;
+
+            &::placeholder {
+              color: #9ca3af;
+              font-size: 14px;
+              font-weight: 500;
+            }
+
+            &:focus {
+              border-color: #1f2937;
+              background-color: white;
+            }
+          }
+        }
+      }
+    }
+
+    // Stock field with controls
+    .stock-field {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      input {
+        flex: 1;
+        padding: 16px 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 50px;
+        background-color: white;
+        font-size: 16px;
+        color: #1f2937;
+        outline: none;
+        text-align: center;
+        font-family: inherit;
+
+        &::placeholder {
+          color: #9ca3af;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        &:focus {
+          border-color: #1f2937;
+          background-color: white;
+        }
+      }
+
+      .stock-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+
+    // Image field
+    .image-field {
+      .image-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        label {
+          margin-bottom: 0;
+        }
+
+        .image-size {
+          font-size: 14px;
+          color: #6b7280;
+        }
+      }
+
+      .image-upload-area {
+        border: 2px dashed #e5e7eb;
+        border-radius: 12px;
+        padding: 32px 16px;
+        text-align: center;
+        background-color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          border-color: #1f2937;
+          background-color: #f9fafb;
+        }
+
+        .upload-label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+
+          .upload-icon {
+            font-size: 32px;
+            color: #9ca3af;
+          }
+
+          p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 0;
+            max-width: 200px;
+            line-height: 1.4;
+          }
+
+          .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+
+    // Date picker styling
+    .MuiTextField-root {
+      .MuiOutlinedInput-root {
+        border-radius: 50px;
+        background-color: white;
+        border: 1px solid #e5e7eb;
+
+        input {
+          padding: 16px 18px;
+          font-size: 16px;
+          color: #1f2937;
+          font-family: inherit;
+
+          &::placeholder {
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border: none;
+        }
+
+        &:hover .MuiOutlinedInput-notchedOutline {
+          border: none;
+        }
+
+        &.Mui-focused {
+          background-color: white;
+          border-color: #1f2937;
+
+          .MuiOutlinedInput-notchedOutline {
+            border: none;
+          }
+        }
+
+        .MuiInputAdornment-root {
+          .icon {
+            color: #6b7280;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  // Submit button positioning
+  .btn-submit {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+
+    button {
+      width: 100%;
+      height: 56px;
+      border-radius: 50px !important;
+      background-color: #1f2937 !important;
+      color: white !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      text-transform: none !important;
+
+      &:hover {
+        background-color: #374151 !important;
+      }
+
+      &:disabled {
+        background-color: #9ca3af !important;
+        color: #f3f4f6 !important;
+      }
+    }
+  }
+
+  // Category Modal Styles
+  .category-input-wrapper {
+    margin: 20px 0;
+
+    .category-input {
+      width: 100%;
+      padding: 16px 18px;
+      border: 1px solid #e5e7eb;
+      border-radius: 50px;
+      background-color: #f9fafb;
+      font-size: 16px;
+      color: #1f2937;
+      outline: none;
+      font-family: inherit;
+
+      &::placeholder {
+        color: #9ca3af;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      &:focus {
+        border-color: #1f2937;
+        background-color: white;
+      }
+    }
+  }
+}
+
+// Override modal button styles for category modal
+.modal-wrapper .modal .modal-actions {
+  .btn-primary {
+    background-color: #1f2937 !important;
+    color: white !important;
+    border-radius: 50px !important;
+    height: 48px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border: none !important;
+
+    &:hover {
+      background-color: #374151 !important;
+    }
+  }
+
+  .btn-secondary {
+    background-color: white !important;
+    color: #1f2937 !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 50px !important;
+    height: 48px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+
+    &:hover {
+      background-color: #f9fafb !important;
+      border-color: #1f2937 !important;
+    }
+  }
+}

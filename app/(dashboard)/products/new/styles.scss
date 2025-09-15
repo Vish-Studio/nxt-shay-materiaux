@@ -1,4 +1,4 @@
-.new-clients-page {
+.new-products-page {
   .content {
     margin-top: 100px;
     padding-bottom: 75px;
@@ -38,22 +38,63 @@
       }
     }
 
-    .google-maps {
-      width: 100%;
-      height: 260px;
+    .error-text {
+      color: #f44336;
+      font-size: 12px;
+      margin-top: 5px;
     }
 
-    .delivery-options {
-      .options-list {
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: space-between !important;
+    .category-field {
+      flex: 1;
+
+      .MuiFormControl-root {
+        margin-top: 0;
+      }
+
+      .MuiInputLabel-root {
+        font-size: 14px;
+        color: #7e7e7e;
+      }
+
+      .MuiSelect-root {
+        border-radius: 8px;
+        font-size: 14px;
       }
     }
 
     .payment-info {
       .header {
         margin-bottom: 5px;
+      }
+
+      .MuiRadioGroup-root {
+        gap: 20px;
+      }
+
+      .MuiFormControlLabel-root {
+        margin-right: 0;
+
+        .MuiRadio-root {
+          color: #1d1d1d;
+
+          &.Mui-checked {
+            color: #1d1d1d;
+          }
+        }
+
+        .MuiFormControlLabel-label {
+          font-size: 14px;
+          color: #1d1d1d;
+        }
+      }
+    }
+
+    .additional-info {
+      .form-input {
+        textarea {
+          min-height: 100px;
+          resize: vertical;
+        }
       }
     }
   }

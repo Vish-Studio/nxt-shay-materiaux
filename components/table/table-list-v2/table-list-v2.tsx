@@ -28,6 +28,7 @@ interface ITableListV2Props<T> extends HTMLAttributes<HTMLDivElement> {
   containerClassName?: string;
   rowClassName?: string;
   headerClassName?: string;
+  showStatusTag?: boolean; // New prop to control status tag display
 }
 
 export const TableListV2 = <T,>({
@@ -39,6 +40,7 @@ export const TableListV2 = <T,>({
   containerClassName,
   rowClassName,
   headerClassName,
+  showStatusTag = true, // Default to true for backward compatibility
   ...rest
 }: ITableListV2Props<T>) => {
   const [selectedRecord, setSelectedRecord] = useState<T | null>(null);
@@ -72,8 +74,7 @@ export const TableListV2 = <T,>({
         key={`skeleton-${index}`}
         className={`table-row loading-skeleton ${rowClassName ?? ''}`}
       >
-        <TagPayment status={'unpaid'} />
-
+        {showStatusTag && <TagPayment status={'unpaid'} />}
         {columns.map((column) => (
           <div
             key={`skeleton-cell-${column.dataIndex as string}`}
@@ -118,10 +119,16 @@ export const TableListV2 = <T,>({
                     }`}
                   onClick={() => handleRowClick(record)}
                 >
-                  <TagPayment
-                    status={(record as any)?.credit ? 'unpaid' : 'paid'}
-                  />
-
+                  {showStatusTag && (
+                    <TagPayment
+                      status={
+                        // Check if this is product data (has quantity field)
+                        (record as any)?.quantity !== undefined
+                          ? ((record as any)?.quantity > 0 ? 'paid' : 'unpaid') // Use paid for in-stock, unpaid for out-of-stock
+                          : ((record as any)?.credit ? 'unpaid' : 'paid') // Original logic for clients
+                      }
+                    />
+                  )}
                   {columns.map((column) => (
                     <div
                       key={column.dataIndex as string}
@@ -137,7 +144,7 @@ export const TableListV2 = <T,>({
             })}
 
             <div className="total-count">
-              {data.length} total clients
+              {data.length} total
             </div>
           </>
         )}

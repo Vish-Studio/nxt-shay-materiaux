@@ -1,0 +1,37 @@
+.status-tag {
+  border-radius: 50px;
+  display: inline-block;
+
+  // Size variants
+  &.small {
+    width: 8px;
+    height: 8px;
+  }
+
+  &.medium {
+    width: 12px;
+    height: 12px;
+  }
+
+  &.large {
+    width: 16px;
+    height: 16px;
+  }
+
+  // Status color variants
+  &.success {
+    background-color: #36cd2b; // Green for positive states
+  }
+
+  &.error {
+    background-color: #f13c3c; // Red for negative states
+  }
+
+  &.warning {
+    background-color: #f69300; // Orange for pending/warning states
+  }
+
+  &.neutral {
+    background-color: #9e9e9e; // Gray for neutral states
+  }
+}

@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import type { TPaymentStatusValues } from '@/types/payment-status';
+import StatusTag from '@/components/status-tag/status-tag';
 
 import './styles.scss';
 
@@ -8,9 +9,33 @@ interface TagPaymentProps {
   status: TPaymentStatusValues;
 }
 
-const TagPayment: FunctionComponent<TagPaymentProps & React.HTMLAttributes<HTMLDivElement>> = ({ classname, status, ...rest }) => {
+const TagPayment: FunctionComponent<TagPaymentProps & React.HTMLAttributes<HTMLDivElement>> = ({
+  classname,
+  status,
+  ...rest
+}) => {
+  // Map payment status to generic status values
+  const getStatusValue = (paymentStatus: TPaymentStatusValues) => {
+    switch (paymentStatus) {
+      case 'paid':
+        return 'paid' as const;
+      case 'unpaid':
+        return 'unpaid' as const;
+      case 'pending':
+        return 'pending' as const;
+      default:
+        return 'unpaid' as const;
+    }
+  };
+
   return (
-    <div className={`tag-payment ${classname} ${status}`} {...rest}></div>
+    <StatusTag
+      className={`tag-payment ${classname || ''}`}
+      type="payment"
+      status={getStatusValue(status)}
+      size="small"
+      {...rest}
+    />
   );
 };
 
