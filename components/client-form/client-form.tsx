@@ -438,7 +438,7 @@ export default function ClientForm({
                       fullWidth: true,
                       InputProps: {
                         endAdornment: (
-                          <Icon iconName="calendar_month" />
+                          <Icon iconName="calendar_today" />
                         ),
                       },
                       sx: {

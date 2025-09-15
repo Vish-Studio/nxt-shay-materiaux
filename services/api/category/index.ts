@@ -6,11 +6,16 @@ import type { ICategory } from '@/types/api/category';
 
 interface ICategoryApiService {
   getAllCategories(): Promise<IApiResponse<ICategory[]>>;
+  createCategory(name: string): Promise<IApiResponse<ICategory>>;
 }
 
 class CategoryApiService implements ICategoryApiService {
   public async getAllCategories(): Promise<IApiResponse<ICategory[]>> {
     return await api.get<ICategory[]>(apiRoutes.categories.index);
+  }
+
+  public async createCategory(name: string): Promise<IApiResponse<ICategory>> {
+    return await api.post<ICategory>(apiRoutes.categories.index, { name });
   }
 }
 

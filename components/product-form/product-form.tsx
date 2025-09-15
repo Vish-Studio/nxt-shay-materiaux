@@ -9,6 +9,8 @@ import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import { useAppDataContext } from '@/context/AppDataContext';
 import { IAddProductParams, IProduct } from '@/types/api/product';
+import { ICategory } from '@/types/api/category';
+import { categoryApiService } from '@/services/api/category';
 import Icon from '@/components/icon/icon';
 import Modal from '@/components/modal/modal';
 import ButtonFab from '@/components/button-fab/button-fab';
@@ -35,6 +37,25 @@ interface IProductFormProps {
   onSubmit: (data: any) => Promise<void>;
   loading?: boolean;
 }
+
+// Helper function to get CSS color from color name
+const getColorValue = (colorName: string): string => {
+  const colorMap: Record<string, string> = {
+    'Red': '#ef4444',
+    'Blue': '#3b82f6',
+    'Green': '#22c55e',
+    'Black': '#1f2937',
+    'White': '#ffffff',
+    'Yellow': '#eab308',
+    'Orange': '#f97316',
+    'Purple': '#a855f7',
+    'Pink': '#ec4899',
+    'Gray': '#6b7280',
+    'Brown': '#a3652f'
+  };
+
+  return colorMap[colorName] || '#6b7280'; // Default to gray if color not found
+};
 
 export default function ProductForm({
   initialData,
@@ -74,6 +95,17 @@ export default function ProductForm({
   const [newCategoryName, setNewCategoryName] = useState<string>('');
   const [addColorModalOpen, setAddColorModalOpen] = useState<boolean>(false);
   const [newColorName, setNewColorName] = useState<string>('');
+  const [newColorHex, setNewColorHex] = useState<string>('#000000');
+  const [localCategories, setLocalCategories] = useState<ICategory[]>([]);
+  const [pendingCategories, setPendingCategories] = useState<string[]>([]);
+
+  // Combine existing categories with local ones
+  const allCategories = useMemo(() => {
+    const existing = statuses || [];
+    const local = localCategories;
+    const pending = pendingCategories.map(name => ({ _id: `temp-${name}`, name }));
+    return [...existing, ...local, ...pending];
+  }, [statuses, localCategories, pendingCategories]);
 
   const watchQuantity = watch('quantity');
 
@@ -123,12 +155,15 @@ export default function ProductForm({
 
   const handleCategoryModalAdd = () => {
     if (newCategoryName.trim()) {
-      // Here you would typically call an API to add the new category
-      // For now, we'll just close the modal
-      console.log('Adding new category:', newCategoryName);
+      // Add to pending categories list
+      setPendingCategories(prev => [...prev, newCategoryName.trim()]);
+
+      // Set the new category as selected
+      setValue('category', `temp-${newCategoryName.trim()}`);
+
+      // Close modal and reset
       setAddCategoryModalOpen(false);
       setNewCategoryName('');
-      // TODO: Implement API call to add category and refresh the categories list
     }
   };
 
@@ -139,15 +174,17 @@ export default function ProductForm({
   const handleColorModalCancel = () => {
     setAddColorModalOpen(false);
     setNewColorName('');
+    setNewColorHex('#000000');
   };
 
   const handleColorModalAdd = () => {
     if (newColorName.trim()) {
       // Here you would typically call an API to add the new color
       // For now, we'll just close the modal
-      console.log('Adding new color:', newColorName);
+      console.log('Adding new color:', newColorName, 'with hex:', newColorHex);
       setAddColorModalOpen(false);
       setNewColorName('');
+      setNewColorHex('#000000');
       // TODO: Implement API call to add color and refresh the colors list
     }
   };
@@ -156,11 +193,34 @@ export default function ProductForm({
     setBtnIsDisabled(true);
 
     try {
+      let finalCategoryId = data.category;
+
+      // Check if the selected category is a pending (temporary) category
+      if (data.category && data.category.startsWith('temp-')) {
+        const categoryName = data.category.replace('temp-', '');
+
+        try {
+          // Create the new category in MongoDB
+          const newCategoryResponse = await categoryApiService.createCategory(categoryName);
+          if (newCategoryResponse.data) {
+            finalCategoryId = newCategoryResponse.data._id;
+
+            // Add to local categories and remove from pending
+            setLocalCategories(prev => [...prev, newCategoryResponse.data!]);
+            setPendingCategories(prev => prev.filter(name => name !== categoryName));
+          }
+        } catch (categoryError) {
+          console.error('Error creating category:', categoryError);
+          // If category creation fails, we'll still try to submit with the original value
+          // The backend should handle this appropriately
+        }
+      }
+
       // Convert form data to API format
       const submitData = {
         name: data.name,
         quantity: data.quantity,
-        category: data.category,
+        category: finalCategoryId,
         price: data.price,
         buyingPrice: data.buyingPrice,
         paymentStatus: 'unpaid', // Set default for now
@@ -222,11 +282,11 @@ export default function ProductForm({
                         displayEmpty
                         renderValue={(value) => {
                           if (!value) return <span className="placeholder">Select a category</span>;
-                          const category = statuses?.find(cat => cat._id === value);
+                          const category = allCategories?.find(cat => cat._id === value);
                           return category?.name || value;
                         }}
                       >
-                        {statuses?.map((category) => (
+                        {allCategories?.map((category) => (
                           <MenuItem key={category._id} value={category._id}>
                             {category.name}
                           </MenuItem>
@@ -320,14 +380,62 @@ export default function ProductForm({
                         displayEmpty
                         renderValue={(value) => {
                           if (!value) return <span className="placeholder">Select a color</span>;
-                          return value;
+                          return (
+                            <div className="color-display">
+                              <div
+                                className="color-circle"
+                                style={{ backgroundColor: getColorValue(value) }}
+                              ></div>
+                              <span>{value}</span>
+                            </div>
+                          );
                         }}
                       >
-                        <MenuItem value="Red">Red</MenuItem>
-                        <MenuItem value="Blue">Blue</MenuItem>
-                        <MenuItem value="Green">Green</MenuItem>
-                        <MenuItem value="Black">Black</MenuItem>
-                        <MenuItem value="White">White</MenuItem>
+                        <MenuItem value="Red">
+                          <div className="color-menu-item">
+                            <div
+                              className="color-circle"
+                              style={{ backgroundColor: getColorValue('Red') }}
+                            ></div>
+                            <span>Red</span>
+                          </div>
+                        </MenuItem>
+                        <MenuItem value="Blue">
+                          <div className="color-menu-item">
+                            <div
+                              className="color-circle"
+                              style={{ backgroundColor: getColorValue('Blue') }}
+                            ></div>
+                            <span>Blue</span>
+                          </div>
+                        </MenuItem>
+                        <MenuItem value="Green">
+                          <div className="color-menu-item">
+                            <div
+                              className="color-circle"
+                              style={{ backgroundColor: getColorValue('Green') }}
+                            ></div>
+                            <span>Green</span>
+                          </div>
+                        </MenuItem>
+                        <MenuItem value="Black">
+                          <div className="color-menu-item">
+                            <div
+                              className="color-circle"
+                              style={{ backgroundColor: getColorValue('Black') }}
+                            ></div>
+                            <span>Black</span>
+                          </div>
+                        </MenuItem>
+                        <MenuItem value="White">
+                          <div className="color-menu-item">
+                            <div
+                              className="color-circle"
+                              style={{ backgroundColor: getColorValue('White'), border: '1px solid #e5e7eb' }}
+                            ></div>
+                            <span>White</span>
+                          </div>
+                        </MenuItem>
                       </Select>
                     )}
                   />
@@ -424,13 +532,17 @@ export default function ProductForm({
           secondaryClick={handleCategoryModalCancel}
         >
           <div className="category-input-wrapper">
-            <input
-              type="text"
-              placeholder="Category name"
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-              className="category-input"
-            />
+            <label htmlFor="categoryName">Category Name</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                placeholder="Category name"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                className="form-input"
+                id="categoryName"
+              />
+            </div>
           </div>
         </Modal>
 
@@ -444,14 +556,43 @@ export default function ProductForm({
           primaryClick={handleColorModalAdd}
           secondaryClick={handleColorModalCancel}
         >
-          <div className="category-input-wrapper">
-            <input
-              type="text"
-              placeholder="Color name"
-              value={newColorName}
-              onChange={(e) => setNewColorName(e.target.value)}
-              className="category-input"
-            />
+          <div className="color-modal-content">
+            <div className="color-input-wrapper">
+              <label htmlFor="colorName">Color Name</label>
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Color name"
+                  value={newColorName}
+                  onChange={(e) => setNewColorName(e.target.value)}
+                  className="form-input"
+                  id="colorName"
+                />
+              </div>
+            </div>
+
+            <div className="color-picker-wrapper">
+              <label htmlFor="colorPicker">Color</label>
+              <div className="color-picker-section">
+                <div className="color-preview" style={{ backgroundColor: newColorHex }}>
+                  <input
+                    type="color"
+                    value={newColorHex}
+                    onChange={(e) => setNewColorHex(e.target.value)}
+                    className="color-picker-input"
+                    id="colorPicker"
+                  />
+                </div>
+                <input
+                  type="text"
+                  placeholder="#000000"
+                  value={newColorHex}
+                  onChange={(e) => setNewColorHex(e.target.value)}
+                  className="hex-input"
+                  pattern="^#[0-9A-Fa-f]{6}$"
+                />
+              </div>
+            </div>
           </div>
         </Modal>
       </div>
