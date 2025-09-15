@@ -7,6 +7,15 @@
     gap: 2px;
     padding: 0 15px;
     border-radius: 50px;
+
+    // Ensure no focus styles on the container
+    &:focus,
+    &:active {
+        outline: none;
+        border: none;
+        box-shadow: none;
+        -webkit-tap-highlight-color: transparent;
+    }
 }
 
 .btn-search {
@@ -31,11 +40,37 @@
     border: none;
     height: 100%;
     width: 100%;
-    outline-width: 0px;
+    outline: none;
     color: #49454f;
     font-size: 16px;
-    :focus-visible {
-        outline-width: 0px;
+
+    // Remove all focus styles including iOS blue border
+    &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    &:focus-visible {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    // iOS specific focus removal
+    &:focus,
+    &:active {
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        -webkit-user-select: text !important;
+        user-select: text !important;
     }
 }
 

@@ -14,7 +14,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
-import GoogleMap from '@/components/google-maps/google-map';
+
 import ButtonFab from '@/components/button-fab/button-fab';
 import dayjs from 'dayjs';
 

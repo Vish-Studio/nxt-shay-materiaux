@@ -39,10 +39,10 @@ const TableFilter: FunctionComponent<TableFilterProps> = ({
   const sortOverlayRef = useRef<HTMLDivElement>(null);
 
   const sortOptions: SortOption[] = [
-    { label: 'Name Asc', value: 'firstName_asc', icon: 'arrow_upward' },
-    { label: 'Name Desc', value: 'firstName_desc', icon: 'arrow_downward' },
-    { label: 'Newly created', value: 'createdAt_desc', icon: 'clock_arrow_up' },
-    { label: 'Oldest created', value: 'createdAt_asc', icon: 'clock_arrow_down' },
+    { label: 'Name Asc', value: 'firstName_asc', icon: 'arrow_downward' },
+    { label: 'Name Desc', value: 'firstName_desc', icon: 'arrow_upward' },
+    { label: 'Newly created', value: 'createdAt_desc', icon: 'clock_arrow_down' },
+    { label: 'Oldest created', value: 'createdAt_asc', icon: 'clock_arrow_up' },
   ];
 
   // Update local state when props change
