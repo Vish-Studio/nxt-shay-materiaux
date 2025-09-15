@@ -16,6 +16,7 @@ import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
 import GoogleMap from '@/components/google-maps/google-map';
 import ButtonFab from '@/components/button-fab/button-fab';
+import dayjs from 'dayjs';
 
 export default function Client() {
   const params = useParams();
@@ -130,6 +131,27 @@ export default function Client() {
               />
             </DetailCard>
           </section>
+
+
+          {client.credit && (
+            <section className='credit'>
+              <DetailCard title="Credit">
+                <DetailCardItem
+                  title="Credit"
+                  name={clientsDataLoading ? "Loading credit amount..." : 'Rs ' + (client?.credit?.amount?.toString() || '------')}
+                />
+                <DetailCardItem
+                  title="Repayment date"
+                  name={clientsDataLoading ? "Loading repayment date..." : (client?.credit?.dueDateTime ? dayjs(client.credit.dueDateTime).format('DD-MM-YYYY') : '------')}
+                />
+                <DetailCardItem
+                  title="Note"
+                  name={clientsDataLoading ? "Loading note..." : (client?.credit?.note || '------')}
+                />
+              </DetailCard>
+            </section>
+          )
+          }
 
           <div className="action-buttons">
             <Button

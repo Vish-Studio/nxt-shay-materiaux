@@ -20,28 +20,76 @@ import BriefItem from '@/components/brief-card/brief-item/brief-item';
 export default function Clients() {
   const [searchResults, setSearchResults] = useState('');
   const [filteredClients, setFilteredClients] = useState<IClient[] | null>(null);
+  const [activeFilter, setActiveFilter] = useState<'all' | 'paid' | 'unpaid'>('all');
+  const [sortField, setSortField] = useState<string>('createdAt');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const router = useRouter();
+
+  const handleSort = (field: string, direction: 'asc' | 'desc') => {
+    setSortField(field);
+    setSortDirection(direction);
+  };
 
   const { data: clientsData, loading: clientsDataLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
 
-
+  // Filter and sort clients based on search, payment status, and sort options
   useEffect(() => {
-    setFilteredClients(clientsData);
-  }, [clientsData]);
-
-  useEffect(() => {
-    if (searchResults) {
-      const filtered = clientsData?.filter((client) =>
-        client.firstName.toLowerCase().includes(searchResults.toLowerCase())
-      );
-      setFilteredClients(filtered ?? null);
-    } else {
-      setFilteredClients(clientsData);
+    if (!clientsData) {
+      setFilteredClients(null);
+      return;
     }
-  }, [searchResults, clientsData]);
 
+    let filtered = [...clientsData];
+
+    // Apply search filter
+    if (searchResults) {
+      filtered = filtered.filter((client) =>
+        client.firstName.toLowerCase().includes(searchResults.toLowerCase()) ||
+        client.lastName.toLowerCase().includes(searchResults.toLowerCase())
+      );
+    }
+
+    // Apply payment status filter
+    if (activeFilter === 'paid') {
+      filtered = filtered.filter((client) => !client.credit);
+    } else if (activeFilter === 'unpaid') {
+      filtered = filtered.filter((client) => client.credit);
+    }
+    // 'all' filter shows everything, no additional filtering needed
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      if (sortField === 'firstName') {
+        aValue = a.firstName?.toLowerCase() || '';
+        bValue = b.firstName?.toLowerCase() || '';
+      } else if (sortField === 'createdAt') {
+        aValue = new Date(a.createdAt || 0).getTime();
+        bValue = new Date(b.createdAt || 0).getTime();
+      } else {
+        aValue = a[sortField as keyof IClient] || '';
+        bValue = b[sortField as keyof IClient] || '';
+      }
+
+      if (sortDirection === 'asc') {
+        return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+      } else {
+        return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+      }
+    });
+
+    setFilteredClients(filtered);
+  }, [searchResults, clientsData, activeFilter, sortField, sortDirection]);
+
+  // Calculate stats for brief card
+  const totalClients = clientsData?.length || 0;
+  const paidClients = clientsData?.filter((client: IClient) => !client.credit)?.length || 0;
+  const unpaidClients = clientsData?.filter((client: IClient) => client.credit)?.length || 0;
+  const addedToday = filteredClients?.length || 0; // This could be enhanced to actually check today's date
 
   const columns: IColumn<IClient>[] = [
     {
@@ -76,15 +124,15 @@ export default function Clients() {
   const tabItem: TabItem[] = [
     {
       title: 'All',
-      clickHandle: () => { }
+      clickHandle: () => setActiveFilter('all')
     },
     {
-      title: 'Active',
-      clickHandle: () => { }
+      title: 'Paid',
+      clickHandle: () => setActiveFilter('paid')
     },
     {
-      title: 'Inactive',
-      clickHandle: () => { }
+      title: 'Unpaid',
+      clickHandle: () => setActiveFilter('unpaid')
     }
   ];
 
@@ -115,17 +163,23 @@ export default function Clients() {
               </>
             ) : (
               <>
-                <BriefItem title="added today" value={filteredClients?.length || 0} />
-                <BriefItem title="total registered" value={filteredClients?.length || 0} />
-                <BriefItem title="remaining payment" value={filteredClients?.length || 0} />
-                <BriefItem title="total payment" value={filteredClients?.length || 0} />
+                <BriefItem title="added today" value={addedToday} />
+                <BriefItem title="total registered" value={totalClients} />
+                <BriefItem title="remaining payment" value={unpaidClients} />
+                <BriefItem title="total payment" value={paidClients} />
               </>
             )}
           </BriefCard>
         </section>
 
         <section className="main-content">
-          <TableFilter tabItems={tabItem} />
+          <TableFilter
+            tabItems={tabItem}
+            defaultActiveIndex={0}
+            onSort={handleSort}
+            currentSortField={sortField}
+            currentSortDirection={sortDirection}
+          />
 
           <TableListV2
             columns={columns}

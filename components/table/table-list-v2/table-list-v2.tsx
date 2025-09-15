@@ -71,9 +71,8 @@ export const TableListV2 = <T,>({
       <div
         key={`skeleton-${index}`}
         className={`table-row loading-skeleton ${rowClassName ?? ''}`}
-        style={{ animationDelay: `${index * 0.1}s` }}
       >
-        <TagPayment status={'unpaid'} style={{ marginRight: '8px', opacity: 0.7 }} />
+        <TagPayment status={'unpaid'} />
 
         {columns.map((column) => (
           <div
@@ -117,12 +116,10 @@ export const TableListV2 = <T,>({
                   key={key}
                   className={`table-row table-row-animated ${rowClassName ?? ''} ${record === selectedRecord ? 'selected' : ''
                     }`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                   onClick={() => handleRowClick(record)}
                 >
                   <TagPayment
                     status={(record as any)?.credit ? 'unpaid' : 'paid'}
-                    style={{ marginRight: '8px' }}
                   />
 
                   {columns.map((column) => (
@@ -139,10 +136,7 @@ export const TableListV2 = <T,>({
               );
             })}
 
-            <div style={{
-              textAlign: 'center', marginTop: '1rem', opacity: '0.3',
-              fontSize: '12px'
-            }}>
+            <div className="total-count">
               {data.length} total clients
             </div>
           </>

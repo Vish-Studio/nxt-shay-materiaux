@@ -1,0 +1,11 @@
+// Client form styles are inherited from the new client page styles
+@import "../../app/(dashboard)/clients/new/styles.scss";
+@import "../../app/(dashboard)/clients/styles.scss";
+
+.client-form {
+  width: 100%;
+
+  .content {
+    width: 100%;
+  }
+}

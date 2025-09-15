@@ -1,12 +1,13 @@
 'use client'
 
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useContext } from "react";
 import Icon from "../icon/icon";
 import TopBarProps from "./type/top-bar-props";
 import './styles.scss';
 import Link from "next/link";
 import SearchBar from "../search-bar/search-bar";
 import { useRouter } from "next/navigation";
+import { SearchContext } from "@/context/SearchContext";
 
 
 const TopBar: FunctionComponent<TopBarProps> = ({
@@ -18,8 +19,14 @@ const TopBar: FunctionComponent<TopBarProps> = ({
   hasSearch = false
 }) => {
   const route = useRouter();
+  const { setSearchResults } = useContext(SearchContext);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
+
   const btnSearch = () => {
+    if (showSearchBar) {
+      // Reset search value when closing the search bar
+      setSearchResults('');
+    }
     setShowSearchBar(!showSearchBar);
   }
 
