@@ -2,10 +2,14 @@ import { Color } from '@/models/color';
 import type { IAddColorParams, IDeleteColorParams, IUpdateColorParams } from '@/types/api/color';
 import { dbConnect } from '@/utils/db-connect';
 import { createHttpResponse } from '@/utils/http';
+import { initializeDatabase } from '@/utils/seeds';
 
 export async function GET() {
   try {
     await dbConnect();
+
+    // Initialize database with basic colors if none exist
+    await initializeDatabase();
 
     const colors = await Color.find({}).exec();
     return createHttpResponse('success', 'Colors fetched successfully', colors);

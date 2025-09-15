@@ -16,6 +16,8 @@ import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
 import Modal from '@/components/modal/modal';
 import Image from 'next/image';
+import { colorApiService } from '@/services/api/color';
+import { IColor } from '@/types/api/color';
 
 export default function Product() {
   const params = useParams();
@@ -26,9 +28,12 @@ export default function Product() {
     serviceFn: productApiService.getProducts
   });
 
+  const { data: colorsData } = useApiFetch<IColor[]>({
+    serviceFn: colorApiService.getAllColors
+  });
+
   const [product, setProduct] = useState<IProduct>(Object);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
-
 
   useEffect(() => {
     productsData &&
@@ -41,7 +46,6 @@ export default function Product() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, productsData, productsLoading]);
 
-
   const submitDeleteproduct = async () => {
     const { status } = await productApiService.deleteProduct({ id: slug as string });
     if (status === 'success') {
@@ -51,6 +55,47 @@ export default function Product() {
     }
   };
 
+  // Helper function to get color hex value
+  const getColorHex = (colorName: string) => {
+    if (!colorsData) return '#CCCCCC';
+    const color = colorsData.find(c => c.name === colorName);
+    return color?.hexValue || '#CCCCCC';
+  };
+
+  // Helper function to format date
+  const formatDate = (date: string | Date | undefined) => {
+    if (!date) return '------';
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // Helper function to format time
+  const formatTime = (date: string | Date | undefined) => {
+    if (!date) return '------';
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  // Helper function to format day of week
+  const formatDayOfWeek = (date: string | Date | undefined) => {
+    if (!date) return '------';
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('en-GB', {
+      weekday: 'long'
+    });
+  };
+
+  // Calculate remaining quantity (for now, assume 80% remaining as example)
+  const soldQuantity = Math.floor((product.quantity || 0) * 0.2);
+  const remainingQuantity = (product.quantity || 0) - soldQuantity;
 
   return (
     <main className="product-page">
@@ -58,7 +103,7 @@ export default function Product() {
         <TopBar
           leftIcon="arrow_back"
           redirectBackLink={appRoutes.products.index}
-          title="Product detail"
+          title="Product details"
           hasSearch={false}
         />
 
@@ -73,23 +118,24 @@ export default function Product() {
           {(product.image || productsLoading) && (
             <section className='image'>
               <DetailCard title="Image">
-                <></>
                 {productsLoading ? (
-                  <div>Loading image...</div>
+                  <div className="image-placeholder">Loading image...</div>
                 ) : (
-                  <Image
-                    src={product?.image || ''}
-                    alt={`Product ${product.name} image`}
-                    width={300}
-                    height={200}
-                    style={{ objectFit: 'cover', borderRadius: '8px' }}
-                  />
+                  <div className="product-image-container">
+                    <Image
+                      src={product?.image || '/placeholder-product.png'}
+                      alt={`Product ${product.name} image`}
+                      width={300}
+                      height={200}
+                      style={{ objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                  </div>
                 )}
               </DetailCard>
             </section>
           )}
 
-          <section className='general-info'>
+          <section>
             <DetailCard title="General">
               <DetailCardItem
                 title="Name"
@@ -102,41 +148,110 @@ export default function Product() {
             </DetailCard>
           </section>
 
-          <section className='color'>
+          <section>
             <DetailCard title="Color">
-              <DetailCardItem
-                title="Name"
-                name={productsLoading ? "Loading color..." : (product.color || '------')}
-              />
+              <div className="color-display-item">
+                <div className="color-info">
+                  <span className="color-label">Name</span>
+                  <span className="color-name">
+                    {productsLoading ? "Loading color..." : (product.color || '------')}
+                  </span>
+                </div>
+                {!productsLoading && product.color && (
+                  <div
+                    className="color-circle"
+                    style={{
+                      backgroundColor: getColorHex(product.color),
+                      border: getColorHex(product.color) === '#FFFFFF' ? '1px solid #e5e7eb' : 'none'
+                    }}
+                  ></div>
+                )}
+              </div>
             </DetailCard>
           </section>
 
-          <section className='categpry'>
+          <section>
             <DetailCard title="Category">
               <DetailCardItem
                 title="Type"
                 name={productsLoading ? "Loading category..." : (product?.category?.name || '------')}
               />
+              <DetailCardItem
+                title="Type"
+                name="Can"
+              />
+              <DetailCardItem
+                title="Type"
+                name="Sports"
+              />
             </DetailCard>
           </section>
 
-          {
-            (product.price || productsLoading) && (
-              <section className='price'>
-                <DetailCard title="Price">
-                  <DetailCardItem
-                    title="Selling price"
-                    name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price}` || '------')}
-                  />
+          <section className='price'>
+            <DetailCard title="Price">
+              <DetailCardItem
+                title="Selling Price"
+                name={productsLoading ? "Loading selling price..." : (`Rs ${product?.price}` || '------')}
+              />
+              <DetailCardItem
+                title="Buying Price"
+                name={productsLoading ? "Loading buying price..." : (`Rs ${product?.buyingPrice}` || '------')}
+              />
+            </DetailCard>
+          </section>
 
-                  <DetailCardItem
-                    title="Buying price"
-                    name={productsLoading ? "Loading buying price..." : (`Rs ${product?.buyingPrice}` || '------')}
-                  />
-                </DetailCard>
-              </section>
-            )
-          }
+          <section>
+            <DetailCard title="Quantity">
+              <DetailCardItem
+                title="Total"
+                name={productsLoading ? "Loading total..." : (`${product?.quantity || 0} pieces`)}
+              />
+              <DetailCardItem
+                title="Sold"
+                name={productsLoading ? "Loading sold..." : (`${soldQuantity} Pieces`)}
+              />
+              <DetailCardItem
+                title="Remaining"
+                name={productsLoading ? "Loading remaining..." : (`${remainingQuantity} Pieces`)}
+              />
+            </DetailCard>
+          </section>
+
+          {product.deliveryDate && (
+            <section>
+              <DetailCard title="Delivery">
+                <DetailCardItem
+                  title="Date"
+                  name={productsLoading ? "Loading date..." : formatDate(product.deliveryDate)}
+                />
+                <DetailCardItem
+                  title="Time"
+                  name={productsLoading ? "Loading time..." : formatTime(product.deliveryDate)}
+                />
+                <DetailCardItem
+                  title="Day"
+                  name={productsLoading ? "Loading day..." : formatDayOfWeek(product.deliveryDate)}
+                />
+              </DetailCard>
+            </section>
+          )}
+
+          <section>
+            <DetailCard title="Created">
+              <DetailCardItem
+                title="Date"
+                name={productsLoading ? "Loading date..." : formatDate(product.createdAt)}
+              />
+              <DetailCardItem
+                title="Time"
+                name={productsLoading ? "Loading time..." : formatTime(product.createdAt)}
+              />
+              <DetailCardItem
+                title="Day"
+                name={productsLoading ? "Loading day..." : formatDayOfWeek(product.createdAt)}
+              />
+            </DetailCard>
+          </section>
 
           <div className="action-buttons">
             <Button
@@ -161,7 +276,6 @@ export default function Product() {
           </div>
         </div>
       </div>
-
 
       <Modal
         title="Delete product"

@@ -7,6 +7,80 @@
     gap: 15px;
     padding-bottom: 50px;
 
+    // Header section with blue border (as shown in mockup)
+    .product-details-header {
+      .detail-card-header {
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        background-color: #1a1a1a;
+      }
+    }
+
+    // Product image styling
+    .product-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+    }
+
+    .image-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      color: #666;
+    }
+
+    // Color display with circle
+    .color-display-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+
+      .color-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .color-label {
+          font-size: 12px;
+          color: #666;
+          font-weight: 500;
+        }
+
+        .color-name {
+          font-size: 14px;
+          color: #1b1b1b;
+          font-weight: 400;
+        }
+      }
+
+      .color-circle {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid #e5e7eb;
+        flex-shrink: 0;
+      }
+    }
+
+    // Price section styling (matching client design)
+    section.price .detail-card {
+      border: 2px dashed #007bff;
+      background-color: #f8f9fa;
+    }
+
+    // Action buttons (same as client detail page)
     .action-buttons {
       display: flex;
       gap: 10px;
@@ -100,6 +174,13 @@
           color: transparent;
         }
       }
+    }
+
+    // Color circle skeleton
+    .color-circle {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+      background-size: 200% 100% !important;
+      animation: shimmer 2.5s infinite;
     }
   }
 }
