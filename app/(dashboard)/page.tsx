@@ -18,6 +18,7 @@ import { IProduct } from '@/types/api/product';
 import vish from '@/public/vish.jpg';
 
 import { useState, useMemo } from 'react';
+import dayjs from 'dayjs';
 
 import './styles.scss';
 import FabTabBar from '@/components/fab-tab-bar/FabTabBar';
@@ -82,6 +83,46 @@ export default function Home() {
     return items;
   }, [clientsData, productsData]);
 
+  // Transform client and product data for today's calendar schedules
+  const todaySchedules = useMemo(() => {
+    const today = dayjs().format('YYYY-MM-DD');
+    const schedules = [];
+
+    // Add clients with credit due today
+    if (clientsData) {
+      const clientsWithCreditDue = clientsData.filter(
+        client => client.credit?.dueDateTime &&
+          dayjs(client.credit.dueDateTime).format('YYYY-MM-DD') === today
+      );
+
+      clientsWithCreditDue.forEach(client => {
+        schedules.push({
+          title: `${client.firstName} ${client.lastName}`,
+          time: client.credit?.amount ? `$${client.credit.amount.toFixed(2)}` : '$0.00',
+          color: 'client' as const
+        });
+      });
+    }
+
+    // Add products with delivery today
+    if (productsData) {
+      const productsWithDeliveryToday = productsData.filter(
+        product => product.deliveryDate &&
+          dayjs(product.deliveryDate).format('YYYY-MM-DD') === today
+      );
+
+      productsWithDeliveryToday.forEach(product => {
+        schedules.push({
+          title: product.name,
+          time: `$${product.buyingPrice.toFixed(2)}`,
+          color: 'product' as const
+        });
+      });
+    }
+
+    return { data: schedules };
+  }, [clientsData, productsData]);
+
   const data = searchItems.filter(
     (item) => {
       const searchTerm = searchResults.toLowerCase().trim();
@@ -125,7 +166,8 @@ export default function Home() {
                 <>
                   <ButtonCalendar
                     date={getDate()}
-                    dataLoaded={true}
+                    items={todaySchedules}
+                    dataLoaded={!clientsLoading && !productsLoading}
                     showContent={!clientsLoading && !productsLoading}
                   />
                   <div className="overview">

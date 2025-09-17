@@ -29,10 +29,10 @@ import './styles.scss';
 interface IProductFormData {
   name: string;
   description?: string;
-  quantity: number;
+  quantity: number | string;
   category: string;
-  price: number;
-  buyingPrice: number;
+  price: number | string;
+  buyingPrice: number | string;
   color?: string;
   deliveryDate?: dayjs.Dayjs | null;
   image?: File | null;
@@ -58,9 +58,9 @@ export default function ProductForm({
     name: initialData?.name || '',
     description: initialData?.description || '',
     category: initialData?.category?._id || '',
-    price: initialData?.price || 0,
-    buyingPrice: initialData?.buyingPrice || 0,
-    quantity: initialData?.quantity || 0,
+    price: initialData?.price || '',
+    buyingPrice: initialData?.buyingPrice || '',
+    quantity: initialData?.quantity || '',
     color: initialData?.color || '',
     deliveryDate: initialData?.deliveryDate ? dayjs(initialData.deliveryDate) : null,
     image: null
@@ -168,7 +168,7 @@ export default function ProductForm({
   const watchQuantity = watch('quantity');
 
   const handleQuantityChange = (increment: boolean) => {
-    const currentValue = watchQuantity || 0;
+    const currentValue = typeof watchQuantity === 'string' ? parseInt(watchQuantity) || 0 : watchQuantity || 0;
     const newValue = increment ? currentValue + 1 : Math.max(0, currentValue - 1);
     setValue('quantity', newValue);
     clearValidationError('quantity');
@@ -258,13 +258,19 @@ export default function ProductForm({
     if (!data.category) {
       newErrors.category = true;
     }
-    if (!data.price || data.price <= 0) {
+
+    const priceValue = typeof data.price === 'string' ? parseFloat(data.price) : data.price;
+    if (!data.price || data.price === '' || isNaN(priceValue) || priceValue <= 0) {
       newErrors.price = true;
     }
-    if (!data.buyingPrice || data.buyingPrice <= 0) {
+
+    const buyingPriceValue = typeof data.buyingPrice === 'string' ? parseFloat(data.buyingPrice) : data.buyingPrice;
+    if (!data.buyingPrice || data.buyingPrice === '' || isNaN(buyingPriceValue) || buyingPriceValue <= 0) {
       newErrors.buyingPrice = true;
     }
-    if (!data.quantity || data.quantity < 0) {
+
+    const quantityValue = typeof data.quantity === 'string' ? parseInt(data.quantity) : data.quantity;
+    if (!data.quantity || data.quantity === '' || isNaN(quantityValue) || quantityValue <= 0) {
       newErrors.quantity = true;
     }
 
@@ -306,10 +312,10 @@ export default function ProductForm({
       const submitData = {
         name: data.name,
         description: data.description || '',
-        quantity: data.quantity,
+        quantity: typeof data.quantity === 'string' ? parseInt(data.quantity) || 0 : data.quantity,
         category: finalCategoryId,
-        price: data.price,
-        buyingPrice: data.buyingPrice,
+        price: typeof data.price === 'string' ? parseFloat(data.price) || 0 : data.price,
+        buyingPrice: typeof data.buyingPrice === 'string' ? parseFloat(data.buyingPrice) || 0 : data.buyingPrice,
         color: data.color || '',
         deliveryDate: data.deliveryDate ? data.deliveryDate.format('YYYY-MM-DD') : '',
         image: data.image ? data.image.name : '', // For now, just store filename

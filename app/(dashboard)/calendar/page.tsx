@@ -17,6 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Schedule from '@/components/calendar/schedule/schedule';
 import ButtonIcon from '@/components/button-icon/button-icon';
+import TableFilter, { TabItem, SortOption } from '@/components/table/table-filter/table-filter';
 
 
 export default function Calendar() {
@@ -24,6 +25,9 @@ export default function Calendar() {
   const [clients, setClients] = useState<IClient[]>([]);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
+  const [activeFilter, setActiveFilter] = useState<'all' | 'clients' | 'products'>('all');
+  const [sortField, setSortField] = useState('name');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const router = useRouter();
 
   // Fetch all clients and products on mount
@@ -57,6 +61,102 @@ export default function Calendar() {
   const productsForSelectedDate = products.filter(
     (p) => p.deliveryDate && dayjs(p.deliveryDate).format('YYYY-MM-DD') === selectedDate?.format('YYYY-MM-DD')
   );
+
+  // Filter data based on active filter
+  const getFilteredData = () => {
+    let filteredClients = clientsForSelectedDate;
+    let filteredProducts = productsForSelectedDate;
+
+    if (activeFilter === 'clients') {
+      filteredProducts = [];
+    } else if (activeFilter === 'products') {
+      filteredClients = [];
+    }
+
+    return { clients: filteredClients, products: filteredProducts };
+  };
+
+  // Sort the filtered data
+  const getSortedData = () => {
+    const { clients: filteredClients, products: filteredProducts } = getFilteredData();
+
+    const sortedClients = [...filteredClients].sort((a, b) => {
+      let aValue, bValue;
+
+      switch (sortField) {
+        case 'name':
+          aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+          bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+          break;
+        case 'amount':
+          aValue = a.credit?.amount || 0;
+          bValue = b.credit?.amount || 0;
+          break;
+        default:
+          aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+          bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+      }
+
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+      let aValue, bValue;
+
+      switch (sortField) {
+        case 'name':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'amount':
+          aValue = a.buyingPrice || 0;
+          bValue = b.buyingPrice || 0;
+          break;
+        default:
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+      }
+
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return { clients: sortedClients, products: sortedProducts };
+  };
+
+  const { clients: displayClients, products: displayProducts } = getSortedData();
+
+  // Tab items for TableFilter
+  const tabItems: TabItem[] = [
+    {
+      title: `All (${clientsForSelectedDate.length + productsForSelectedDate.length})`,
+      clickHandle: () => setActiveFilter('all')
+    },
+    {
+      title: `Clients (${clientsForSelectedDate.length})`,
+      clickHandle: () => setActiveFilter('clients')
+    },
+    {
+      title: `Products (${productsForSelectedDate.length})`,
+      clickHandle: () => setActiveFilter('products')
+    }
+  ];
+
+  // Sort options for TableFilter
+  const sortOptions: SortOption[] = [
+    { label: 'Name A-Z', value: 'name_asc', icon: 'arrow_downward' },
+    { label: 'Name Z-A', value: 'name_desc', icon: 'arrow_upward' },
+    { label: 'Amount Low-High', value: 'amount_asc', icon: 'trending_up' },
+    { label: 'Amount High-Low', value: 'amount_desc', icon: 'trending_down' }
+  ];
+
+  const handleSort = (field: string, direction: 'asc' | 'desc') => {
+    setSortField(field);
+    setSortDirection(direction);
+  };
 
 
   return (
@@ -110,33 +210,21 @@ export default function Calendar() {
           </LocalizationProvider>
 
           <section className='schedules-list'>
-            <div className="header">
-              <div className="text">
-                <h2>Reminders</h2>
-                <p>You have {clientsForSelectedDate.length + productsForSelectedDate.length} reminders for this day.</p>
-              </div>
-
-              <div className="actions">
-                <ButtonIcon
-                  className='btn-sort'
-                  icon='swap_vert'
-                  onClick={() => { }}
-                />
-
-                <ButtonIcon
-                  className='btn-filter'
-                  icon='filter_list'
-                  onClick={() => { }}
-                />
-              </div>
-            </div>
+            <TableFilter
+              tabItems={tabItems}
+              defaultActiveIndex={0}
+              onSort={handleSort}
+              currentSortField={sortField}
+              currentSortDirection={sortDirection}
+              sortOptions={sortOptions}
+            />
 
             <div className="schedules">
-              {clientsForSelectedDate.length === 0 && productsForSelectedDate.length === 0 ? (
+              {displayClients.length === 0 && displayProducts.length === 0 ? (
                 <Schedule isEmpty />
               ) : (
                 <>
-                  {clientsForSelectedDate.map((client) => (
+                  {displayClients.map((client) => (
                     <Schedule
                       key={`client-${client._id}`}
                       onClick={() => router.push(appRoutes.clients.detail(client._id || ''))}
@@ -148,7 +236,7 @@ export default function Calendar() {
                       className="schedule-hover"
                     />
                   ))}
-                  {productsForSelectedDate.map((product) => (
+                  {displayProducts.map((product) => (
                     <Schedule
                       key={`product-${product._id}`}
                       onClick={() => router.push(appRoutes.products.detail(product._id))}

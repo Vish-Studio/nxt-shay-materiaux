@@ -16,10 +16,6 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
   dataLoaded = true,
   showContent = true
 }) => {
-  /**
-   * FYI: @sleepinzombie
-   * TODO: Replace all @active to @items when having dynamic data pulled.
-   */
 
   const getMonth = (month: number | string) => {
     let monthTxt: string;
@@ -102,7 +98,7 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
                 }
               </>
               :
-              <Schedule isEmpty />
+              <Schedule title="" isEmpty />
             }
           </div>
         </>
