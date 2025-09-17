@@ -8,4 +8,63 @@
   .content {
     width: 100%;
   }
+
+  // Credit section header with reset button
+  .credit-info .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      label {
+        margin-bottom: 5px;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: 600;
+        font-size: 18px;
+        color: #1d1d1d;
+        font-family: inherit;
+      }
+
+      span {
+        font-size: 14px;
+        color: #7e7e7e;
+        font-family: inherit;
+      }
+    }
+
+    .reset-button {
+      margin-left: 16px;
+      border: none;
+
+      button {
+        background-color: #1d1d1d;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+        }
+
+        .icon {
+          font-size: 20px;
+          color: white;
+        }
+      }
+    }
+  }
 }

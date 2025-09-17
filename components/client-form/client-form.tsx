@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import FormInput from '@/components/form-input/form-input';
 import Button from '@/components/button/button';
 import { ButtonTypes } from '@/enums/button-types';
+import ButtonIcon from '@/components/button-icon/button-icon';
 import GoogleMap, { TLocation } from '@/components/google-maps/google-map';
 import { useAppDataContext } from '@/context/AppDataContext';
 import { IAddClientParams, IClient } from '@/types/api/client';
@@ -144,22 +145,34 @@ export default function ClientForm({
     setBtnIsDisabled(true);
 
     try {
-      // Prepare credit data
+      // Prepare credit data - always include credit object for updates
       const creditData: any = {};
+
+      // Include amount if it exists and is not empty
       if (data.credit.amount && data.credit.amount !== '') {
         creditData.amount = parseFloat(data.credit.amount) || undefined;
+      } else {
+        creditData.amount = undefined;
       }
+
+      // Include note if it exists and is not empty
       if (data.credit.note && data.credit.note !== '') {
         creditData.note = data.credit.note;
+      } else {
+        creditData.note = '';
       }
+
+      // Include due date if it exists
       if (data.credit.dueDateTime) {
         creditData.dueDateTime = data.credit.dueDateTime.format('YYYY-MM-DD');
+      } else {
+        creditData.dueDateTime = null;
       }
 
       const formattedData = {
         ...data,
         payments: [data.payments],
-        credit: Object.keys(creditData).length > 0 ? creditData : undefined,
+        credit: creditData, // Always include credit data for proper updates
         shops: [
           {
             ...data.shops[0],
@@ -405,8 +418,19 @@ export default function ClientForm({
 
           <div className="credit-info vertical-fields">
             <div className="header">
-              <label htmlFor="shops.shopName">Credit</label>
-              <span>{initialData ? 'Update due amount details.' : 'Due amount details.'}</span>
+              <div className="header-content">
+                <label htmlFor="shops.shopName">Credit</label>
+                <span>{initialData ? 'Update due amount details.' : 'Due amount details.'}</span>
+              </div>
+              <ButtonIcon
+                className="reset-button"
+                icon="replay"
+                onClick={() => {
+                  setValue('credit.amount', undefined);
+                  setValue('credit.note', '');
+                  setValue('credit.dueDateTime', null);
+                }}
+              />
             </div>
 
             <div className="credit-amount-wrapper">

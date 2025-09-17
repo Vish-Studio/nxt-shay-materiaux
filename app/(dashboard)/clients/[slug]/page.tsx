@@ -209,6 +209,10 @@ export default function Client() {
                   name={clientsDataLoading ? "Loading repayment date..." : (client?.credit?.dueDateTime ? dayjs(client.credit.dueDateTime).format('DD-MM-YYYY') : null)}
                 />
                 <DetailCardItem
+                  title="Day"
+                  name={clientsDataLoading ? "Loading day..." : (client?.credit?.dueDateTime ? formatDayOfWeek(client.credit.dueDateTime) : null)}
+                />
+                <DetailCardItem
                   title="Note"
                   name={clientsDataLoading ? "Loading note..." : client?.credit?.note}
                 />

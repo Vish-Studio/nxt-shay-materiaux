@@ -9,20 +9,144 @@
     flex-direction: column;
     gap: 8px;
 
+    .label-error-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .error-text {
+        color: #de0400;
+        font-size: 12px;
+        font-weight: 500;
+        font-family: inherit;
+      }
+    }
+
     label {
       font-size: 16px;
       font-weight: 500;
       color: #1f2937;
-      margin-bottom: 8px;
+      margin-bottom: 0;
       font-family: inherit;
+
+      // Style required asterisks with delete button red color
+      .required-asterisk {
+        color: #de0400;
+      }
+    }
+
+    // Alternative approach - style asterisks in any label text
+    label {
+      // This will work if we can target the specific character
+      span.asterisk {
+        color: #de0400;
+      }
     }
 
     .error-text {
-      color: #dc2626;
+      color: #de0400;
       font-size: 12px;
       font-weight: 500;
       margin-top: 4px;
       font-family: inherit;
+    }
+
+    // Error state styling for required fields
+    &.has-error {
+      .form-input,
+      input,
+      .form-textarea {
+        border: 1px solid #de0400 !important;
+
+        &:focus {
+          border: 1px solid #de0400 !important;
+          box-shadow: 0 0 0 2px rgba(222, 4, 0, 0.1) !important;
+        }
+
+        &:hover {
+          border: 1px solid #de0400 !important;
+        }
+      }
+
+      .MuiOutlinedInput-root {
+        border: 1px solid #de0400 !important;
+
+        &:hover .MuiOutlinedInput-notchedOutline,
+        &.Mui-focused .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+      }
+
+      .MuiTextField-root {
+        .MuiOutlinedInput-root {
+          border: 1px solid #de0400 !important;
+
+          &:hover .MuiOutlinedInput-notchedOutline,
+          &.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border: 1px solid #de0400 !important;
+          }
+
+          .MuiOutlinedInput-notchedOutline {
+            border: 1px solid #de0400 !important;
+          }
+        }
+      }
+
+      .stock-field input {
+        border: 1px solid #de0400 !important;
+
+        &:focus {
+          border: 1px solid #de0400 !important;
+          box-shadow: 0 0 0 2px rgba(222, 4, 0, 0.1) !important;
+        }
+
+        &:hover {
+          border: 1px solid #de0400 !important;
+        }
+      }
+
+      .price-input input {
+        border: 1px solid #de0400 !important;
+
+        &:focus {
+          border: 1px solid #de0400 !important;
+          box-shadow: 0 0 0 2px rgba(222, 4, 0, 0.1) !important;
+        }
+
+        &:hover {
+          border: 1px solid #de0400 !important;
+        }
+      }
+
+      .category-select .MuiFormControl-root .MuiOutlinedInput-root {
+        border: 1px solid #de0400 !important;
+
+        &:hover .MuiOutlinedInput-notchedOutline,
+        &.Mui-focused .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+      }
+
+      .color-select .MuiFormControl-root .MuiOutlinedInput-root {
+        border: 1px solid #de0400 !important;
+
+        &:hover .MuiOutlinedInput-notchedOutline,
+        &.Mui-focused .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border: 1px solid #de0400 !important;
+        }
+      }
     }
 
     // Basic input styling
@@ -234,6 +358,11 @@
         display: flex;
         gap: 8px;
         align-items: center;
+
+        .stock-btn {
+          position: relative !important;
+          z-index: auto !important;
+        }
       }
     }
 

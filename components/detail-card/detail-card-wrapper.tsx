@@ -28,9 +28,13 @@ const DetailCardWrapper = ({
     }
   }
 
+  // Add special class for Created cards
+  const isCreatedCard = title === "Created";
+  const cardClasses = `detail-card ${isCreatedCard ? 'detail-card--created' : ''} ${className ?? ''}`.trim();
+
   return (
     <div
-      className={`detail-card ${className ?? ''}`}
+      className={cardClasses}
       {...rest}
     >
       <div className="detail-card-title">

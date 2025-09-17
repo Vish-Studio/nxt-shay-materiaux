@@ -13,7 +13,7 @@ const ButtonIcon: FunctionComponent<ButtonIconProps> = ({
 }) => {
   return (
     <div className={`button-icon ${className}`} {...rest}>
-      <button onClick={onClick}>
+      <button type="button" onClick={onClick}>
         <Icon iconName={icon} />
       </button>
     </div>

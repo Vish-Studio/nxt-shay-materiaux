@@ -90,6 +90,18 @@ export default function ProductForm({
   const [pendingCategories, setPendingCategories] = useState<string[]>([]);
   const [localColors, setLocalColors] = useState<IColor[]>([]);
   const [pendingColors, setPendingColors] = useState<Array<{ name: string; hexValue: string }>>([]);
+  const [validationErrors, setValidationErrors] = useState<{ [key: string]: boolean }>({});
+
+  // Clear validation errors when user starts typing
+  const clearValidationError = (fieldName: string) => {
+    if (validationErrors[fieldName]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[fieldName];
+        return newErrors;
+      });
+    }
+  };
 
   // Combine existing categories with local ones
   const allCategories = useMemo(() => {
@@ -159,6 +171,7 @@ export default function ProductForm({
     const currentValue = watchQuantity || 0;
     const newValue = increment ? currentValue + 1 : Math.max(0, currentValue - 1);
     setValue('quantity', newValue);
+    clearValidationError('quantity');
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -236,6 +249,33 @@ export default function ProductForm({
   };
 
   const handleFormSubmit = useCallback(async (data: IProductFormData) => {
+    // Validate required fields and set error states
+    const newErrors: { [key: string]: boolean } = {};
+
+    if (!data.name || data.name.trim() === '') {
+      newErrors.name = true;
+    }
+    if (!data.category) {
+      newErrors.category = true;
+    }
+    if (!data.price || data.price <= 0) {
+      newErrors.price = true;
+    }
+    if (!data.buyingPrice || data.buyingPrice <= 0) {
+      newErrors.buyingPrice = true;
+    }
+    if (!data.quantity || data.quantity < 0) {
+      newErrors.quantity = true;
+    }
+
+    setValidationErrors(newErrors);
+
+    // If there are validation errors, don't submit
+    if (Object.keys(newErrors).length > 0) {
+      setBtnIsDisabled(false);
+      return;
+    }
+
     setBtnIsDisabled(true);
 
     try {
@@ -289,17 +329,23 @@ export default function ProductForm({
       <div className="product-form">
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           {/* Name Field */}
-          <div className="form-field">
-            <label htmlFor="name">Name*</label>
+          <div className={`form-field ${validationErrors.name ? 'has-error' : ''}`}>
+            <div className="label-error-wrapper">
+              <label htmlFor="name">Name <span className="asterisk">*</span></label>
+              {(errors.name || validationErrors.name) && <span className="error-text">This field is required</span>}
+            </div>
             <div className="input-wrapper">
               <input
                 {...register('name', { required: true })}
                 type="text"
                 placeholder="Product name"
                 className="form-input"
+                onChange={(e) => {
+                  register('name').onChange(e);
+                  clearValidationError('name');
+                }}
               />
             </div>
-            {errors.name && <span className="error-text">This field is required</span>}
           </div>
 
           {/* Description Field */}
@@ -316,8 +362,11 @@ export default function ProductForm({
           </div>
 
           {/* Category Field with Add Button */}
-          <div className="form-field">
-            <label htmlFor="category">Category*</label>
+          <div className={`form-field ${validationErrors.category ? 'has-error' : ''}`}>
+            <div className="label-error-wrapper">
+              <label htmlFor="category">Category <span className="asterisk">*</span></label>
+              {(errors.category || validationErrors.category) && <span className="error-text">This field is required</span>}
+            </div>
             <div className="category-with-add">
               <div className="category-select">
                 <FormControl fullWidth>
@@ -329,6 +378,10 @@ export default function ProductForm({
                       <Select
                         {...field}
                         displayEmpty
+                        onChange={(e) => {
+                          field.onChange(e);
+                          clearValidationError('category');
+                        }}
                         renderValue={(value) => {
                           if (!value) return <span className="placeholder">Select a category</span>;
                           const category = allCategories?.find(cat => cat._id === value);
@@ -353,48 +406,71 @@ export default function ProductForm({
                 clickHandler={handleAddCategory}
               />
             </div>
-            {errors.category && <span className="error-text">This field is required</span>}
           </div>
 
           {/* Price Fields */}
           <div className="form-field">
             <div className="price-fields">
-              <div className="price-field">
-                <label htmlFor="price">Price*</label>
+              <div className={`price-field ${validationErrors.price ? 'has-error' : ''}`}>
+                <div className="label-error-wrapper">
+                  <label htmlFor="price">Price <span className="asterisk">*</span></label>
+                  {(errors.price || validationErrors.price) && <span className="error-text">This field is required</span>}
+                </div>
                 <div className="price-input">
                   <span className="currency">Rs</span>
                   <input
                     {...register('price', { required: true, min: 0 })}
                     type="number"
                     placeholder="0"
+                    onChange={(e) => {
+                      clearValidationError('price');
+                      // Handle the register onChange as well
+                      const { onChange } = register('price', { required: true, min: 0 });
+                      onChange(e);
+                    }}
                   />
                 </div>
-                {errors.price && <span className="error-text">This field is required</span>}
               </div>
-              <div className="price-field">
-                <label htmlFor="buyingPrice">Buying Price</label>
+              <div className={`price-field ${validationErrors.buyingPrice ? 'has-error' : ''}`}>
+                <div className="label-error-wrapper">
+                  <label htmlFor="buyingPrice">Buying Price <span className="asterisk">*</span></label>
+                  {(errors.buyingPrice || validationErrors.buyingPrice) && <span className="error-text">This field is required</span>}
+                </div>
                 <div className="price-input">
                   <span className="currency">Rs</span>
                   <input
                     {...register('buyingPrice', { required: true, min: 0 })}
                     type="number"
                     placeholder="0"
+                    onChange={(e) => {
+                      clearValidationError('buyingPrice');
+                      // Handle the register onChange as well
+                      const { onChange } = register('buyingPrice', { required: true, min: 0 });
+                      onChange(e);
+                    }}
                   />
                 </div>
-                {errors.buyingPrice && <span className="error-text">This field is required</span>}
               </div>
             </div>
           </div>
 
           {/* Total Stock Field with +/- Buttons */}
-          <div className="form-field">
-            <label htmlFor="quantity">Total Stock*</label>
+          <div className={`form-field ${validationErrors.quantity ? 'has-error' : ''}`}>
+            <div className="label-error-wrapper">
+              <label htmlFor="quantity">Total Stock <span className="asterisk">*</span></label>
+              {(errors.quantity || validationErrors.quantity) && <span className="error-text">This field is required</span>}
+            </div>
             <div className="stock-field">
               <input
                 {...register('quantity', { required: true, min: 0 })}
                 type="number"
                 placeholder="0"
-                readOnly
+                onChange={(e) => {
+                  clearValidationError('quantity');
+                  // Handle the register onChange as well
+                  const { onChange } = register('quantity', { required: true, min: 0 });
+                  onChange(e);
+                }}
               />
               <div className="stock-controls">
                 <ButtonFab
@@ -411,7 +487,7 @@ export default function ProductForm({
                 />
               </div>
             </div>
-            {errors.quantity && <span className="error-text">This field is required</span>}
+            {(errors.quantity || validationErrors.quantity) && <span className="error-text">This field is required</span>}
           </div>
 
           {/* Color Field with Add Button */}
@@ -471,7 +547,7 @@ export default function ProductForm({
 
           {/* Delivery Date Field */}
           <div className="form-field">
-            <label htmlFor="deliveryDate">Delivery Date*</label>
+            <label htmlFor="deliveryDate">Delivery Date <span className="asterisk">*</span></label>
             <Controller
               name="deliveryDate"
               control={control}
