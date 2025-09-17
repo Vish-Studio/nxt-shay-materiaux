@@ -86,7 +86,11 @@ export default function Home() {
   // Transform client and product data for today's calendar schedules
   const todaySchedules = useMemo(() => {
     const today = dayjs().format('YYYY-MM-DD');
-    const schedules = [];
+    const schedules: Array<{
+      title: string;
+      time: string;
+      color: 'client' | 'product';
+    }> = [];
 
     // Add clients with credit due today
     if (clientsData) {
