@@ -104,6 +104,24 @@
       position: relative;
       top: 80px;
       width: 100%;
+
+      .schedule-hover {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 12px;
+        padding: 8px 12px;
+        margin: -8px -12px;
+
+        &:hover {
+          background-color: var(--background-tertiary);
+          border-color: var(--border-secondary);
+        }
+
+        &:active {
+          transform: scale(0.98);
+          background-color: var(--background-quaternary);
+        }
+      }
     }
   }
 

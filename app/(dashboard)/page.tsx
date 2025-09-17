@@ -20,8 +20,11 @@ import vish from '@/public/vish.jpg';
 import { useState, useMemo } from 'react';
 
 import './styles.scss';
+import FabTabBar from '@/components/fab-tab-bar/FabTabBar';
 
 export default function Home() {
+  // Tab state: 0 = Overview, 1 = Credits
+  const [activeTab, setActiveTab] = useState(0);
   // 1: on start get current date to display on calendar card.
   // 2: fetch data from that date.
   // 3: add data to different card elements.
@@ -118,77 +121,73 @@ export default function Home() {
             <SearchResults items={data} />
           ) : (
             <>
-              <ButtonCalendar
-                date={getDate()}
-                dataLoaded={true}
-                showContent={!clientsLoading && !productsLoading}
-              />
-
-              <div className="overview">
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '15px'
-                  }}
-                >
-                  <ButtonCard
-                    title="Clients"
-                    iconName="account_circle"
-                    numTotal={clientsData?.length?.toString() || "0"}
-                    numTotalTxt="total clients"
-                    redirect={appRoutes.clients.index}
-                    fabRedirect={appRoutes.clients.new}
+              {activeTab === 0 && (
+                <>
+                  <ButtonCalendar
+                    date={getDate()}
                     dataLoaded={true}
-                    showContent={!clientsLoading}
-                    className="delay-1"
+                    showContent={!clientsLoading && !productsLoading}
                   />
-
-                  <Button
-                    title="Catalogs"
-                    iconName="import_contacts"
-                    variant="rounded"
-                    titleBold={false}
-                    dataLoaded={true}
-                    showContent={!clientsLoading}
-                    className="delay-1"
-                  />
+                  <div className="overview">
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                      <ButtonCard
+                        title="Clients"
+                        iconName="account_circle"
+                        numTotal={clientsData?.length?.toString() || "0"}
+                        numTotalTxt="total clients"
+                        redirect={appRoutes.clients.index}
+                        fabRedirect={appRoutes.clients.new}
+                        dataLoaded={true}
+                        showContent={!clientsLoading}
+                        className="delay-1"
+                      />
+                      <Button
+                        title="Catalogs"
+                        iconName="import_contacts"
+                        variant="rounded"
+                        titleBold={false}
+                        dataLoaded={true}
+                        showContent={!clientsLoading}
+                        className="delay-1"
+                      />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                      <ButtonCard
+                        className="yellow delay-2"
+                        title="Products"
+                        iconName="inventory_2"
+                        numTotal={productsData?.length?.toString() || "0"}
+                        numTotalTxt="total products"
+                        redirect={appRoutes.products.index}
+                        fabRedirect={appRoutes.products.new}
+                        dataLoaded={true}
+                        showContent={!productsLoading}
+                      />
+                      <Button
+                        title="Invoices"
+                        iconName="description"
+                        variant="rounded"
+                        titleBold={false}
+                        dataLoaded={true}
+                        showContent={!productsLoading}
+                        className="delay-2"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+              {activeTab === 1 && (
+                <div className="credits-tab-content">
+                  <h2>Credits</h2>
+                  <p>Show your credits or alternate dashboard content here.</p>
                 </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '15px'
-                  }}
-                >
-                  <ButtonCard
-                    className="yellow delay-2"
-                    title="Products"
-                    iconName="inventory_2"
-                    numTotal={productsData?.length?.toString() || "0"}
-                    numTotalTxt="total products"
-                    redirect={appRoutes.products.index}
-                    fabRedirect={appRoutes.products.new}
-                    dataLoaded={true}
-                    showContent={!productsLoading}
-                  />
-                  <Button
-                    title="Invoices"
-                    iconName="description"
-                    variant="rounded"
-                    titleBold={false}
-                    dataLoaded={true}
-                    showContent={!productsLoading}
-                    className="delay-2"
-                  />
-                </div>
-              </div>
+              )}
             </>
           )}
         </div>
+
+        {/* Floating action/tab bar */}
+        <FabTabBar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <Sidebar
           isOpen={sidebarOpen}

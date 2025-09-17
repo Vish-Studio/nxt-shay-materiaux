@@ -3,6 +3,7 @@ export const appRoutes = {
   clients: {
     index: '/clients',
     new: '/clients/new',
+    detail: (id: string) => `/clients/${id}`,
     edit: (id: string) => `/clients/${id}/edit`
   },
   calendar: {
@@ -12,6 +13,7 @@ export const appRoutes = {
   products: {
     index: '/products',
     new: '/products/new',
+    detail: (id: string) => `/products/${id}`,
     edit: (id: string) => `/products/${id}/edit`
   },
   signIn: {

@@ -1,0 +1,67 @@
+@import "../../styles/variables.scss";
+
+.floating-tab-bar {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 120;
+  width: calc(100vw - 32px);
+  background: var(--accent-primary);
+  border-radius: 77px;
+  box-shadow: 0 -2px 24px rgba(0, 0, 0, 0.1);
+  padding: 12px 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  pointer-events: auto;
+
+  .fab-tab-btn {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+    color: #b0b0b0;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+      color 0.2s,
+      font-weight 0.2s;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    gap: 2px;
+    position: relative;
+    padding: 0 0 2px 0;
+  }
+
+  .fab-tab-icon {
+    font-size: 28px;
+    margin-bottom: 2px;
+    display: block;
+    color: inherit;
+    transition: color 0.2s;
+  }
+
+  .fab-tab-btn.active {
+    color: var(--text-white);
+    font-weight: 700;
+  }
+  .fab-tab-btn.active .fab-tab-icon {
+    color: #18181c;
+  }
+
+  @media (max-width: 600px) {
+    padding: 12px 8px;
+    .fab-tab-btn {
+      font-size: 12px;
+    }
+    .fab-tab-icon {
+      font-size: 22px;
+    }
+  }
+}

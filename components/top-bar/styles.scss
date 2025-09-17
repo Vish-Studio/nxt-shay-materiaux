@@ -4,10 +4,12 @@
 :root .top-bar,
 [data-theme="light"] .top-bar,
 [data-theme="dark"] .top-bar {
+  // Always fixed at the top, above all content
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
+  width: 100vw;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -15,7 +17,7 @@
   height: 75px;
   background-color: var(--background-primary) !important;
   color: var(--text-primary) !important;
-  z-index: 1;
+  z-index: 100;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
