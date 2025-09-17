@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 // Client form styles are inherited from the new client page styles
 @import "../../app/(dashboard)/clients/new/styles.scss";
 @import "../../app/(dashboard)/clients/styles.scss";
@@ -28,24 +30,24 @@
         margin-right: 0;
         font-weight: 600;
         font-size: 18px;
-        color: #1d1d1d;
-        font-family: inherit;
+        color: var(--text-primary);
       }
 
       span {
         font-size: 14px;
-        color: #7e7e7e;
-        font-family: inherit;
+        color: var(--text-secondary);
       }
     }
 
     .reset-button {
-      margin-left: 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
       border: none;
 
       button {
-        background-color: #1d1d1d;
-        color: white;
+        background-color: var(--accent-primary);
+        color: var(--background-primary);
         border: none;
         border-radius: 50%;
         width: 30px;
@@ -66,5 +68,226 @@
         }
       }
     }
+  }
+}
+
+// Global MUI button ripple removal - applies to ALL buttons in the app
+:global(.MuiButton-root),
+:global(.MuiIconButton-root),
+:global(.MuiTab-root),
+:global(.MuiListItem-root),
+:global(.MuiMenuItem-root),
+:global(.MuiChip-root),
+:global(.MuiFab-root) {
+  .MuiTouchRipple-root {
+    display: none !important;
+  }
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &:active {
+    box-shadow: none !important;
+  }
+
+  // Remove any blue overlay background
+  &:hover {
+    background-color: transparent !important;
+  }
+
+  // Specifically target the blue overlay that appears on click
+  &::before,
+  &::after {
+    display: none !important;
+  }
+}
+
+// Additional global override for any remaining blue overlays
+:global(*) {
+  // Remove webkit tap highlight
+  -webkit-tap-highlight-color: transparent !important;
+
+  // Remove any blue selection background
+  &::-moz-selection {
+    background: transparent !important;
+  }
+
+  &::selection {
+    background: transparent !important;
+  }
+}
+
+// MUI Modal customization - global styles
+:global(.MuiModal-root) {
+  font-family: inherit !important;
+
+  * {
+    font-family: inherit !important;
+  }
+
+  // Change active blue color to primary color
+  .MuiButton-root:not(.MuiButton-outlined):not(.MuiButton-text) {
+    &.Mui-selected,
+    &.Mui-active,
+    &:active,
+    &.MuiButton-containedPrimary {
+      background-color: var(--primary-color) !important;
+      color: var(--on-primary-color) !important;
+
+      &:hover {
+        background-color: var(--primary-color-variant) !important;
+      }
+    }
+  }
+
+  .MuiButton-text:not(.MuiButton-outlined) {
+    &.Mui-selected,
+    &.Mui-active,
+    &:active {
+      color: var(--primary-color) !important;
+      background-color: transparent !important;
+    }
+  }
+
+  .MuiButton-outlined {
+    &.Mui-selected,
+    &.Mui-active,
+    &:active {
+      border-color: var(--primary-color) !important;
+      color: var(--primary-color) !important;
+      background-color: transparent !important;
+    }
+  }
+
+  // Tab selection colors
+  .MuiTab-root {
+    &.Mui-selected {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  .MuiTabs-indicator {
+    background-color: var(--primary-color) !important;
+  }
+
+  // Checkbox and radio button colors
+  .MuiCheckbox-root,
+  .MuiRadio-root {
+    &.Mui-checked {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  // Form field focus colors
+  .MuiOutlinedInput-root {
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: var(--primary-color) !important;
+    }
+  }
+
+  .MuiInputLabel-root {
+    &.Mui-focused {
+      color: var(--primary-color) !important;
+    }
+  }
+
+  // Remove blue click overlay/ripple effect
+  .MuiButton-root {
+    .MuiTouchRipple-root {
+      display: none !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    &:active {
+      box-shadow: none !important;
+    }
+  }
+
+  // Remove ripple from other clickable elements
+  .MuiIconButton-root,
+  .MuiTab-root,
+  .MuiListItem-root,
+  .MuiMenuItem-root {
+    .MuiTouchRipple-root {
+      display: none !important;
+    }
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+// MUI DatePicker customization - global styles
+:global(.MuiDateCalendar-root),
+:global(.MuiPickersCalendarHeader-root),
+:global(.MuiPickersDay-root),
+:global(.MuiPickersMonth-root),
+:global(.MuiPickersYear-root),
+:global(.MuiDateCalendar-viewTransitionContainer),
+:global(.MuiPickersArrowSwitcher-root),
+:global(.MuiPickersPopper-root),
+:global(.MuiDesktopDatePicker-root),
+:global(.MobileDatePicker-root),
+:global(.MuiDatePicker-root) {
+  font-family: inherit !important;
+
+  * {
+    font-family: inherit !important;
+  }
+
+  // Primary color for selected dates
+  .MuiPickersDay-root {
+    &.Mui-selected {
+      background-color: var(--primary-color) !important;
+      color: var(--on-primary-color) !important;
+
+      &:hover {
+        background-color: var(--primary-color-variant) !important;
+      }
+    }
+
+    &:hover:not(.Mui-selected) {
+      background-color: var(--surface-variant) !important;
+    }
+  }
+
+  // Month/Year selection
+  .MuiPickersMonth-root,
+  .MuiPickersYear-root {
+    &.Mui-selected {
+      background-color: var(--primary-color) !important;
+      color: var(--on-primary-color) !important;
+    }
+
+    &:hover:not(.Mui-selected) {
+      background-color: var(--surface-variant) !important;
+    }
+  }
+
+  // Header buttons
+  .MuiPickersArrowSwitcher-button {
+    color: var(--text-primary) !important;
+
+    &:hover {
+      background-color: var(--surface-variant) !important;
+    }
+  }
+
+  // Calendar header text
+  .MuiPickersCalendarHeader-label {
+    color: var(--text-primary) !important;
+  }
+
+  // Day labels (Mon, Tue, etc.)
+  .MuiDayCalendar-weekDayLabel {
+    color: var(--text-secondary) !important;
   }
 }

@@ -10,4 +10,6 @@ export default interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   iconName?: string;
   isDisabled?: boolean;
   clickHandler?: (data: any) => void;
+  dataLoaded?: boolean;
+  showContent?: boolean;
 }

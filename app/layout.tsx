@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Urbanist } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 import '../styles/global-icons.scss';
 import '../styles/global.scss';
@@ -14,11 +15,8 @@ const materialSymbols = localFont({
 });
 
 const urbanist = Urbanist({
-  weight: ['400', '500', '600', '700'],
-  style: ['normal'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-urbanist'
 });
 
 export const metadata: Metadata = {
@@ -49,11 +47,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${materialSymbols.variable}`}
-    >
-      <body className={`${urbanist.className} ${urbanist.variable}`}>{children}</body>
+    <html lang="en" className={materialSymbols.variable}>
+      <body className={urbanist.className}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

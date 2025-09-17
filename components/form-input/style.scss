@@ -1,16 +1,21 @@
+@import "../../styles/variables.scss";
+
 .form-input {
   .input-field {
     position: relative;
 
     &__control {
       font-size: 16px;
+      font-family: inherit;
       width: 100%;
       padding: 15px 18px;
       border-radius: 75px;
       outline: none;
-      border: 1.5px solid rgba(0, 0, 0, 0.23);
+      border: 1.5px solid var(--border-primary);
       transition: all 0.3s ease-in-out;
       margin-bottom: 5px;
+      background-color: var(--background-primary);
+      color: var(--text-primary);
 
       // Remove iOS blue ring/outline
       -webkit-appearance: none;
@@ -23,17 +28,18 @@
       &::placeholder {
         font-size: 14px;
         font-weight: 500;
+        color: var(--text-tertiary);
       }
 
       &:focus,
       &.focused {
-        border-color: #1b1b1b;
+        border-color: var(--accent-primary);
         outline: none;
         -webkit-tap-highlight-color: transparent;
       }
 
       &.error {
-        border-color: #af2540;
+        border-color: var(--error-color);
       }
     }
 
@@ -47,6 +53,8 @@
       line-height: 1.5;
       box-sizing: border-box;
       transition: height 0.1s ease;
+      background-color: var(--background-primary);
+      color: var(--text-primary);
 
       // Remove iOS blue ring/outline for textarea
       -webkit-appearance: none;
@@ -66,7 +74,7 @@
       position: absolute;
       right: 16px;
       top: 5px;
-      color: #969696;
+      color: var(--text-secondary);
       span {
         font-size: 16px;
       }
@@ -75,6 +83,6 @@
 
   .txt-error {
     font-size: 13px;
-    color: #af2540;
+    color: var(--error-color);
   }
 }

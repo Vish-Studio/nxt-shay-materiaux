@@ -14,13 +14,13 @@
   transition: background-color 0.3s ease-in-out;
 
   &.overlay-visible {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--shadow-medium);
     pointer-events: auto;
   }
 }
 
 .sidebar {
-  background-color: #ffffff;
+  background-color: var(--background-primary);
   width: 85%;
   max-width: 400px;
   min-width: 300px;
@@ -29,7 +29,7 @@
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   flex-direction: column;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 0 10px var(--shadow-light);
   pointer-events: auto;
 
   &.sidebar-open {
@@ -55,12 +55,12 @@
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: var(--background-secondary);
     }
 
     span {
       font-size: 24px;
-      color: #666666;
+      color: var(--text-secondary);
     }
   }
 }
@@ -83,24 +83,58 @@
 
 .user-info {
   text-align: center;
+  margin-bottom: 30px;
 
   .user-name {
     font-size: 18px;
     font-weight: 600;
-    color: #1b1b1b;
+    color: var(--text-primary);
     margin: 0 0 8px 0;
   }
 
   .user-email {
     font-size: 14px;
-    color: #666666;
+    color: var(--text-secondary);
     margin: 0;
+  }
+}
+
+.theme-section {
+  width: 100%;
+  margin-bottom: 20px;
+
+  .theme-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--background-tertiary);
+      border-color: var(--border-secondary);
+    }
+
+    .icon {
+      font-size: 20px;
+      color: var(--text-secondary);
+    }
+
+    span {
+      text-align: left;
+    }
   }
 }
 
 .sidebar-bottom {
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-primary);
 
   button {
     width: 100%;

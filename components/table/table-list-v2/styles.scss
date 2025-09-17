@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -22,6 +24,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  font-family: inherit;
 
   .table-header,
   .table-row {
@@ -30,17 +33,21 @@
     align-items: center;
     width: 100%;
     padding: 15px 0;
+    font-family: inherit;
   }
 
   .table-header {
     font-weight: bold;
     font-size: 14px;
+    color: var(--text-primary);
+    font-family: inherit;
   }
 
   .table-body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    font-family: inherit;
   }
 
   .table-header-cell,
@@ -49,6 +56,9 @@
     align-items: center;
     flex: 1;
     text-align: left;
+    color: var(--text-primary);
+    font-family: inherit;
+
     &:last-child {
       text-align: right;
       justify-content: flex-end;
@@ -63,8 +73,8 @@
     animation: fadeIn 0.6s ease-out forwards;
 
     &.selected {
-      border-color: #1d1d1d;
-      background-color: #f8f8f8;
+      border-color: var(--accent-primary);
+      background-color: var(--background-secondary);
     }
 
     // Tag payment spacing
@@ -90,7 +100,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: #e0e0e0 !important;
+      background-color: var(--border-color) !important;
       opacity: 0.7;
       animation: shimmer-circle 2.5s infinite;
 
@@ -98,7 +108,7 @@
       &.paid,
       &.pending,
       &.unpaid {
-        background-color: #e0e0e0 !important;
+        background-color: var(--border-color) !important;
       }
     }
 
@@ -121,7 +131,12 @@
         transform: translateY(-50%);
         width: 80%;
         height: 12px;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background: linear-gradient(
+          90deg,
+          var(--skeleton-light) 25%,
+          var(--skeleton-medium) 50%,
+          var(--skeleton-light) 75%
+        );
         background-size: 200% 100%;
         animation: shimmer 2.5s infinite;
         border-radius: 4px;
@@ -170,25 +185,26 @@
   span {
     font-size: 14px;
     font-weight: 700;
+    color: var(--text-primary);
   }
 
   .text-muted {
     font-size: 14px;
     font-weight: 600;
-    color: #606060;
+    color: var(--text-muted);
   }
 
   .text-primary {
     font-size: 14px;
     font-weight: 600;
-    color: #1d1d1d;
+    color: var(--text-primary);
   }
 
   .text-secondary {
     font-size: 12px;
     font-weight: 500;
     line-height: 14.4px;
-    color: #959595;
+    color: var(--text-secondary);
   }
 
   // Total clients count styling
@@ -197,5 +213,6 @@
     margin-top: 1rem;
     opacity: 0.3;
     font-size: 12px;
+    color: var(--text-secondary);
   }
 }

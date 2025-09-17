@@ -1,11 +1,17 @@
+@import "../../styles/variables.scss";
+
 .button-card-container {
   position: relative;
+
+  &.loading {
+    opacity: 0.5;
+  }
 
   .button-card {
     height: 175px;
     width: 170px;
-    background-color: #ff2d55;
-    color: #fff;
+    background-color: var(--background-brief-card-clients);
+    color: var(--background-primary);
     border-radius: 25px;
     padding: 10px 12px;
     padding-bottom: 18px;
@@ -16,13 +22,74 @@
     border: 2px solid;
 
     &.yellow {
-      background-color: #ffcc00;
+      background-color: var(--background-brief-card-products);
     }
 
     &:hover {
-      border: 2px solid #1b1b1b;
-      color: #1b1b1b;
+      border: 2px solid var(--accent-primary);
+      color: var(--accent-primary);
       cursor: pointer;
+    }
+
+    .loading-placeholder {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 10px 0;
+
+      .skeleton-icon {
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.3) 25%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0.3) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+        border-radius: 4px;
+      }
+
+      .skeleton-text {
+        width: 80px;
+        height: 14px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.3) 25%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0.3) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+        border-radius: 4px;
+        margin-top: 6px;
+      }
+
+      .skeleton-number {
+        width: 60px;
+        height: 30px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.3) 25%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0.3) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+        border-radius: 4px;
+        align-self: flex-start;
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
     }
   }
 

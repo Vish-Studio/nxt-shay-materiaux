@@ -1,19 +1,31 @@
 @import "./variables.scss";
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
-    font-family: var(--font-urbanist);
+    box-sizing: border-box;
 }
 
-*,
-::after,
-::before {
-    box-sizing: border-box;
+html,
+body {
+    font-family: inherit;
+}
+
+html {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
 
 body {
     margin: 16px;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
 
 button {
@@ -24,10 +36,53 @@ button {
     font-weight: 400;
     padding: 12px 10px;
     cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+}
+
+input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="color"],
+textarea,
+select,
+option {
+    font-family: inherit;
+}
+
+// MUI Component Font Inheritance
+.MuiInputBase-root,
+.MuiInputBase-input,
+.MuiTextField-root,
+.MuiOutlinedInput-root,
+.MuiOutlinedInput-input,
+.MuiFormControl-root,
+.MuiFormLabel-root,
+.MuiInputLabel-root,
+.MuiSelect-root,
+.MuiSelect-select,
+.MuiMenuItem-root,
+.MuiAutocomplete-root,
+.MuiAutocomplete-input,
+.MuiButton-root,
+.MuiButtonBase-root,
+.MuiTypography-root,
+.MuiListItemText-root {
+    font-family: inherit !important;
 }
 
 a {
-    color: $accent-color;
+    color: var(--accent-primary);
 }
 
 form {
@@ -47,6 +102,42 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    font-family: inherit;
     transition: background-color 5000s ease-in-out 0s;
+}
+
+// Global theme overrides for critical components
+[data-theme="light"] .top-bar,
+[data-theme="dark"] .top-bar {
+    background-color: var(--background-primary) !important;
+    color: var(--text-primary) !important;
+
+    h1 {
+        color: var(--text-primary) !important;
+    }
+
+    button {
+        color: var(--text-primary) !important;
+
+        span {
+            color: var(--text-primary) !important;
+        }
+    }
+}
+
+[data-theme="light"] .search-bar,
+[data-theme="dark"] .search-bar {
+    background-color: var(--background-secondary) !important;
+
+    input {
+        color: var(--text-primary) !important;
+
+        &::placeholder {
+            color: var(--text-tertiary) !important;
+        }
+    }
+
+    .btn-search span,
+    .btn-clear span {
+        color: var(--text-secondary) !important;
+    }
 }

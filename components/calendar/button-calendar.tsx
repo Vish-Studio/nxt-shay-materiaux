@@ -12,7 +12,9 @@ import { appRoutes } from "@/constants/routes/app-routes";
 const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
   className = "",
   date,
-  items = fakeData
+  items = fakeData,
+  dataLoaded = true,
+  showContent = true
 }) => {
   /**
    * FYI: @sleepinzombie
@@ -71,39 +73,52 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
 
 
   return (
-    <div className={`button-calendar ${className}`} onClick={() => router.push(appRoutes.calendar.index)}>
-      <div className="date">
-        <div className="today">
-          <Icon iconName="today" />
-          <p>
-            {date?.day}
-          </p>
-        </div>
+    <div className={`button-calendar ${className} ${dataLoaded ? 'loaded' : 'loading'}`} onClick={() => router.push(appRoutes.calendar.index)}>
+      {showContent ? (
+        <>
+          <div className="date">
+            <div className="today">
+              <Icon iconName="today" />
+              <p>
+                {date?.day}
+              </p>
+            </div>
 
-        <p>{getMonth(date?.month)}</p>
-      </div>
+            <p>{getMonth(date?.month)}</p>
+          </div>
 
-      <div className="schedules">
-
-
-        {items ?
-          <>
-            {
-              items && items?.data?.map((item, key) => (
-                <Schedule
-                  key={key}
-                  title={item?.title}
-                  time={item?.time}
-                  color={item?.color}
-                  restrictLength={true} />
-              ))
+          <div className="schedules">
+            {items ?
+              <>
+                {
+                  items && items?.data?.map((item, key) => (
+                    <Schedule
+                      key={key}
+                      title={item?.title}
+                      time={item?.time}
+                      color={item?.color}
+                      restrictLength={true} />
+                  ))
+                }
+              </>
+              :
+              <Schedule isEmpty />
             }
-          </>
-          :
-          <Schedule isEmpty />
-        }
-
-      </div>
+          </div>
+        </>
+      ) : (
+        <div className="loading-placeholder">
+          <div className="skeleton-date">
+            <div className="skeleton-icon-day"></div>
+            <div className="skeleton-month"></div>
+          </div>
+          <div className="skeleton-schedules">
+            <div className="skeleton-schedule"></div>
+            <div className="skeleton-schedule"></div>
+            <div className="skeleton-schedule"></div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

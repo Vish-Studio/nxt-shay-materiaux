@@ -1,8 +1,10 @@
+@import "../../styles/variables.scss";
+
 .brief-card {
   height: 190px;
   padding: 24px 16px;
   border-radius: 20px;
-  color: #fff;
+  color: var(--background-primary);
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -11,10 +13,10 @@
   position: relative;
   z-index: 1;
   &.clients {
-    background-color: #ff2d55;
+    background-color: var(--background-brief-card-clients);
   }
 
   &.products {
-    background-color: #ffcc00;
+    background-color: var(--background-brief-card-products);
   }
 }

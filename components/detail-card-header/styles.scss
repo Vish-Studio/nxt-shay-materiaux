@@ -1,12 +1,17 @@
+@import "../../styles/variables.scss";
+
 .detail-card-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
   padding: 35px 16px;
-  background-color: #1b1b1b;
-  color: #ffffff;
+  background-color: var(--accent-primary);
+  color: var(--background-primary);
   border-radius: 25px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 
   .detail-card-header__icon .icon {
     font-size: 60px;

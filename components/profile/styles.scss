@@ -1,5 +1,7 @@
+@import "../../styles/variables.scss";
+
 .profile {
-  border: 2px solid #1b1b1b;
+  border: 2px solid var(--accent-primary);
   border-radius: 100px;
   overflow: hidden;
   display: flex;

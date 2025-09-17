@@ -30,11 +30,11 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Fetch clients and products data
-  const { data: clientsData } = useApiFetch<IClient[]>({
+  const { data: clientsData, loading: clientsLoading } = useApiFetch<IClient[]>({
     serviceFn: clientApiService.getClients
   });
 
-  const { data: productsData } = useApiFetch<IProduct[]>({
+  const { data: productsData, loading: productsLoading } = useApiFetch<IProduct[]>({
     serviceFn: productApiService.getProducts
   });
 
@@ -118,7 +118,11 @@ export default function Home() {
             <SearchResults items={data} />
           ) : (
             <>
-              <ButtonCalendar date={getDate()} />
+              <ButtonCalendar
+                date={getDate()}
+                dataLoaded={true}
+                showContent={!clientsLoading && !productsLoading}
+              />
 
               <div className="overview">
                 <div
@@ -136,6 +140,9 @@ export default function Home() {
                     numTotalTxt="total clients"
                     redirect={appRoutes.clients.index}
                     fabRedirect={appRoutes.clients.new}
+                    dataLoaded={true}
+                    showContent={!clientsLoading}
+                    className="delay-1"
                   />
 
                   <Button
@@ -143,6 +150,9 @@ export default function Home() {
                     iconName="import_contacts"
                     variant="rounded"
                     titleBold={false}
+                    dataLoaded={true}
+                    showContent={!clientsLoading}
+                    className="delay-1"
                   />
                 </div>
 
@@ -155,19 +165,24 @@ export default function Home() {
                   }}
                 >
                   <ButtonCard
-                    className="yellow"
+                    className="yellow delay-2"
                     title="Products"
                     iconName="inventory_2"
                     numTotal={productsData?.length?.toString() || "0"}
                     numTotalTxt="total products"
                     redirect={appRoutes.products.index}
                     fabRedirect={appRoutes.products.new}
+                    dataLoaded={true}
+                    showContent={!productsLoading}
                   />
                   <Button
                     title="Invoices"
                     iconName="description"
                     variant="rounded"
                     titleBold={false}
+                    dataLoaded={true}
+                    showContent={!productsLoading}
+                    className="delay-2"
                   />
                 </div>
               </div>

@@ -1,9 +1,15 @@
+@import "../../../styles/variables.scss";
+
 .table-list {
   width: 100%;
+  font-family: inherit;
 
   thead {
+    font-family: inherit;
+
     tr {
       width: 100%;
+      font-family: inherit;
 
       tr::nth-child(1) {
         width: auto;
@@ -18,17 +24,19 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    font-family: inherit;
 
     tr {
       display: flex;
       align-items: center;
+      font-family: inherit;
       justify-content: space-between;
-      border-bottom: 1px solid #dfdfdf;
+      border-bottom: 1px solid var(--border-primary);
       height: 55px;
       padding: 25px 0;
       transition: all 0.3s ease-in-out;
       &.selected {
-        border-color: #1d1d1d;
+        border-color: var(--accent-primary);
       }
 
       td {
@@ -39,13 +47,13 @@
         p {
           font-size: 14px;
           font-weight: 600;
-          color: #1d1d1d;
+          color: var(--text-primary);
         }
 
         span {
           font-size: 12px;
           font-weight: 500;
-          color: #959595;
+          color: var(--text-secondary);
         }
 
         &.status {

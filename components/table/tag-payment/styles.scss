@@ -1,17 +1,19 @@
+@import "../../../styles/variables.scss";
+
 .tag-payment {
   width: 8px;
   height: 8px;
   border-radius: 50px;
 
   &.paid {
-    background-color: #36cd2b;
+    background-color: var(--success-color);
   }
 
   &.pending {
-    background-color: #f69300;
+    background-color: var(--warning-color);
   }
 
   &.unpaid {
-    background-color: #f13c3c;
+    background-color: var(--error-color);
   }
 }

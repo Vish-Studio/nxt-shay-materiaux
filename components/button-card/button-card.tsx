@@ -18,7 +18,9 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   numTotal,
   numTotalTxt,
   redirect,
-  fabRedirect
+  fabRedirect,
+  dataLoaded = true,
+  showContent = true
 }) => {
   const router = useRouter();
   const targetNumber = parseInt(numTotal) || 0;
@@ -29,26 +31,38 @@ const ButtonCard: FunctionComponent<ButtonCardProps> = ({
   });
 
   return (
-    <div className="button-card-container">
-      <div className={`button-card ${className}`} onClick={() => router.push(redirect)}>
-        <div className="button-card-top">
-          <div className="title">
-            <Icon iconName={iconName} />
-            <p>
-              {title}
-            </p>
-          </div>
-        </div>
+    <div className={`button-card-container ${dataLoaded ? 'loaded' : 'loading'} ${className || ''}`}>
+      <div className={`button-card ${className?.includes('yellow') ? 'yellow' : ''}`} onClick={() => router.push(redirect)}>
+        {showContent ? (
+          <>
+            <div className="button-card-top">
+              <div className="title">
+                <Icon iconName={iconName} />
+                <p>
+                  {title}
+                </p>
+              </div>
+            </div>
 
-        <div className="button-card-bottom">
-          <p><span className="animated-number">{animatedValue}</span>{numTotalTxt}</p>
-        </div>
+            <div className="button-card-bottom">
+              <p><span className="animated-number">{animatedValue}</span>{numTotalTxt}</p>
+            </div>
+          </>
+        ) : (
+          <div className="loading-placeholder">
+            <div className="skeleton-icon"></div>
+            <div className="skeleton-text"></div>
+            <div className="skeleton-number"></div>
+          </div>
+        )}
       </div>
 
-      <ButtonFab
-        clickHandler={() => router.push(fabRedirect)}
-        icon="add"
-        type="mini" />
+      {showContent && (
+        <ButtonFab
+          clickHandler={() => router.push(fabRedirect)}
+          icon="add"
+          type="mini" />
+      )}
     </div>
   )
 }

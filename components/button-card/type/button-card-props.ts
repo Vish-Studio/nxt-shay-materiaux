@@ -6,4 +6,6 @@ export default interface ButtonCardProps {
   numTotalTxt: string;
   redirect: string;
   fabRedirect: string;
+  dataLoaded?: boolean;
+  showContent?: boolean;
 }

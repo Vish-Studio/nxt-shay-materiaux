@@ -1,4 +1,9 @@
-.top-bar {
+@import "../../styles/variables.scss";
+
+// Ensure top-bar respects theme variables with high specificity
+:root .top-bar,
+[data-theme="light"] .top-bar,
+[data-theme="dark"] .top-bar {
   position: fixed;
   left: 0;
   right: 0;
@@ -8,13 +13,18 @@
   gap: 10px;
   padding: 16px 8px;
   height: 75px;
-  background-color: #fff;
+  background-color: var(--background-primary) !important;
+  color: var(--text-primary) !important;
   z-index: 1;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 
   a {
     display: flex;
     align-items: center;
     text-decoration: none;
+    color: inherit;
   }
 
   &.centered {
@@ -25,7 +35,9 @@
   }
 }
 
-.top-bar .title {
+:root .top-bar .title,
+[data-theme="light"] .top-bar .title,
+[data-theme="dark"] .top-bar .title {
   width: 100%;
   display: flex;
   align-items: center;
@@ -34,10 +46,15 @@
   h1 {
     font-size: 24px;
     font-weight: 600;
+    color: var(--text-primary) !important;
   }
 
   button {
-    color: #1b1b1b;
+    color: var(--text-primary) !important;
+
+    span {
+      color: var(--text-primary) !important;
+    }
   }
 
   .search-component {

@@ -14,18 +14,26 @@ const Button: FunctionComponent<ButtonProps> = ({
   iconName,
   isDisabled,
   clickHandler,
+  dataLoaded = true,
+  showContent = true,
   ...rest
 }) => {
   return (
     <>
       <button
-        className={`button ${variant} ${titleBold ? 'bold' : ''} ${className} ${isDisabled ? 'disabled' : ''}`}
+        className={`button ${variant} ${titleBold ? 'bold' : ''} ${className} ${isDisabled ? 'disabled' : ''} ${dataLoaded ? 'loaded' : 'loading'}`}
         onClick={clickHandler}
         disabled={isDisabled}
         {...rest}
       >
-        {iconName && <Icon iconName={iconName} />}
-        {isDisabled ? 'Loading...' : title}
+        {showContent ? (
+          <>
+            {iconName && <Icon iconName={iconName} />}
+            {isDisabled ? 'Loading...' : title}
+          </>
+        ) : (
+          <div className="skeleton-content"></div>
+        )}
       </button>
     </>
   );

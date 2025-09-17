@@ -2,6 +2,7 @@
 
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import Profile from '@/components/profile/profile';
 import Button from '@/components/button/button';
 import Icon from '@/components/icon/icon';
@@ -16,10 +17,15 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { currentUser } = useCurrentUser();
   const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
     onClose();
+  };
+
+  const handleThemeToggle = () => {
+    toggleTheme();
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -54,6 +60,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="user-info">
             <p className="user-name">{userName}</p>
             <p className="user-email">{userEmail}</p>
+          </div>
+
+          <div className="theme-section">
+            <button className="theme-toggle" onClick={handleThemeToggle}>
+              <Icon iconName={theme === 'light' ? 'dark_mode' : 'light_mode'} />
+              <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            </button>
           </div>
         </div>
 

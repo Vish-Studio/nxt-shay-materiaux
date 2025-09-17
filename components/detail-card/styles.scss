@@ -1,11 +1,16 @@
+@import "../../styles/variables.scss";
+
 .detail-card {
-  background-color: #fdfdfd;
+  background-color: var(--background-secondary);
   border-radius: 10px;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--border-primary);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 21px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   .detail-card-title {
     display: flex;
@@ -15,10 +20,12 @@
     p {
       font-size: 14px;
       font-weight: 600;
+      color: var(--text-primary);
     }
 
     .icon {
       font-size: 17px;
+      color: var(--text-secondary);
     }
   }
 
@@ -30,6 +37,6 @@
 
   // Special styling for Created info cards
   &.detail-card--created {
-    background-color: #e3e3e3;
+    background-color: var(--background-tertiary);
   }
 }

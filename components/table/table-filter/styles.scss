@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .table-filter {
   display: flex;
   justify-content: space-between;
@@ -6,12 +8,14 @@
   left: 16px;
   right: 16px;
   z-index: 1;
+  font-family: inherit;
 
   .actions {
     display: flex;
     align-items: center;
     gap: 5px;
     position: relative;
+    font-family: inherit;
 
     .sort-container {
       position: relative;
@@ -20,10 +24,10 @@
         transition: all 0.3s ease;
 
         &.active {
-          background-color: #1d1d1d;
+          background-color: var(--accent-primary);
 
           .icon {
-            color: white;
+            color: var(--text-primary);
           }
         }
       }
@@ -32,20 +36,20 @@
         position: absolute;
         top: calc(100% + 8px);
         right: 0;
-        background: white;
+        background: var(--background-primary);
         border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 20px var(--shadow-medium);
         padding: 8px 0;
         min-width: 180px;
         z-index: 1000;
-        border: 1px solid #e1e1e1;
+        border: 1px solid var(--border-primary);
 
         .sort-header {
           padding: 8px 16px;
           font-size: 12px;
           font-weight: 600;
-          color: #666;
-          border-bottom: 1px solid #f0f0f0;
+          color: var(--text-secondary);
+          border-bottom: 1px solid var(--border-primary);
           margin-bottom: 4px;
         }
 
@@ -59,23 +63,23 @@
           background: none;
           cursor: pointer;
           font-size: 14px;
-          color: #333;
+          color: var(--text-primary);
           transition: background-color 0.2s ease;
           text-align: left;
 
           &:hover {
-            background-color: #f8f8f8;
+            background-color: var(--background-secondary);
           }
 
           &.active {
-            background-color: #f0f0f0;
-            color: #1d1d1d;
+            background-color: var(--background-tertiary);
+            color: var(--accent-primary);
             font-weight: 500;
           }
 
           .icon {
             font-size: 18px;
-            color: #666;
+            color: var(--text-secondary);
           }
         }
       }
@@ -83,7 +87,7 @@
   }
 
   .tab-group {
-    background-color: #f2f2f2;
+    background-color: var(--background-tertiary);
     border-radius: 6px;
     padding: 5px;
     width: 100%;
@@ -97,22 +101,22 @@
       font-size: 11px;
       width: 60px;
       padding: 9px 10px;
-      color: #666;
+      color: var(--text-secondary);
       cursor: pointer;
       flex: 1 1;
       transition: all 0.3s ease;
 
       &.active {
-        background-color: #1d1d1d;
-        color: white;
+        background-color: var(--accent-primary);
+        color: var(--background-primary);
         font-weight: 600;
       }
 
       &:hover {
-        background-color: rgba(29, 29, 29, 0.1);
+        background-color: var(--background-secondary);
 
         &.active {
-          background-color: #1d1d1d;
+          background-color: var(--accent-primary);
         }
       }
     }
