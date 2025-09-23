@@ -137,6 +137,7 @@ export default function Home() {
       );
     }
   );
+  console.log('test', todaySchedules)
 
   return (
     <SearchContext.Provider

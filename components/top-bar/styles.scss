@@ -18,6 +18,7 @@
   background-color: var(--background-primary) !important;
   color: var(--text-primary) !important;
   z-index: 100;
+  user-select: none;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;

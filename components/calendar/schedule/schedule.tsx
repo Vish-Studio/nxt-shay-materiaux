@@ -15,7 +15,7 @@ const Schedule: FunctionComponent<SchedulesProps> = ({
 }) => {
   return (
     <div className={`schedule ${className} ${color} ${isEmpty ? 'empty' : ''} ${isMainComp ? 'main' : ''}`} {...rest}>
-      {!isEmpty && title && title !== '' ?
+      {!isEmpty && title && title !== '' &&
         <>
           <div className="spacer"></div>
 
@@ -32,8 +32,6 @@ const Schedule: FunctionComponent<SchedulesProps> = ({
             </div>
           </div>
         </>
-        :
-        <p>Nothing available for today...</p>
       }
     </div>
   )

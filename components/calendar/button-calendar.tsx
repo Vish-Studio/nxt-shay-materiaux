@@ -82,8 +82,8 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
             <p>{getMonth(date?.month)}</p>
           </div>
 
-          <div className="schedules">
-            {items ?
+          <div className="schedules" style={{ alignItems: items && items.data.length > 0 ? 'flex-start' : 'center' }}>
+            {items && items.data.length > 0 ?
               <>
                 {
                   items && items?.data?.map((item, key) => (
@@ -97,7 +97,7 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
                 }
               </>
               : (
-                <Schedule isEmpty />
+                <p className="empty-title">Nothing available for today...</p>
               )
             }
           </div>
