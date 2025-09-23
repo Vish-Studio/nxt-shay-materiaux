@@ -156,7 +156,8 @@ export default function Clients() {
           leftIcon="arrow_back"
           redirectBackLink={'/'}
           title="Clients"
-          hasSearch={true}
+          titleCenter
+          hasSearch
         />
 
         <section className="overview">

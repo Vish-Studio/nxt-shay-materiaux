@@ -157,7 +157,8 @@ export default function Products() {
           leftIcon="arrow_back"
           redirectBackLink="/"
           title="Products"
-          hasSearch={true}
+          titleCenter
+          hasSearch
         />
 
         <section className='overview'>
