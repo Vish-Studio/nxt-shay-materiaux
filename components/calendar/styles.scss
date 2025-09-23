@@ -2,7 +2,7 @@
 
 .button-calendar {
   width: 100%;
-  min-height: 135px;
+  min-height: 175px;
   height: auto;
   border-radius: 25px;
   background-color: var(--accent-primary);
@@ -14,7 +14,7 @@
   justify-content: space-between;
 
   &.loading {
-    opacity: 0.5;
+    // opacity: 0.5;
   }
 
   .loading-placeholder {

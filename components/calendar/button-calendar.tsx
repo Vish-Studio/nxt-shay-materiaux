@@ -5,14 +5,13 @@ import ButtonCalendarProps from "./type/button-calendar-props";
 import './styles.scss';
 import Icon from "../icon/icon";
 import Schedule from "./schedule/schedule";
-import fakeData from './schedule/data.json'
 import { useRouter } from "next/navigation";
 import { appRoutes } from "@/constants/routes/app-routes";
 
 const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
   className = "",
   date,
-  items = fakeData,
+  items,
   dataLoaded = true,
   showContent = true
 }) => {
@@ -97,8 +96,9 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
                   ))
                 }
               </>
-              :
-              <Schedule title="" isEmpty />
+              : (
+                <Schedule isEmpty />
+              )
             }
           </div>
         </>
@@ -108,6 +108,7 @@ const ButtonCalendar: FunctionComponent<ButtonCalendarProps> = ({
             <div className="skeleton-icon-day"></div>
             <div className="skeleton-month"></div>
           </div>
+
           <div className="skeleton-schedules">
             <div className="skeleton-schedule"></div>
             <div className="skeleton-schedule"></div>
